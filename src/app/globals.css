@@ -22,19 +22,20 @@
     --breakpoint-lg: 1025px;
     --breakpoint-xl: 1281px;
     --breakpoint-2xl: 1537px;
+    --container-7xl: 1280px;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
-        --background: #0a0a0a;
+        --background: #000000;
         --foreground: #ededed;
     }
 }
 
 @theme {
-    --bg-light: hsl(0, 0%, 98%);
+    --bg-light: hsl(0, 0%, 100%);
     --text-light: hsl(210, 10%, 23%);
-    --bg-dark: hsl(210, 10%, 10%);
+    --bg-dark: hsl(0, 0%, 0%);
     --text-dark: hsl(210, 5%, 90%);
 }
 
@@ -46,25 +47,26 @@
     body {
         background-color: var(--bg-light);
         color: var(--text-light);
-        transition: background-color 0.3s, color 0.3s;
+        font-family: Arial, Helvetica, sans-serif;
+        /* transition: background-color 0.3s, color 0.3s; */
     }
 
     @variant dark {
         body {
             background-color: var(--bg-dark);
             color: var(--text-dark);
+            font-family: Arial, Helvetica, sans-serif;
+            /* transition: background-color 0.3s, color 0.3s; */
         }
     }
 }
 
-body {
+/* body {
     background: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
-@layer components {
-    .container {
-        @apply max-w-7xl mx-auto px-6;
-    }
+.container {
+    @apply max-w-7xl mx-auto px-6 bg-white text-black dark:bg-black dark:text-white;
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -22,13 +22,13 @@ const LoginPage = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-8">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 border border-red-200">
+            <div className="bg-white dark:bg-gray-950 rounded-xl shadow-2xl w-full max-w-md p-8 border border-gray-200 dark:border-gray-700">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
                         Welcome Back
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-gray-400">
                         Sign in to your account to continue
                     </p>
                 </div>
@@ -39,7 +39,7 @@ const LoginPage = () => {
                     <div>
                         <label
                             htmlFor="email"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                         >
                             Email Address
                         </label>
@@ -58,7 +58,7 @@ const LoginPage = () => {
                     <div>
                         <label
                             htmlFor="password"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                         >
                             Password
                         </label>
@@ -96,7 +96,7 @@ const LoginPage = () => {
                             />
                             <label
                                 htmlFor="remember"
-                                className="ml-2 text-sm text-gray-700"
+                                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
                             >
                                 Remember me
                             </label>
@@ -121,7 +121,7 @@ const LoginPage = () => {
                 {/* Divider */}
                 <div className="flex items-center my-6">
                     <div className="flex-grow border-t border-gray-300"></div>
-                    <span className="mx-4 text-sm text-gray-500">
+                    <span className="mx-4 text-sm text-gray-500 dark:text-gray-500">
                         Or continue with
                     </span>
                     <div className="flex-grow border-t border-gray-300"></div>
@@ -155,7 +155,7 @@ const LoginPage = () => {
 
                 {/* Sign Up Link */}
                 <div className="text-center mt-6">
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-gray-500">
                         Don't have an account?{' '}
                         <button
                             // onClick={handleGoogleSignIn}

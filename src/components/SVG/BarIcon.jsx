@@ -43,8 +43,8 @@ const lineVariants = {
 };
 
 const BarIcon = ({
-    width = 28,
-    height = 28,
+    width = 24,
+    height = 24,
     strokeWidth = 2,
     stroke = '#6a7282',
     ...props

@@ -11,7 +11,6 @@ export default function AuthProvider({ children }) {
 
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
-    const [localUser, setLocalUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -68,8 +67,6 @@ export default function AuthProvider({ children }) {
             console.error('Sign-out error:', error);
             return { error };
         }
-        sessionStorage.removeItem('localUser');
-        sessionStorage.removeItem('localSession');
         redirect('/login');
     };
 
@@ -85,7 +82,6 @@ export default function AuthProvider({ children }) {
     return (
         <AuthContext.Provider
             value={{
-                localUser,
                 user,
                 session,
                 loading,
