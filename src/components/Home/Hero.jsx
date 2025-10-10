@@ -10,6 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { Button } from '@heroui/react';
+import Image from 'next/image';
 
 const Hero = () => {
     return (
@@ -17,7 +18,7 @@ const Hero = () => {
             <Swiper
                 spaceBetween={30}
                 effect={'fade'}
-                speed={2000}
+                speed={500}
                 autoplay={{
                     delay: 4000,
                     pauseOnMouseEnter: true,
@@ -32,13 +33,18 @@ const Hero = () => {
             >
                 {sliderData.map((slide) => (
                     <SwiperSlide key={slide.id}>
-                        <div
-                            className={`bg-[url(${slide.image})] bg-no-repeat bg-cover bg-left h-[550px] rounded-md`}
-                        >
-                            <div className="text-black h-full flex flex-col justify-center items-start gap-4 sm:gap-5 max-w-96 md:max-w-xl px-4 md:px-8 lg:px-16 w-fit">
+                        <div className="relative h-[550px] rounded-md overflow-hidden">
+                            <Image
+                                src={slide.image}
+                                alt={slide.title}
+                                fill
+                                className="object-cover object-left"
+                            />
+                            <div className="relative z-10 text-black h-full flex flex-col justify-center items-start gap-4 sm:gap-5 max-w-96 md:max-w-xl px-4 md:px-8 lg:px-16 w-fit">
                                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight">
                                     {slide.title}
                                 </h1>
+                                {console.log(slide.image)}
                                 <p className="text-xl tracking-wide text-neutral-500">
                                     {slide.subtitle}
                                 </p>
