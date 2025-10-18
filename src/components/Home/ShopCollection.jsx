@@ -8,7 +8,7 @@ const ShopCollection = () => {
         <div className="mt-24">
             <div className="max-w-2xl text-center mx-auto mb-8">
                 <h2 className="text-xl uppercase mb-5">shop by collections</h2>
-                <h1 className="text-4xl font-semibold leading-11">
+                <h1 className="text-3xl md:text-4xl font-semibold leading-9 md:leading-11">
                     Because You Need Time for Yourself. Blend Beauty in You{' '}
                 </h1>
             </div>

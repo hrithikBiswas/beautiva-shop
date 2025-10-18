@@ -5,6 +5,8 @@ import WishlistIcon from './WishlistIcon';
 import SearchIcon from './SearchIcon';
 import LoginIcon from './LoginIcon';
 import WatchIcon from './WatchIcon';
+import FacebookIcon from './FacebookIcon';
+import InstagramIcon from './InstagramIcon';
 
 export {
     BarIcon,
@@ -14,4 +16,6 @@ export {
     SearchIcon,
     LoginIcon,
     WatchIcon,
+    FacebookIcon,
+    InstagramIcon,
 };
