@@ -78,3 +78,8 @@
 .mySwiper .swiper-pagination-bullet-active {
     @apply bg-orange-500 w-6 rounded-full;
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+    @apply !w-4;
+}

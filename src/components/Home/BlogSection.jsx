@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const BlogSection = () => {
     return (
-        <div className="mt-24">
+        <div className="mt-14 sm:mt-24">
             <Title
                 title="From Our Blog"
                 subtitle="Our bundles were designed to conveniently package your tanning essentials while saving you money."

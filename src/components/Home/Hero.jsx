@@ -14,7 +14,7 @@ import Image from 'next/image';
 
 const Hero = () => {
     return (
-        <div className="mt-8">
+        <div className="mt-6">
             <Swiper
                 spaceBetween={30}
                 effect={'fade'}
@@ -33,7 +33,7 @@ const Hero = () => {
             >
                 {sliderData.map((slide) => (
                     <SwiperSlide key={slide.id}>
-                        <div className="relative h-[550px] rounded-md overflow-hidden">
+                        <div className="relative h-[450px] sm:h-[550px] rounded-md overflow-hidden">
                             <Image
                                 src={slide.image}
                                 alt={slide.title}
@@ -44,7 +44,6 @@ const Hero = () => {
                                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight">
                                     {slide.title}
                                 </h1>
-                                {console.log(slide.image)}
                                 <p className="text-xl tracking-wide text-neutral-500">
                                     {slide.subtitle}
                                 </p>

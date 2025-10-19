@@ -20,6 +20,7 @@ export default function AuthProvider({ children }) {
                 const { data: sessionData, error: sessionError } =
                     await supabase.auth.getSession();
                 if (sessionError) throw sessionError;
+
                 setSession(sessionData?.session ?? null);
                 setUser(sessionData?.session?.user ?? null);
             } catch (err) {
@@ -71,7 +72,7 @@ export default function AuthProvider({ children }) {
     };
 
     const signInWithGoogle = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
+        const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: { redirectTo: `${window.location.origin}/auth/callback` },
         });

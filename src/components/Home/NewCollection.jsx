@@ -4,7 +4,7 @@ import React from 'react';
 
 const NewCollection = () => {
     return (
-        <div className="mt-24">
+        <div className="mt-14 sm:mt-24">
             <div className="relative w-full">
                 <Image
                     src="/bg-other-01.jpg"
@@ -16,10 +16,10 @@ const NewCollection = () => {
                 <div className="absolute top-0 bottom-0 left-0 right-0 z-10 grid grid-cols-1 sm:grid-cols-2">
                     <div className="sm:col-start-2 flex items-center ps-12 sm:ps-24">
                         <div className="flex flex-col items-start gap-y-4 sm:gap-y-5">
-                            <h3 className="uppercase text-xl">
+                            <h3 className="uppercase text-xl text-black">
                                 new Collection
                             </h3>
-                            <h1 className="capitalize text-4xl tracking-wide sm:text-4xl font-semibold leading-10">
+                            <h1 className="capitalize text-3xl text-black tracking-wide sm:text-4xl font-semibold leading-10">
                                 Get The Skin You <br /> Want To Feel
                             </h1>
                             <Button

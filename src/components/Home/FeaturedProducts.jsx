@@ -4,7 +4,7 @@ import FeatureProductSlider from '@/components/slider/FeatureProductSlider';
 
 const FeaturedProducts = () => {
     return (
-        <div className="mt-24">
+        <div className="mt-14 sm:mt-24">
             <Title
                 title="Our Featured Products"
                 subtitle="Get the skin you want to feel"

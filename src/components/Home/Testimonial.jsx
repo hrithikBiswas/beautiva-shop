@@ -8,7 +8,7 @@ import { Navigation } from 'swiper/modules';
 
 const Testimonial = () => {
     return (
-        <div className="my-32">
+        <div className="mt-14 sm:mt-24">
             <Swiper
                 navigation={true}
                 modules={[Navigation]}
@@ -16,25 +16,25 @@ const Testimonial = () => {
                 loop="true"
             >
                 <SwiperSlide>
-                    <div className="flex flex-col gap-8 items-center max-w-3xl mx-auto">
+                    <div className="flex flex-col gap-5 sm:gap-8 items-center px-6 max-w-[300px] sm:max-w-2xl md:max-w-3xl mx-auto">
                         <Image src="/testimonials-1.jpg" radius="full" />
-                        <h1 className="text-4xl text-[#4E7661] leading-15 text-center tracking-wide">
+                        <h1 className="text-3xl sm:text-4xl text-[#4E7661] leading-10 md:leading-15 text-center tracking-wide">
                             “Amazing product. The results are so transformative
                             in texture and my face feels plump and healthy.“
                         </h1>
-                        <h2 className="text-lg font-semibold uppercase">
+                        <h2 className="text-lg text-gray-500 font-semibold uppercase">
                             Jennifer c.
                         </h2>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div className="flex flex-col gap-8 items-center max-w-3xl mx-auto">
+                    <div className="flex flex-col gap-5 sm:gap-8 items-center px-6 max-w-[300px] sm:max-w-2xl md:max-w-3xl mx-auto">
                         <Image src="/testimonials-2.jpg" radius="full" />
-                        <h1 className="text-4xl text-[#4E7661] leading-15 text-center tracking-wide">
+                        <h1 className="text-3xl sm:text-4xl text-[#4E7661] leading-10 md:leading-15 text-center tracking-wide">
                             “Amazing product. The results are so transformative
                             in texture and my face feels plump and healthy.“
                         </h1>
-                        <h2 className="text-lg font-semibold uppercase">
+                        <h2 className="text-lg text-gray-500 font-semibold uppercase">
                             Jennifer c.
                         </h2>
                     </div>
