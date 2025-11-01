@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
+import { addUser } from '@/utils/actions';
 
 export const AuthContext = createContext(null);
 
@@ -19,10 +20,16 @@ export default function AuthProvider({ children }) {
                 setLoading(true);
                 const { data: sessionData, error: sessionError } =
                     await supabase.auth.getSession();
+
                 if (sessionError) throw sessionError;
 
                 setSession(sessionData?.session ?? null);
                 setUser(sessionData?.session?.user ?? null);
+
+                const {
+                    data: { user },
+                } = await supabase.auth.getUser();
+                addUser(user ?? null);
             } catch (err) {
                 console.error('Error initializing auth:', err);
             } finally {
@@ -76,6 +83,8 @@ export default function AuthProvider({ children }) {
             provider: 'google',
             options: { redirectTo: `${window.location.origin}/auth/callback` },
         });
+
+        console.log(data);
 
         if (error) console.error('Google sign-in error:', error);
     };

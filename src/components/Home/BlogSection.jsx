@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import Title from '@/components/common/Title';
-import { Button, Image } from '@heroui/react';
-import Link from 'next/link';
+"use client";
+import React from "react";
+import Title from "@/components/common/Title";
+import { Button, Image } from "@heroui/react";
+import Link from "next/link";
 
 const BlogSection = () => {
     return (
@@ -16,7 +16,7 @@ const BlogSection = () => {
                     <Image
                         src="/blog-1.jpg"
                         className="hover:scale-105 max-h-[235px]"
-                        classNames={{ wrapper: 'overflow-hidden' }}
+                        classNames={{ wrapper: "overflow-hidden" }}
                         radius="none"
                     />
                     <div className="uppercase text-base tracking-wider font-medium text-gray-400">
@@ -26,8 +26,8 @@ const BlogSection = () => {
                             className="hover:text-gray-950 transition-colors duration-200"
                         >
                             Natural cleansers
-                        </Link>{' '}
-                        {' | '}
+                        </Link>{" "}
+                        {" | "}
                         <span>JAN 10, 2025</span>
                     </div>
                     <h2 className="text-lg sm:text-xl font-semibold leading-6 md:leading-7 lg:leading-8">
@@ -38,7 +38,7 @@ const BlogSection = () => {
                     <Image
                         src="/blog-2.jpg"
                         className="hover:scale-105 max-h-[235px]"
-                        classNames={{ wrapper: 'overflow-hidden' }}
+                        classNames={{ wrapper: "overflow-hidden" }}
                         radius="none"
                     />
                     <div className="uppercase text-base tracking-wider font-medium text-gray-400">
@@ -48,8 +48,8 @@ const BlogSection = () => {
                             className="hover:text-gray-950 transition-colors duration-200"
                         >
                             Natural cleansers
-                        </Link>{' '}
-                        {' | '}
+                        </Link>{" "}
+                        {" | "}
                         <span>JAN 10, 2025</span>
                     </div>
                     <h2 className="text-xl font-semibold">
@@ -60,7 +60,7 @@ const BlogSection = () => {
                     <Image
                         src="/blog-3.jpg"
                         className="hover:scale-105 max-h-[235px]"
-                        classNames={{ wrapper: 'overflow-hidden' }}
+                        classNames={{ wrapper: "overflow-hidden" }}
                         radius="none"
                     />
                     <div className="uppercase text-base tracking-wider font-medium text-gray-400">
@@ -70,8 +70,8 @@ const BlogSection = () => {
                             className="hover:text-gray-950 transition-colors duration-200"
                         >
                             Natural cleansers
-                        </Link>{' '}
-                        {' | '}
+                        </Link>{" "}
+                        {" | "}
                         <span>JAN 10, 2025</span>
                     </div>
                     <h2 className="text-xl font-semibold">

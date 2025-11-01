@@ -41,13 +41,25 @@ export async function updateSession(request) {
         return NextResponse.redirect(url);
     }
 
+    // if (!user && !request.nextUrl.pathname.startsWith('/register')) {
+    //     const url = request.nextUrl.clone();
+    //     url.pathname = '/register';
+    //     return NextResponse.redirect(url);
+    // }
+
     if (
         !user &&
         !request.nextUrl.pathname.startsWith('/login') &&
+        !request.nextUrl.pathname.startsWith('/register') &&
         !request.nextUrl.pathname.startsWith('/auth') &&
         !request.nextUrl.pathname.startsWith('/error')
     ) {
         const url = request.nextUrl.clone();
+        if (request.nextUrl.pathname.startsWith('/register')) {
+            url.pathname = '/register';
+            return NextResponse.redirect(url);
+        }
+
         url.pathname = '/login';
         return NextResponse.redirect(url);
     }

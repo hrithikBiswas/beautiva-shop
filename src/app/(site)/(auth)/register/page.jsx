@@ -4,20 +4,24 @@ import { useAuth } from '@/hooks';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const LoginPage = () => {
+const RegisterPage = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [reTypePassword, setReTypePassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { signInWithGoogle } = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Login attempt with:', { email, password, rememberMe });
-
-        if (email && password) {
-            alert('Login successful! (This is a demo)');
-        }
+        console.log('registasion attempt with:', {
+            email,
+            password,
+            rememberMe,
+            reTypePassword,
+        });
     };
 
     return (
@@ -26,15 +30,54 @@ const LoginPage = () => {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-                        Welcome Back
+                        Welcome to Beautiva Shop
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
-                        Sign in to your account to continue
+                        Register to your account to continue
                     </p>
                 </div>
 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="flex gap-4">
+                        {/* firstName Field */}
+                        <div>
+                            <label
+                                htmlFor="firstName"
+                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                            >
+                                First Name
+                            </label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                placeholder="John"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200"
+                                required
+                            />
+                        </div>
+
+                        {/* lastName Field */}
+                        <div>
+                            <label
+                                htmlFor="lastName"
+                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                            >
+                                Password
+                            </label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                placeholder="Doe"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200"
+                                required
+                            />
+                        </div>
+                    </div>
                     {/* Email Field */}
                     <div>
                         <label
@@ -75,38 +118,41 @@ const LoginPage = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer hover:text-gray-700 transition-colors"
                             >
                                 {showPassword ? '🔒' : '👁️'}
                             </button>
                         </div>
                     </div>
 
-                    {/* Remember Me & Forgot Password */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="remember"
-                                checked={rememberMe}
-                                onChange={(e) =>
-                                    setRememberMe(e.target.checked)
-                                }
-                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            />
-                            <label
-                                htmlFor="remember"
-                                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
-                            >
-                                Remember me
-                            </label>
-                        </div>
-                        <a
-                            href="#"
-                            className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                    {/*Re-Type Password Field */}
+                    <div>
+                        <label
+                            htmlFor="password"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                         >
-                            Forgot password?
-                        </a>
+                            Re-Type Password
+                        </label>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="reTypePassword"
+                                value={reTypePassword}
+                                onChange={(e) =>
+                                    setReTypePassword(e.target.value)
+                                }
+                                placeholder="Enter your password"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors"
+                            >
+                                {showPassword ? '🔒' : '👁️'}
+                            </button>
+                        </div>
                     </div>
 
                     {/* Sign In Button */}
@@ -114,7 +160,7 @@ const LoginPage = () => {
                         type="submit"
                         className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     >
-                        Sign In
+                        Register
                     </button>
                 </form>
 
@@ -156,12 +202,12 @@ const LoginPage = () => {
                 {/* Sign Up Link */}
                 <div className="text-center mt-6">
                     <p className="text-gray-600 dark:text-gray-500">
-                        Don't have an account?{' '}
+                        have an account?{' '}
                         <Link
-                            href="/register"
+                            href="/login"
                             className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
                         >
-                            Register Now
+                            Login
                         </Link>
                     </p>
                 </div>
@@ -170,4 +216,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;
