@@ -1,24 +1,44 @@
 'use client';
 
+import { useState } from 'react';
 import { useAuth } from '@/hooks';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const LoginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const { signInWithGoogle } = useAuth();
+    const { signInWithGoogle, signIn } = useAuth();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Login attempt with:', { email, password, rememberMe });
-
-        if (email && password) {
-            alert('Login successful! (This is a demo)');
-        }
-    };
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .required('Required')
+                .email('Invalid email address')
+                .matches(
+                    /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/,
+                    'Please enter a valid email address'
+                ),
+            password: Yup.string()
+                .required('Required')
+                .min(8, 'Must be at least 8 characters long')
+                .matches(/[a-z]/, 'Must contain at least one lowercase letter')
+                .matches(/[A-Z]/, 'Must contain at least one uppercase letter')
+                .matches(/\d/, 'Must contain at least one number')
+                .matches(
+                    /[@$!%*?&#^()_+\-=\[\]{};':"\\|,.<>\/?]/,
+                    'Must contain at least one special character'
+                ),
+        }),
+        onSubmit: (values) => {
+            const { email, password } = values;
+            signIn(email, password);
+        },
+    });
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-8">
@@ -34,8 +54,7 @@ const LoginPage = () => {
                 </div>
 
                 {/* Login Form */}
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Email Field */}
+                <form onSubmit={formik.handleSubmit} className="space-y-6">
                     <div>
                         <label
                             htmlFor="email"
@@ -46,15 +65,18 @@ const LoginPage = () => {
                         <input
                             type="email"
                             id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.email}
                             placeholder="Enter your email"
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200"
-                            required
                         />
+                        {formik.touched.email && formik.errors.email ? (
+                            <div className="text-base text-red-500">
+                                {formik.errors.email}
+                            </div>
+                        ) : null}
                     </div>
-
-                    {/* Password Field */}
                     <div>
                         <label
                             htmlFor="password"
@@ -62,27 +84,22 @@ const LoginPage = () => {
                         >
                             Password
                         </label>
-                        <div className="relative">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
-                                required
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
-                            >
-                                {showPassword ? '🔒' : '👁️'}
-                            </button>
-                        </div>
+                        <input
+                            type="password"
+                            id="password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                            placeholder="Enter your password"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
+                        />
+                        {formik.touched.password && formik.errors.password ? (
+                            <div className="text-base text-red-500">
+                                {formik.errors.password}
+                            </div>
+                        ) : null}
                     </div>
 
-                    {/* Remember Me & Forgot Password */}
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
                         <div className="flex items-center">
                             <input
@@ -109,7 +126,6 @@ const LoginPage = () => {
                         </a>
                     </div>
 
-                    {/* Sign In Button */}
                     <button
                         type="submit"
                         className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"

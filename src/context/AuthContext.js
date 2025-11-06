@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import { addUser } from '@/utils/actions';
+import { addToast } from '@heroui/react';
 
 export const AuthContext = createContext(null);
 
@@ -59,13 +60,49 @@ export default function AuthProvider({ children }) {
             email,
             password,
         });
-        if (error) console.error('Sign-in error:', error);
+        if (error) {
+            console.error('Sign-in error:', error);
+            addToast({
+                title: 'Login Error',
+                description: error.message,
+                color: 'danger',
+                radius: 'sm',
+                hideCloseButton: true,
+                timeout: 3000,
+                shouldShowTimeoutProgress: true,
+            });
+        }
+
+        redirect('/');
+
         return { data, error };
     };
 
     const signUp = async (email, password) => {
-        const { data, error } = await supabase.auth.signUp({ email, password });
+        setLoading(true);
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                emailRedirectTo: `${process.env.SITE_URL}/auth/confirm`,
+            },
+        });
         if (error) console.error('Sign-up error:', error);
+
+        console.log(data);
+
+        setLoading(false);
+
+        addToast({
+            title: 'Confirm Mail',
+            description: 'Check your mail to confirm email.',
+            color: 'success',
+            radius: 'sm',
+            hideCloseButton: true,
+        });
+
+        redirect(`${window.location.origin}/login`);
+
         return { data, error };
     };
 

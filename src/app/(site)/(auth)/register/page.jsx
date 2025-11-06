@@ -10,18 +10,19 @@ const RegisterPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [reTypePassword, setReTypePassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const { signInWithGoogle } = useAuth();
+    const { signInWithGoogle, signUp, loading } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('registasion attempt with:', {
-            email,
-            password,
-            rememberMe,
-            reTypePassword,
-        });
+        // console.log('registasion attempt with:', {
+        //     email,
+        //     password,
+        //     rememberMe,
+        //     reTypePassword,
+        // });
+
+        signUp(email, password);
     };
 
     return (
@@ -160,7 +161,7 @@ const RegisterPage = () => {
                         type="submit"
                         className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     >
-                        Register
+                        {loading ? 'Registering' : 'Register'}
                     </button>
                 </form>
 
