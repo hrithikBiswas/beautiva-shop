@@ -100,8 +100,8 @@ export default function AuthProvider({ children }) {
 
         setLoading(false);
 
-        // redirect(`${window.location.origin}/login`);
-        redirect('/');
+        redirect(`${window.location.origin}/login`);
+        // redirect('/');
 
         return { data, error };
     };

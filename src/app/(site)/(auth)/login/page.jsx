@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 
 const LoginPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
@@ -13,7 +13,9 @@ const LoginPage = () => {
     const pathname = usePathname();
 
     if (user && pathname.startsWith('/login')) {
-        return (window.location.href = '/');
+        window.location.reload();
+        return redirect('/');
+        // return (window.location.href = '/');
     }
 
     const formik = useFormik({
