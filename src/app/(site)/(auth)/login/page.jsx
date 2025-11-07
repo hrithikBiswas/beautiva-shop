@@ -5,10 +5,16 @@ import { useAuth } from '@/hooks';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { usePathname } from 'next/navigation';
 
 const LoginPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
-    const { signInWithGoogle, signIn } = useAuth();
+    const { signInWithGoogle, signIn, user } = useAuth();
+    const pathname = usePathname();
+
+    if (user && pathname.startsWith('/login')) {
+        return (window.location.href = '/');
+    }
 
     const formik = useFormik({
         initialValues: {

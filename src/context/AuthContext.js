@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { addUser } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 
@@ -14,6 +14,7 @@ export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         const initAuth = async () => {
@@ -84,14 +85,10 @@ export default function AuthProvider({ children }) {
             email,
             password,
             options: {
-                emailRedirectTo: `${process.env.SITE_URL}/auth/confirm`,
+                emailRedirectTo: `${window.location.origin}`,
             },
         });
         if (error) console.error('Sign-up error:', error);
-
-        console.log(data);
-
-        setLoading(false);
 
         addToast({
             title: 'Confirm Mail',
@@ -101,7 +98,10 @@ export default function AuthProvider({ children }) {
             hideCloseButton: true,
         });
 
-        redirect(`${window.location.origin}/login`);
+        setLoading(false);
+
+        // redirect(`${window.location.origin}/login`);
+        redirect('/');
 
         return { data, error };
     };
