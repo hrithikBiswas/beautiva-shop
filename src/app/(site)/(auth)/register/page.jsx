@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import EyeIcon from '@/components/SVG/EyeIcon';
+import EyeSlashIcon from '@/components/SVG/EyeSlashIcon';
 
 const RegisterPage = () => {
     const [firstName, setFirstName] = useState('');
@@ -13,6 +15,7 @@ const RegisterPage = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { signInWithGoogle, signUp, loading } = useAuth();
 
     // const handleSubmit = async (e) => {
@@ -66,11 +69,10 @@ const RegisterPage = () => {
                 .oneOf([Yup.ref('password')], "Password's not match"),
         }),
         onSubmit: (values) => {
-            const { email, password } = values;
+            const { firstName, lastName, email, password } = values;
+            const fullName = `${firstName} ${lastName}`;
 
-            console.log(values);
-
-            signUp(email, password);
+            signUp(email, password, fullName);
         },
     });
 
@@ -181,20 +183,20 @@ const RegisterPage = () => {
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
                                 required
                             />
-                            {formik.touched.password &&
-                            formik.errors.password ? (
-                                <div className="text-base text-red-500">
-                                    {formik.errors.password}
-                                </div>
-                            ) : null}
+
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer hover:text-gray-700 transition-colors"
                             >
-                                {showPassword ? '🔒' : '👁️'}
+                                {!showPassword ? <EyeSlashIcon /> : <EyeIcon />}
                             </button>
                         </div>
+                        {formik.touched.password && formik.errors.password ? (
+                            <div className="text-base text-red-500">
+                                {formik.errors.password}
+                            </div>
+                        ) : null}
                     </div>
 
                     <div>
@@ -206,7 +208,7 @@ const RegisterPage = () => {
                         </label>
                         <div className="relative">
                             <input
-                                type={showPassword ? 'text' : 'password'}
+                                type={showConfirmPassword ? 'text' : 'password'}
                                 id="confirmPassword"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
@@ -215,148 +217,39 @@ const RegisterPage = () => {
                                 className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
                                 required
                             />
-                            {formik.touched.confirmPassword &&
-                            formik.errors.confirmPassword ? (
-                                <div className="text-base text-red-500">
-                                    {formik.errors.confirmPassword}
-                                </div>
-                            ) : null}
+
                             <button
                                 type="button"
-                                onClick={() => setShowPassword(!showPassword)}
+                                onClick={() =>
+                                    setShowConfirmPassword(!showConfirmPassword)
+                                }
                                 className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors"
                             >
-                                {showPassword ? '🔒' : '👁️'}
+                                {!showConfirmPassword ? (
+                                    <EyeSlashIcon />
+                                ) : (
+                                    <EyeIcon />
+                                )}
                             </button>
                         </div>
+                        {formik.touched.confirmPassword &&
+                        formik.errors.confirmPassword ? (
+                            <div className="text-base text-red-500">
+                                {formik.errors.confirmPassword}
+                            </div>
+                        ) : null}
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        disabled={loading}
+                        className={`w-full cursor-pointer ${
+                            loading ? 'bg-blue-500!' : 'bg-blue-600'
+                        } hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
                     >
                         {loading ? 'Registering' : 'Register'}
                     </button>
                 </form>
-                {/* <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="flex gap-4">
-                        <div>
-                            <label
-                                htmlFor="firstName"
-                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                First Name
-                            </label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
-                                placeholder="John"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200"
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label
-                                htmlFor="lastName"
-                                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                            >
-                                Password
-                            </label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                                placeholder="Doe"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                        >
-                            Email Address
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                        >
-                            Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
-                                required
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer hover:text-gray-700 transition-colors"
-                            >
-                                {showPassword ? '🔒' : '👁️'}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                        >
-                            Re-Type Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                id="reTypePassword"
-                                value={reTypePassword}
-                                onChange={(e) =>
-                                    setReTypePassword(e.target.value)
-                                }
-                                placeholder="Enter your password"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
-                                required
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700 transition-colors"
-                            >
-                                {showPassword ? '🔒' : '👁️'}
-                            </button>
-                        </div>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                    >
-                        {loading ? 'Registering' : 'Register'}
-                    </button>
-                </form> */}
 
                 {/* Divider */}
                 <div className="flex items-center my-6">

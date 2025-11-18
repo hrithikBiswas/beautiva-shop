@@ -20,3 +20,13 @@ export const addUser = async (user) => {
         console.error('Error syncing user:', error);
     }
 };
+
+export const getUsers = async () => {
+    try {
+        const users = await prisma.user.findMany();
+        return users;
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        throw error; // or throw error if you want to handle it outside
+    }
+};

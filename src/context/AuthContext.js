@@ -1,10 +1,12 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { redirect, useRouter } from 'next/navigation';
-import { addUser } from '@/utils/actions';
+import { redirect } from 'next/navigation';
+import { addUser, getUsers } from '@/utils/actions';
 import { addToast } from '@heroui/react';
+// import { prisma } from '@/utils/prisma';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 export const AuthContext = createContext(null);
 
@@ -14,7 +16,6 @@ export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
     useEffect(() => {
         const initAuth = async () => {
@@ -57,13 +58,17 @@ export default function AuthProvider({ children }) {
     }, [supabase]);
 
     const signIn = async (email, password) => {
+        setLoading(true);
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
         });
         if (error) {
             console.error('Sign-in error:', error);
-            addToast({
+
+            setLoading(false);
+
+            return addToast({
                 title: 'Login Error',
                 description: error.message,
                 color: 'danger',
@@ -74,22 +79,58 @@ export default function AuthProvider({ children }) {
             });
         }
 
+        addToast({
+            title: 'Login Status',
+            description: "You've successfully logged in.",
+            color: 'success',
+            radius: 'sm',
+            hideCloseButton: true,
+            timeout: 3000,
+            shouldShowTimeoutProgress: true,
+        });
+
+        setLoading(false);
+
         redirect('/');
 
         return { data, error };
     };
 
-    const signUp = async (email, password) => {
+    const signUp = async (email, password, fullName) => {
         setLoading(true);
+
+        const users = await getUsers();
+        const isEmailExist = users.some((user) => user.email === email);
+
+        if (isEmailExist) {
+            setLoading(false);
+            return addToast({
+                title: 'Register Error',
+                description: 'Oops! This email is already exists.',
+                color: 'danger',
+                radius: 'sm',
+                hideCloseButton: true,
+                timeout: 3000,
+                shouldShowTimeoutProgress: true,
+            });
+        }
+
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
             options: {
                 emailRedirectTo: `${window.location.origin}`,
+                data: {
+                    full_name: fullName,
+                    name: fullName,
+                },
             },
         });
-        if (error) console.error('Sign-up error:', error);
 
+        if (error) {
+            setLoading(false);
+            return console.error('Sign-up error:', error);
+        }
         addToast({
             title: 'Confirm Mail',
             description: 'Check your mail to confirm email.',
@@ -97,12 +138,9 @@ export default function AuthProvider({ children }) {
             radius: 'sm',
             hideCloseButton: true,
         });
-
         setLoading(false);
-
         redirect(`${window.location.origin}/login`);
         // redirect('/');
-
         return { data, error };
     };
 

@@ -24,7 +24,7 @@ const UserDropdown = ({ user, signOut, selectedTheme, handleThemeChange }) => (
                 size="sm"
                 src={
                     user?.user_metadata?.avatar_url ??
-                    'https://i.pravatar.cc/150?u=a042581f4e29026704d'
+                    'https://i.pravatar.cc/150?u=a04258a2462d826712d'
                 }
             />
         </DropdownTrigger>
@@ -62,7 +62,7 @@ const UserDropdown = ({ user, signOut, selectedTheme, handleThemeChange }) => (
                             alt="user profile"
                             src={
                                 user?.user_metadata?.avatar_url ??
-                                'https://heroui.com/images/fruit-1.jpeg'
+                                'https://i.pravatar.cc/150?u=a04258a2462d826712d'
                             }
                             width={32}
                             height={32}

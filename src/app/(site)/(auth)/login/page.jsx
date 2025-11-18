@@ -6,10 +6,13 @@ import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { usePathname } from 'next/navigation';
+import EyeIcon from '@/components/SVG/EyeIcon';
+import EyeSlashIcon from '@/components/SVG/EyeSlashIcon';
 
 const LoginPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
-    const { signInWithGoogle, signIn, user } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
+    const { signInWithGoogle, signIn, user, loading } = useAuth();
     const pathname = usePathname();
 
     if (user && pathname.startsWith('/login')) {
@@ -90,15 +93,25 @@ const LoginPage = () => {
                         >
                             Password
                         </label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.password}
-                            placeholder="Enter your password"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.password}
+                                placeholder="Enter your password"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg outline-0 transition-all duration-200 pr-12"
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer hover:text-gray-700 transition-colors"
+                            >
+                                {!showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                            </button>
+                        </div>
                         {formik.touched.password && formik.errors.password ? (
                             <div className="text-base text-red-500">
                                 {formik.errors.password}
@@ -134,9 +147,12 @@ const LoginPage = () => {
 
                     <button
                         type="submit"
-                        className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        disabled={loading}
+                        className={`w-full cursor-pointer ${
+                            loading ? 'bg-blue-500!' : 'bg-blue-600'
+                        } hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
                     >
-                        Sign In
+                        {loading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
 

@@ -17,6 +17,7 @@ import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserDropdown from './UserDropdown';
 import LoadingAnimation from '../Loader/LoadingAnimation';
+import AnonymousUserIcon from '../SVG/AnonymousUserIcon';
 
 export default function Header() {
     const { theme, setTheme } = useTheme();
