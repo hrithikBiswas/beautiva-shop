@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { createContext, useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
-import { addUser, getUsers } from '@/utils/actions';
-import { addToast } from '@heroui/react';
+import { createContext, useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { redirect } from "next/navigation";
+import { addUser, getUsers, setUserCookie } from "@/utils/actions";
+import { addToast } from "@heroui/react";
 // import { prisma } from '@/utils/prisma';
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma } from "@prisma/client";
 
 export const AuthContext = createContext(null);
 
@@ -28,13 +28,17 @@ export default function AuthProvider({ children }) {
 
                 setSession(sessionData?.session ?? null);
                 setUser(sessionData?.session?.user ?? null);
+                sessionStorage.setItem(
+                    "currentUser",
+                    JSON.stringify(sessionData?.session?.user ?? null)
+                );
 
                 const {
                     data: { user },
                 } = await supabase.auth.getUser();
                 addUser(user ?? null);
             } catch (err) {
-                console.error('Error initializing auth:', err);
+                console.error("Error initializing auth:", err);
             } finally {
                 setLoading(false);
             }
@@ -64,15 +68,15 @@ export default function AuthProvider({ children }) {
             password,
         });
         if (error) {
-            console.error('Sign-in error:', error);
+            console.error("Sign-in error:", error);
 
             setLoading(false);
 
             return addToast({
-                title: 'Login Error',
+                title: "Login Error",
                 description: error.message,
-                color: 'danger',
-                radius: 'sm',
+                color: "danger",
+                radius: "sm",
                 hideCloseButton: true,
                 timeout: 3000,
                 shouldShowTimeoutProgress: true,
@@ -80,10 +84,10 @@ export default function AuthProvider({ children }) {
         }
 
         addToast({
-            title: 'Login Status',
+            title: "Login Status",
             description: "You've successfully logged in.",
-            color: 'success',
-            radius: 'sm',
+            color: "success",
+            radius: "sm",
             hideCloseButton: true,
             timeout: 3000,
             shouldShowTimeoutProgress: true,
@@ -91,7 +95,7 @@ export default function AuthProvider({ children }) {
 
         setLoading(false);
 
-        redirect('/');
+        redirect("/");
 
         return { data, error };
     };
@@ -105,10 +109,10 @@ export default function AuthProvider({ children }) {
         if (isEmailExist) {
             setLoading(false);
             return addToast({
-                title: 'Register Error',
-                description: 'Oops! This email is already exists.',
-                color: 'danger',
-                radius: 'sm',
+                title: "Register Error",
+                description: "Oops! This email is already exists.",
+                color: "danger",
+                radius: "sm",
                 hideCloseButton: true,
                 timeout: 3000,
                 shouldShowTimeoutProgress: true,
@@ -129,13 +133,13 @@ export default function AuthProvider({ children }) {
 
         if (error) {
             setLoading(false);
-            return console.error('Sign-up error:', error);
+            return console.error("Sign-up error:", error);
         }
         addToast({
-            title: 'Confirm Mail',
-            description: 'Check your mail to confirm email.',
-            color: 'success',
-            radius: 'sm',
+            title: "Confirm Mail",
+            description: "Check your mail to confirm email.",
+            color: "success",
+            radius: "sm",
             hideCloseButton: true,
         });
         setLoading(false);
@@ -147,21 +151,22 @@ export default function AuthProvider({ children }) {
     const signOut = async () => {
         const { error } = await supabase.auth.signOut();
         if (error) {
-            console.error('Sign-out error:', error);
+            console.error("Sign-out error:", error);
             return { error };
         }
-        redirect('/login');
+        sessionStorage.removeItem("currentUser");
+        redirect("/login");
     };
 
     const signInWithGoogle = async () => {
         const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
+            provider: "google",
             options: { redirectTo: `${window.location.origin}/auth/callback` },
         });
 
         console.log(data);
 
-        if (error) console.error('Google sign-in error:', error);
+        if (error) console.error("Google sign-in error:", error);
     };
 
     return (
@@ -170,6 +175,7 @@ export default function AuthProvider({ children }) {
                 user,
                 session,
                 loading,
+                setLoading,
                 signIn,
                 signUp,
                 signOut,

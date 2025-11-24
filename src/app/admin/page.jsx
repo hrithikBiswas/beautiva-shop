@@ -1,7 +1,7 @@
-import React from 'react';
+import Header from "@/components/admin/Header";
 
-const AdminPage = () => {
-    return <div>AdminPage</div>;
+const page = () => {
+    return <div className="flex-1 p-8">dashboard page</div>;
 };
 
-export default AdminPage;
+export default page;

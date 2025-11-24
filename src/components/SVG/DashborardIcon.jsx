@@ -1,9 +1,9 @@
 import React from "react";
 
-const SearchIcon = () => {
+const DashborardIcon = () => {
     return (
         <svg
-            className="w-8 h-8 text-gray-600 dark:text-white"
+            className="w-6 h-6 text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -14,11 +14,12 @@ const SearchIcon = () => {
             <path
                 stroke="currentColor"
                 strokeLinecap="round"
-                strokeWidth="1.2"
-                d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 4.5V19a1 1 0 0 0 1 1h15M7 14l4-4 4 4 5-5m0 0h-3.207M20 9v3.207"
             />
         </svg>
     );
 };
 
-export default SearchIcon;
+export default DashborardIcon;

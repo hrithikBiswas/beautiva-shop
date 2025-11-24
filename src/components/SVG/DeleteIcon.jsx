@@ -1,9 +1,9 @@
 import React from "react";
 
-const SearchIcon = () => {
+const DeleteIcon = () => {
     return (
         <svg
-            className="w-8 h-8 text-gray-600 dark:text-white"
+            className="w-6 h-6 text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -14,11 +14,12 @@ const SearchIcon = () => {
             <path
                 stroke="currentColor"
                 strokeLinecap="round"
-                strokeWidth="1.2"
-                d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
             />
         </svg>
     );
 };
 
-export default SearchIcon;
+export default DeleteIcon;

@@ -1,17 +1,21 @@
-import { ThemeProvider } from 'next-themes';
-import './globals.css';
+import { ThemeProvider } from "next-themes";
+import AuthProvider from "@/context/AuthContext";
+import HeroProvider from "@/providers/HeroProvider";
+import "./globals.css";
 
 export default function RootLayout({ children }) {
     return (
         <html lang="en">
-            <body className={`antialiased`}>
+            <body className={`antialiased dark:bg-gray-950! dark:text-white`}>
                 <ThemeProvider
                     attribute="data-theme"
                     defaultTheme="system"
                     enableSystem
-                    storageKey="preferred-theme" // custom localStorage key
+                    storageKey="preferred-theme"
                 >
-                    {children}
+                    <AuthProvider>
+                        <HeroProvider>{children}</HeroProvider>
+                    </AuthProvider>
                 </ThemeProvider>
             </body>
         </html>

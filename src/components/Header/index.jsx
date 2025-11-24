@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 
-import { useTheme } from 'next-themes';
-import { useAuth } from '@/hooks';
-import { LoginIcon } from '../SVG';
+import { useTheme } from "next-themes";
+import { useAuth } from "@/hooks";
+import { LoginIcon } from "../SVG";
 
-import Search from './Drawer/Search';
-import Wishlist from './Drawer/Wishlist';
-import Cart from './Drawer/Cart';
-import MobileMenu from './Drawer/MobileMenu';
-import { navMenu } from '@/constant/navData';
-import Logo from './Logo';
-import NavLinks from './NavLinks';
-import UserDropdown from './UserDropdown';
-import LoadingAnimation from '../Loader/LoadingAnimation';
-import AnonymousUserIcon from '../SVG/AnonymousUserIcon';
+import Search from "./Drawer/Search";
+import Wishlist from "./Drawer/Wishlist";
+import Cart from "./Drawer/Cart";
+import MobileMenu from "./Drawer/MobileMenu";
+import { navMenu } from "@/constant/navData";
+import Logo from "./Logo";
+import NavLinks from "./NavLinks";
+import UserDropdown from "./UserDropdown";
+import LoadingAnimation from "../Loader/LoadingAnimation";
+import AnonymousUserIcon from "../SVG/AnonymousUserIcon";
 
 export default function Header() {
     const { theme, setTheme } = useTheme();
@@ -37,7 +37,7 @@ export default function Header() {
         <Navbar
             className="bg-white dark:bg-gray-950"
             classNames={{
-                base: 'dark:border-gray-700',
+                base: "dark:border-gray-700",
             }}
             shouldHideOnScroll
             isBordered
