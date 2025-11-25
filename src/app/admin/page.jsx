@@ -1,5 +1,7 @@
 import { getCategories, getProducts } from '@/utils/actions';
 
+export const dynamic = 'force-dynamic';
+
 const page = async () => {
     const categories = await getCategories();
     const products = await getProducts();
