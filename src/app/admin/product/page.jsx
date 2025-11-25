@@ -11,11 +11,10 @@ import { addToast } from "@heroui/react";
 const AdminPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [categories, setCategories] = useState([]);
-    const { loading, setLoading } = useAuth();
-
-    const user = JSON.parse(sessionStorage.getItem("currentUser"));
+    const { loading, setLoading, user } = useAuth();
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
             productName: "",
             description: "",
@@ -24,7 +23,7 @@ const AdminPage = () => {
             stock: "",
             category: "",
             featured: false,
-            userId: user.id,
+            userId: user?.id,
         },
         validationSchema: Yup.object({
             productName: Yup.string()
