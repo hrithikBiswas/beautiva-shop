@@ -1,7 +1,5 @@
-'use server';
-
 import { cookies } from 'next/headers';
-import { prisma } from './prisma';
+import prisma from './prisma';
 import { createClient } from './supabase/server';
 
 export const addUser = async (user) => {
@@ -108,6 +106,7 @@ export const getUsers = async () => {
     }
 };
 export const getCategories = async () => {
+    'use server';
     try {
         const categories = await prisma.category.findMany();
         return categories;
@@ -118,6 +117,7 @@ export const getCategories = async () => {
 };
 
 export const getProducts = async () => {
+    'use server';
     try {
         const products = await prisma.product.findMany();
 
