@@ -1,6 +1,7 @@
 import { getCategories, getProducts } from '@/utils/actions';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 const page = async () => {
     const categories = await getCategories();
