@@ -219,7 +219,6 @@ const AdminPage = () => {
                                     className="w-full px-4 py-2 outline-none border border-gray-300 rounded-lg  focus:border-blue-500 transition"
                                 >
                                     <option value="">Select a category</option>
-                                    <option value="value 1">Value 1</option>
                                     {categories.map((category) => {
                                         const { name, slug } = category;
                                         return (
