@@ -79,12 +79,23 @@ const AdminPage = () => {
 
     useEffect(() => {
         const fetchCategories = async () => {
-            const categories = await getCategories();
-            setCategories(categories);
+            const res = await fetch('/api/categories');
+            const data = await res.json();
+
+            setCategories(data);
         };
 
         fetchCategories();
     }, []);
+
+    // useEffect(() => {
+    //     const fetchCategories = async () => {
+    //         const categories = await getCategories();
+    //         setCategories(categories);
+    //     };
+
+    //     fetchCategories();
+    // }, []);
 
     return (
         <div className="flex-1 p-8">
