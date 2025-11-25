@@ -1,4 +1,3 @@
-import Header from '@/components/admin/Header';
 import { getCategories, getProducts } from '@/utils/actions';
 
 const page = async () => {
@@ -6,7 +5,6 @@ const page = async () => {
     const products = await getProducts();
 
     console.log(categories);
-    console.log(products);
 
     return (
         <div className="flex-1 p-8">
