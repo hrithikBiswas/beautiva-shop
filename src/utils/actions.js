@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { cookies } from "next/headers";
-import { prisma } from "./prisma";
-import { createClient } from "./supabase/server";
+import { cookies } from 'next/headers';
+import { prisma } from './prisma';
+import { createClient } from './supabase/server';
 
 export const addUser = async (user) => {
     // console.log(user);
@@ -19,7 +19,7 @@ export const addUser = async (user) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing user:", error);
+        console.error('Error syncing user:', error);
     }
 };
 export const addProduct = async (product) => {
@@ -47,7 +47,7 @@ export const addProduct = async (product) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing user:", error);
+        console.error('Error syncing user:', error);
     }
 };
 export const addCategory = async (category) => {
@@ -61,7 +61,7 @@ export const addCategory = async (category) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing user:", error);
+        console.error('Error syncing user:', error);
     }
 };
 
@@ -78,21 +78,21 @@ export const uploadProductImage = async (file) => {
     const supabase = await createClient();
     if (!file) return null;
 
-    const fileExt = file.name.split(".").pop();
+    const fileExt = file.name.split('.').pop();
     const fileName = `product-${Date.now()}.${fileExt}`;
     const filePath = `${fileName}`;
 
     const { data, error } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(filePath, file);
 
     if (error) {
-        console.error("Upload error:", error);
+        console.error('Upload error:', error);
         return null;
     }
 
     const { data: urlData } = supabase.storage
-        .from("products")
+        .from('products')
         .getPublicUrl(filePath);
 
     return urlData.publicUrl;
@@ -103,7 +103,7 @@ export const getUsers = async () => {
         const users = await prisma.user.findMany();
         return users;
     } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error('Error fetching users:', error);
         throw error; // or throw error if you want to handle it outside
     }
 };
@@ -112,7 +112,7 @@ export const getCategories = async () => {
         const categories = await prisma.category.findMany();
         return categories;
     } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error('Error fetching categories:', error);
         throw error; // or throw error if you want to handle it outside
     }
 };
@@ -120,11 +120,10 @@ export const getCategories = async () => {
 export const getProducts = async () => {
     try {
         const products = await prisma.product.findMany();
-        console.log(products);
 
         return products;
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error);
         throw error;
     }
 };
@@ -133,5 +132,5 @@ export const setUserCookie = async (user) => {
     console.log(user);
 
     const cookieStore = await cookies();
-    return cookieStore.set("user", user);
+    return cookieStore.set('user', user);
 };
