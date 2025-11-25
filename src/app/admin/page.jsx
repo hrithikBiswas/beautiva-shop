@@ -1,21 +1,12 @@
-'use client';
 import Header from '@/components/admin/Header';
 import { getCategories, getProducts } from '@/utils/actions';
-import { useEffect, useState } from 'react';
 
-const page = () => {
-    const [categories, setCategories] = useState([]);
-    const [products, setProducts] = useState([]);
+const page = async () => {
+    const categories = await getCategories();
+    const products = await getProducts();
 
-    console.log({ categories });
-    useEffect(() => {
-        (async () => {
-            const categoriesData = await getCategories();
-            const productsData = await getProducts();
-            setCategories(categoriesData);
-            setProducts(productsData);
-        })();
-    }, []);
+    console.log(categories);
+    console.log(products);
 
     return (
         <div className="flex-1 p-8">
