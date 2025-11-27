@@ -7,8 +7,6 @@ const page = async () => {
     const categories = await getCategories();
     const products = await getProducts();
 
-    console.log(categories);
-
     return (
         <div className="flex-1 p-8">
             <div>dashboard page</div>
