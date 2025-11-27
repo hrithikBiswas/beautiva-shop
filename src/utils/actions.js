@@ -1,3 +1,5 @@
+'use server';
+
 import { cookies } from 'next/headers';
 import prisma from './prisma';
 import { createClient } from './supabase/server';
@@ -106,7 +108,6 @@ export const getUsers = async () => {
     }
 };
 export const getCategories = async () => {
-    'use server';
     try {
         const categories = await prisma.category.findMany();
         return categories;
@@ -117,7 +118,6 @@ export const getCategories = async () => {
 };
 
 export const getProducts = async () => {
-    'use server';
     try {
         const products = await prisma.product.findMany();
 
@@ -128,9 +128,9 @@ export const getProducts = async () => {
     }
 };
 
-export const setUserCookie = async (user) => {
-    console.log(user);
+// export const setUserCookie = async (user) => {
+//     console.log(user);
 
-    const cookieStore = await cookies();
-    return cookieStore.set('user', user);
-};
+//     const cookieStore = await cookies();
+//     return cookieStore.set('user', user);
+// };
