@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { DeleteIcon } from '@/components/SVG';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { addProduct, uploadProductImage, getCategories } from '@/utils/actions';
-import { useAuth } from '@/hooks';
-import { addToast } from '@heroui/react';
+import { useEffect, useState } from "react";
+import { DeleteIcon } from "@/components/SVG";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { addProduct, uploadProductImage, getCategories } from "@/utils/actions";
+import { useAuth } from "@/hooks";
+import { addToast } from "@heroui/react";
 
 const AdminPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -16,21 +16,21 @@ const AdminPage = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            productName: '',
-            description: '',
-            price: '',
-            image: '',
-            stock: '',
-            category: '',
+            productName: "",
+            description: "",
+            price: "",
+            image: "",
+            stock: "",
+            category: "",
             featured: false,
             userId: user?.id,
         },
         validationSchema: Yup.object({
             productName: Yup.string()
-                .min(4, 'Must be 4 characters or more')
-                .required('Required'),
+                .min(4, "Must be 4 characters or more")
+                .required("Required"),
             description: Yup.string(),
-            price: Yup.number().required('Required').positive().integer(),
+            price: Yup.number().required("Required").positive().integer(),
         }),
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
@@ -48,13 +48,13 @@ const AdminPage = () => {
 
             setImagePreview(null);
 
-            console.log('Product added successfully!');
+            console.log("Product added successfully!");
 
             return addToast({
-                title: 'Product Status',
-                description: 'Product added successfully!',
-                color: 'success',
-                radius: 'sm',
+                title: "Product Status",
+                description: "Product added successfully!",
+                color: "success",
+                radius: "sm",
                 hideCloseButton: true,
                 timeout: 3000,
                 shouldShowTimeoutProgress: true,
@@ -66,7 +66,7 @@ const AdminPage = () => {
         const file = e.target.files[0];
         if (!file) return;
 
-        formik.setFieldValue('image', file);
+        formik.setFieldValue("image", file);
 
         const previewUrl = URL.createObjectURL(file);
         setImagePreview(previewUrl);
@@ -74,28 +74,28 @@ const AdminPage = () => {
 
     const removeImage = () => {
         setImagePreview(null);
-        formik.setFieldValue('image', '');
+        formik.setFieldValue("image", "");
     };
-
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const res = await fetch('/api/categories');
-            const data = await res.json();
-
-            setCategories(data);
-        };
-
-        fetchCategories();
-    }, []);
 
     // useEffect(() => {
     //     const fetchCategories = async () => {
-    //         const categories = await getCategories();
-    //         setCategories(categories);
+    //         const res = await fetch('/api/categories');
+    //         const data = await res.json();
+
+    //         setCategories(data);
     //     };
 
     //     fetchCategories();
     // }, []);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const categories = await getCategories();
+            setCategories(categories);
+        };
+
+        fetchCategories();
+    }, []);
 
     return (
         <div className="flex-1 p-8">
@@ -299,7 +299,7 @@ const AdminPage = () => {
                                             onClick={removeImage}
                                             className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                                         >
-                                            <DeleteIcon />{' '}
+                                            <DeleteIcon />{" "}
                                             <span>Remove Image</span>
                                         </button>
                                     )}
@@ -339,11 +339,11 @@ const AdminPage = () => {
                             disabled={loading}
                             className={`px-6 py-2 ${
                                 loading
-                                    ? 'bg-blue-400'
-                                    : 'bg-blue-500 hover:bg-blue-600'
+                                    ? "bg-blue-400"
+                                    : "bg-blue-500 hover:bg-blue-600"
                             }  text-white rounded-lg  transition flex items-center cursor-pointer`}
                         >
-                            {loading ? 'Adding Product...' : 'Add Product'}
+                            {loading ? "Adding Product..." : "Add Product"}
                         </button>
                     </div>
                 </form>
