@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "public"."Product" ADD COLUMN     "featured" BOOLEAN NOT NULL DEFAULT false;

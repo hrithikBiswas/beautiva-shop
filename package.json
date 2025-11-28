@@ -10,7 +10,8 @@
     },
     "dependencies": {
         "@heroui/react": "^2.8.4",
-        "@prisma/client": "^6.19.0",
+        "@prisma/adapter-pg": "^7.0.1",
+        "@prisma/client": "^7.0.1",
         "@supabase/ssr": "^0.7.0",
         "@supabase/supabase-js": "^2.86.0",
         "dotenv": "^17.2.3",
@@ -28,6 +29,8 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3",
         "@tailwindcss/postcss": "^4",
+        "@types/node": "^24.10.1",
+        "@types/pg": "^8.15.6",
         "@types/react": "19.1.15",
         "eslint": "^9",
         "eslint-config-next": "15.5.4",

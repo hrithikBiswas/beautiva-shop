@@ -5,8 +5,7 @@ import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import { addUser, getUsers, setUserCookie } from '@/utils/actions';
 import { addToast } from '@heroui/react';
-// import prisma from '@/utils/prisma';
-import { PrismaClient, Prisma } from '@prisma/client';
+// import {prisma} from '@/utils/prisma';
 
 export const AuthContext = createContext(null);
 
