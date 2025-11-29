@@ -10,6 +10,7 @@ import { addToast } from "@heroui/react";
 
 const AdminPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
+    const [hoverImagePreview, setHoverImagePreview] = useState(null);
     const [categories, setCategories] = useState([]);
     const { loading, setLoading, user } = useAuth();
 
@@ -20,6 +21,7 @@ const AdminPage = () => {
             description: "",
             price: "",
             image: "",
+            hoverImage: "",
             stock: "",
             category: "",
             featured: false,
@@ -35,18 +37,20 @@ const AdminPage = () => {
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
             const imageUrl = await uploadProductImage(values.image);
+            const hoverImageUrl = await uploadProductImage(values.hoverImage);
 
             const payload = {
                 ...values,
                 image: imageUrl,
+                hoverImage: hoverImageUrl,
             };
-            console.log(payload);
 
             await addProduct(payload);
             setLoading(false);
             resetForm();
 
             setImagePreview(null);
+            setHoverImagePreview(null);
 
             console.log("Product added successfully!");
 
@@ -66,15 +70,27 @@ const AdminPage = () => {
         const file = e.target.files[0];
         if (!file) return;
 
-        formik.setFieldValue("image", file);
+        if (e.target.name === "image") {
+            formik.setFieldValue("image", file);
 
-        const previewUrl = URL.createObjectURL(file);
-        setImagePreview(previewUrl);
+            const previewImageUrl = URL.createObjectURL(file);
+            setImagePreview(previewImageUrl);
+        }
+        if (e.target.name === "hoverImage") {
+            formik.setFieldValue("hoverImage", file);
+
+            const previewHoverImageUrl = URL.createObjectURL(file);
+            setHoverImagePreview(previewHoverImageUrl);
+        }
     };
 
     const removeImage = () => {
         setImagePreview(null);
         formik.setFieldValue("image", "");
+    };
+    const removeHoverImage = () => {
+        setHoverImagePreview(null);
+        formik.setFieldValue("hoverImage", "");
     };
 
     // useEffect(() => {
@@ -241,68 +257,102 @@ const AdminPage = () => {
                                 </select>
                             </div>
 
-                            <div>
-                                <label
-                                    htmlFor="category"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Category test showing
-                                </label>
-                                {categories.map((category) => {
-                                    const { name, slug } = category;
-                                    return (
-                                        <div key={slug} value={name}>
-                                            {name} hb
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                            <div className="flex gap-5">
+                                <div>
+                                    <p className="text-sm font-medium text-gray-700 mb-2">
+                                        Upload Image
+                                    </p>
 
-                            <div id="imagePreviewContainer" className="">
-                                <p className="text-sm font-medium text-gray-700 mb-2">
-                                    Upload Image
-                                </p>
-
-                                <div className="w-full max-w-48">
-                                    <label
-                                        htmlFor="image"
-                                        className="flex flex-col items-center justify-center h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 transition"
-                                    >
-                                        {imagePreview ? (
-                                            <img
-                                                src={imagePreview}
-                                                alt="Preview"
-                                                className="h-full w-full object-cover rounded-xl"
-                                            />
-                                        ) : (
-                                            <div className="text-center">
-                                                <p className="text-gray-600 font-medium">
-                                                    Click to upload image
-                                                </p>
-                                                <p className="text-sm text-gray-400">
-                                                    PNG, JPG, JPEG
-                                                </p>
-                                            </div>
-                                        )}
-
-                                        <input
-                                            id="image"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleImageChange}
-                                            className="hidden"
-                                        />
-                                    </label>
-
-                                    {imagePreview && (
-                                        <button
-                                            onClick={removeImage}
-                                            className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                                    <div className="w-full">
+                                        <label
+                                            htmlFor="image"
+                                            className="flex flex-col items-center justify-center w-48 h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 transition"
                                         >
-                                            <DeleteIcon />{" "}
-                                            <span>Remove Image</span>
-                                        </button>
-                                    )}
+                                            {imagePreview ? (
+                                                <img
+                                                    src={imagePreview}
+                                                    alt="Preview"
+                                                    className="h-full w-full object-cover rounded-xl"
+                                                />
+                                            ) : (
+                                                <div className="text-center">
+                                                    <p className="text-gray-600 font-medium">
+                                                        Click to upload image
+                                                    </p>
+                                                    <p className="text-sm text-gray-400">
+                                                        PNG, JPG, JPEG
+                                                    </p>
+                                                </div>
+                                            )}
+
+                                            <input
+                                                id="image"
+                                                name="image"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                                className="hidden"
+                                            />
+                                        </label>
+
+                                        {imagePreview && (
+                                            <button
+                                                onClick={removeImage}
+                                                className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                                            >
+                                                <DeleteIcon />{" "}
+                                                <span>Remove Image</span>
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-700 mb-2">
+                                        Upload Hover Image
+                                    </p>
+
+                                    <div className="w-full">
+                                        <label
+                                            htmlFor="hoverImage"
+                                            className="flex flex-col items-center justify-center w-48 h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                                        >
+                                            {hoverImagePreview ? (
+                                                <img
+                                                    src={hoverImagePreview}
+                                                    alt="Preview"
+                                                    className="h-full w-full object-cover rounded-xl"
+                                                />
+                                            ) : (
+                                                <div className="text-center">
+                                                    <p className="text-gray-600 font-medium">
+                                                        Click to upload image
+                                                    </p>
+                                                    <p className="text-sm text-gray-400">
+                                                        PNG, JPG, JPEG
+                                                    </p>
+                                                </div>
+                                            )}
+
+                                            <input
+                                                id="hoverImage"
+                                                name="hoverImage"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                                className="hidden"
+                                            />
+                                        </label>
+
+                                        {hoverImagePreview && (
+                                            <button
+                                                onClick={removeHoverImage}
+                                                className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                                            >
+                                                <DeleteIcon />{" "}
+                                                <span>Remove Image</span>
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
