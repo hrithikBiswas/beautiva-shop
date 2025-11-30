@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Drawer,
     DrawerContent,
@@ -10,10 +10,22 @@ import {
     Badge,
 } from '@heroui/react';
 import { WishlistIcon } from '@/components/SVG';
+import useProduct from '@/hooks/useProduct';
 
 export default function Wishlist() {
     const [isInvisible, setIsInvisible] = useState(false);
+    const [totalWishlist, setTotalWishlist] = useState(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { totalWishlistItem } = useProduct();
+
+    console.log('count:', totalWishlist);
+
+    useEffect(() => {
+        (async () => {
+            const count = await totalWishlistItem();
+            setTotalWishlist(count);
+        })();
+    }, [totalWishlistItem, totalWishlist]);
 
     return (
         <div className="hidden md:block">
@@ -23,7 +35,7 @@ export default function Wishlist() {
             >
                 <Badge
                     color="danger"
-                    content={50}
+                    content={totalWishlist}
                     isInvisible={isInvisible}
                     shape="circle"
                     className="cursor-pointer"
