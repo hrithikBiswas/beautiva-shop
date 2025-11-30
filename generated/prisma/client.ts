@@ -54,3 +54,13 @@ export type Product = Prisma.ProductModel
  * 
  */
 export type Category = Prisma.CategoryModel
+/**
+ * Model CartItem
+ * 
+ */
+export type CartItem = Prisma.CartItemModel
+/**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel

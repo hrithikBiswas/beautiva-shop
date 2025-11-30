@@ -2,6 +2,7 @@ import { ThemeProvider } from "next-themes";
 import AuthProvider from "@/context/AuthContext";
 import HeroProvider from "@/providers/HeroProvider";
 import "./globals.css";
+import ProductProvider from "@/context/ProductContext";
 
 export default function RootLayout({ children }) {
     return (
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
                     storageKey="preferred-theme"
                 >
                     <AuthProvider>
-                        <HeroProvider>{children}</HeroProvider>
+                        <ProductProvider>
+                            <HeroProvider>{children}</HeroProvider>
+                        </ProductProvider>
                     </AuthProvider>
                 </ThemeProvider>
             </body>

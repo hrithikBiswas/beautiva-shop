@@ -80,12 +80,13 @@ const BlogSection = () => {
                 </div>
             </div>
             <div className="flex justify-center mt-8 sm:mt-14">
-                <Button
-                    className=" bg-white border-2 border-gray-200 hover:bg-black hover:text-white rounded-sm text-medium tracking-wide px-8 hover:!opacity-100 transition-all duration-200"
+                <Link
+                    href="/blog"
+                    className=" bg-white border-2 border-gray-200 hover:bg-black hover:text-white rounded-sm text-medium tracking-wide py-2.5 px-8 hover:!opacity-100 transition-all duration-200"
                     size="lg"
                 >
                     View All Posts
-                </Button>
+                </Link>
             </div>
         </div>
     );

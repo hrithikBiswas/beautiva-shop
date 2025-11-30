@@ -7,18 +7,15 @@ import NewsLetter from "@/components/Home/NewsLetter";
 import ShopByCategory from "@/components/Home/ShopByCategory";
 import ShopCollection from "@/components/Home/ShopCollection";
 import Testimonial from "@/components/Home/Testimonial";
-import { getProducts } from "@/utils/actions";
 
 export default async function Home() {
-    const products = await getProducts();
-
     return (
         <div className="container">
             <Hero />
-            <FeaturedProducts products={products} />
+            <FeaturedProducts />
             <ShopByCategory />
             <NewCollection />
-            <ShopCollection products={products} />
+            <ShopCollection />
             <BlogSection />
             {/* slider */}
             <Testimonial />

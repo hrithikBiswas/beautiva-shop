@@ -2,8 +2,9 @@
 import React from "react";
 import CollectionProduct from "@/components/slider/CollectionProduct";
 import { Button } from "@heroui/react";
+import Link from "next/link";
 
-const ShopCollection = ({ products }) => {
+const ShopCollection = () => {
     return (
         <div className="mt-14 sm:mt-24">
             <div className="max-w-2xl text-center mx-auto mb-8">
@@ -15,14 +16,15 @@ const ShopCollection = ({ products }) => {
                 </h1>
             </div>
             <div className="">
-                <CollectionProduct products={products} />
+                <CollectionProduct />
                 <div className="flex justify-center mt-8 sm:mt-14">
-                    <Button
-                        className=" bg-white border-2 border-gray-200 hover:bg-black hover:text-white rounded-sm text-medium tracking-wide px-8 hover:!opacity-100 transition-all duration-200"
+                    <Link
+                        href="/products"
+                        className=" bg-white border-2 border-gray-200 hover:bg-black hover:text-white rounded-sm text-medium tracking-wide py-2.5 px-8 hover:!opacity-100 transition-all duration-200"
                         size="lg"
                     >
                         Shop All Products
-                    </Button>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -1,6 +1,5 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { prisma } from "./prisma";
 import { createClient } from "./supabase/server";
 
@@ -66,6 +65,30 @@ export const addCategory = async (category) => {
         console.error("Error syncing user:", error);
     }
 };
+export const addCartItem = async (productId, userId) => {
+    try {
+        await prisma.cartItem.create({
+            data: {
+                productId,
+                userId,
+            },
+        });
+    } catch (error) {
+        console.error("Error syncing cartItem:", error);
+    }
+};
+export const addWishlist = async (productId, userId) => {
+    try {
+        await prisma.wishlist.create({
+            data: {
+                productId,
+                userId,
+            },
+        });
+    } catch (error) {
+        console.error("Error syncing wishlist:", error);
+    }
+};
 
 export const isExistCategory = async (categoryName) => {
     const category = await prisma.category.findFirst({
@@ -126,6 +149,26 @@ export const getProducts = async () => {
         return products;
     } catch (error) {
         console.error("Error fetching products:", error);
+        throw error;
+    }
+};
+export const getCartItems = async () => {
+    try {
+        const cartItems = await prisma.cartItem.findMany();
+
+        return cartItems;
+    } catch (error) {
+        console.error("Error fetching cartItems:", error);
+        throw error;
+    }
+};
+export const getWishlistItems = async () => {
+    try {
+        const wishlistItems = await prisma.wishlist.findMany();
+
+        return wishlistItems;
+    } catch (error) {
+        console.error("Error fetching wishlist:", error);
         throw error;
     }
 };

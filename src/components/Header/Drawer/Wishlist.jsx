@@ -9,7 +9,6 @@ import {
     useDisclosure,
     Badge,
 } from '@heroui/react';
-import Image from 'next/image';
 import { WishlistIcon } from '@/components/SVG';
 
 export default function Wishlist() {

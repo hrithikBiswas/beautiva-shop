@@ -14,6 +14,8 @@ import TagIcon from "./TagIcon";
 import UsersIcon from "./UsersIcon";
 import SettingIcon from "./SettingIcon";
 import DeleteIcon from "./DeleteIcon";
+import CheckIcon from "./CheckIcon";
+import FillWishlistIcon from "./FillWishlistIcon";
 
 export {
     BarIcon,
@@ -32,4 +34,6 @@ export {
     UsersIcon,
     SettingIcon,
     DeleteIcon,
+    CheckIcon,
+    FillWishlistIcon,
 };
