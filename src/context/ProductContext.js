@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import { addCartItem, addWishlist } from '@/utils/actions';
+import { addCartItem, addWishlist, getWishlistItems } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -86,6 +86,15 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const totalWishlistItem = async () => {
+        try {
+            const items = await getWishlistItems();
+            return items?.length || 0;
+        } catch (error) {
+            console.error('Error fetching wishlist items:', error);
+        }
+    };
+
     return (
         <ProductContext.Provider
             value={{
@@ -95,6 +104,7 @@ export default function ProductProvider({ children }) {
                 wishlistLoading,
                 addToCart,
                 addToWishlist,
+                totalWishlistItem,
             }}
         >
             {children}
