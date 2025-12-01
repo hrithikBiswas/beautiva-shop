@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, use } from 'react';
 import Image from 'next/image';
 import { Button, Spinner, Tooltip } from '@heroui/react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -107,12 +107,8 @@ const ProductCard = ({ product }) => {
                         classNames={tooltipClasses}
                     >
                         <Button
-                            className={`min-w-fit h-fit p-2 rounded-full ${
-                                isAlreadyInWishlist || !!wishlistLoadingId
-                                    ? 'bg-gray-200'
-                                    : 'bg-white hover:bg-gray-100'
-                            } dark:bg-gray-950 dark:hover:bg-gray-800`}
-                            disabled={
+                            className={`min-w-fit h-fit p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800`}
+                            isDisabled={
                                 isAlreadyInWishlist || !!wishlistLoadingId
                                     ? true
                                     : false
@@ -146,12 +142,8 @@ const ProductCard = ({ product }) => {
                         classNames={tooltipClasses}
                     >
                         <Button
-                            className={`min-w-fit h-fit p-2 rounded-full ${
-                                isAlreadyInCart || !!cartLoadingId
-                                    ? 'bg-gray-200'
-                                    : 'bg-white hover:bg-gray-100'
-                            } dark:bg-gray-950 dark:hover:bg-gray-800`}
-                            disabled={
+                            className={`min-w-fit h-fit p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800`}
+                            isDisabled={
                                 isAlreadyInCart || !!cartLoadingId
                                     ? true
                                     : false

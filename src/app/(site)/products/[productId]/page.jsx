@@ -1,17 +1,34 @@
 'use client';
 
-import { MinusIcon, PlusIcon, WishlistIcon } from '@/components/SVG';
-import useProduct from '@/hooks/useProduct';
-import { Button } from '@heroui/react';
 import React, { use, useEffect, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import useProduct from '@/hooks/useProduct';
+import { Button, Spinner } from '@heroui/react';
+import {
+    FillWishlistIcon,
+    MinusIcon,
+    PlusIcon,
+    WishlistIcon,
+} from '@/components/SVG';
 
 const SingleProductPage = ({ params }) => {
     const { productId } = use(params);
-    const { singleProduct } = useProduct();
+    const {
+        addToWishlist,
+        singleProduct,
+        isAlreadyInWishlist,
+        wishlistLoadingId,
+    } = useProduct();
 
     const [product, setProduct] = useState(null);
+    const [isExistWishList, setIsExistWishList] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
+
+    const debouncedAddToWishlist = useDebouncedCallback(
+        (productId) => addToWishlist(productId),
+        400
+    );
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -27,6 +44,13 @@ const SingleProductPage = ({ params }) => {
 
         fetchProduct();
     }, [singleProduct, productId]);
+
+    useEffect(() => {
+        (async () => {
+            const exist = await isAlreadyInWishlist(productId);
+            setIsExistWishList(exist);
+        })();
+    }, [isAlreadyInWishlist]);
 
     // Loading state
     if (loading) return <p className="container py-20">Loading...</p>;
@@ -155,13 +179,67 @@ const SingleProductPage = ({ params }) => {
 
                             {/* Wishlist */}
 
+                            {/* <Button
+                                className={`min-w-fit h-fit p-2 rounded-full ${
+                                    isExistWishList || !!wishlistLoadingId
+                                        ? 'bg-gray-200'
+                                        : 'bg-white hover:bg-gray-100'
+                                } dark:bg-gray-950 dark:hover:bg-gray-800`}
+                                disabled={
+                                    isExistWishList || !!wishlistLoadingId
+                                        ? true
+                                        : false
+                                }
+                                onPress={() =>
+                                    debouncedAddToWishlist(productId)
+                                }
+                            >
+                                {wishlistLoadingId === productId ? (
+                                    <Spinner
+                                        classNames={{
+                                            label: 'text-foreground mt-4',
+                                            wrapper:
+                                                'translate-y-0 justify-center items-center',
+                                        }}
+                                        variant="dots"
+                                        color="danger"
+                                    />
+                                ) : isExistWishList ? (
+                                    <FillWishlistIcon />
+                                ) : (
+                                    <WishlistIcon />
+                                )}
+                            </Button> */}
+
                             <Button
                                 color="danger"
                                 radius="sm"
                                 variant="flat"
                                 className="min-w-fit h-fit p-2"
+                                isDisabled={
+                                    isExistWishList || !!wishlistLoadingId
+                                        ? true
+                                        : false
+                                }
+                                onPress={() =>
+                                    debouncedAddToWishlist(productId)
+                                }
                             >
-                                <WishlistIcon />
+                                {wishlistLoadingId === productId ? (
+                                    <Spinner
+                                        classNames={{
+                                            label: 'text-foreground mt-4',
+                                            wrapper:
+                                                'translate-y-0 justify-center items-center',
+                                        }}
+                                        variant="dots"
+                                        color="danger"
+                                    />
+                                ) : isExistWishList ? (
+                                    <FillWishlistIcon />
+                                ) : (
+                                    <WishlistIcon />
+                                )}
                             </Button>
                         </div>
 

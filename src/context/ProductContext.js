@@ -86,6 +86,19 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const isAlreadyInWishlist = async (productId) => {
+        try {
+            const wishlistItems = await getWishlistItems();
+            const isExist = wishlistItems.find(
+                (item) => item.productId === productId
+            );
+
+            return isExist ? true : false;
+        } catch (error) {
+            console.error('Error fetching wishlist items:', error);
+        }
+    };
+
     const totalWishlistItem = async () => {
         try {
             const items = await getWishlistItems();
@@ -120,6 +133,7 @@ export default function ProductProvider({ children }) {
                 wishlistLoadingId,
                 addToCart,
                 addToWishlist,
+                isAlreadyInWishlist,
                 totalWishlistItem,
                 totalCartItem,
                 singleProduct,
