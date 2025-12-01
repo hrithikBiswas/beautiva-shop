@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { prisma } from "./prisma";
-import { createClient } from "./supabase/server";
+import { prisma } from './prisma';
+import { createClient } from './supabase/server';
 
 export const addUser = async (user) => {
     // console.log(user);
@@ -18,7 +18,7 @@ export const addUser = async (user) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing user:", error);
+        console.error('Error syncing user:', error);
     }
 };
 export const addProduct = async (product) => {
@@ -48,7 +48,7 @@ export const addProduct = async (product) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing user:", error);
+        console.error('Error syncing user:', error);
     }
 };
 export const addCategory = async (category) => {
@@ -62,7 +62,7 @@ export const addCategory = async (category) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing user:", error);
+        console.error('Error syncing user:', error);
     }
 };
 export const addCartItem = async (productId, userId) => {
@@ -74,7 +74,7 @@ export const addCartItem = async (productId, userId) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing cartItem:", error);
+        console.error('Error syncing cartItem:', error);
     }
 };
 export const addWishlist = async (productId, userId) => {
@@ -86,7 +86,7 @@ export const addWishlist = async (productId, userId) => {
             },
         });
     } catch (error) {
-        console.error("Error syncing wishlist:", error);
+        console.error('Error syncing wishlist:', error);
     }
 };
 
@@ -103,21 +103,21 @@ export const uploadProductImage = async (file) => {
     const supabase = await createClient();
     if (!file) return null;
 
-    const fileExt = file.name.split(".").pop();
+    const fileExt = file.name.split('.').pop();
     const fileName = `product-${Date.now()}.${fileExt}`;
     const filePath = `${fileName}`;
 
     const { data, error } = await supabase.storage
-        .from("products")
+        .from('products')
         .upload(filePath, file);
 
     if (error) {
-        console.error("Upload error:", error);
+        console.error('Upload error:', error);
         return null;
     }
 
     const { data: urlData } = supabase.storage
-        .from("products")
+        .from('products')
         .getPublicUrl(filePath);
 
     return urlData.publicUrl;
@@ -128,7 +128,7 @@ export const getUsers = async () => {
         const users = await prisma.user.findMany();
         return users;
     } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error('Error fetching users:', error);
         throw error; // or throw error if you want to handle it outside
     }
 };
@@ -137,7 +137,7 @@ export const getCategories = async () => {
         const categories = await prisma.category.findMany();
         return categories;
     } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error('Error fetching categories:', error);
         throw error; // or throw error if you want to handle it outside
     }
 };
@@ -148,7 +148,7 @@ export const getProducts = async () => {
 
         return products;
     } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error);
         throw error;
     }
 };
@@ -158,7 +158,7 @@ export const getCartItems = async () => {
 
         return cartItems;
     } catch (error) {
-        console.error("Error fetching cartItems:", error);
+        console.error('Error fetching cartItems:', error);
         throw error;
     }
 };
@@ -168,7 +168,21 @@ export const getWishlistItems = async () => {
 
         return wishlistItems;
     } catch (error) {
-        console.error("Error fetching wishlist:", error);
+        console.error('Error fetching wishlist:', error);
+        throw error;
+    }
+};
+export const getSingleProduct = async (productId) => {
+    try {
+        const product = await prisma.product.findUnique({
+            where: {
+                id: productId,
+            },
+        });
+
+        return product;
+    } catch (error) {
+        console.error('Error fetching product:', error);
         throw error;
     }
 };

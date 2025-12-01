@@ -1,7 +1,13 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import { addCartItem, addWishlist, getWishlistItems } from '@/utils/actions';
+import {
+    addCartItem,
+    addWishlist,
+    getWishlistItems,
+    getCartItems,
+    getSingleProduct,
+} from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -10,8 +16,8 @@ export const ProductContext = createContext(null);
 export default function ProductProvider({ children }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [cartLoading, setCartLoading] = useState(false);
-    const [wishlistLoading, setWishlistLoading] = useState(false);
+    const [cartLoadingId, setCartLoadingId] = useState(null);
+    const [wishlistLoadingId, setWishlistLoadingId] = useState(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -33,7 +39,7 @@ export default function ProductProvider({ children }) {
 
     const addToCart = async (productId) => {
         try {
-            setCartLoading(true);
+            setCartLoadingId(productId);
             await addCartItem(productId, user.id);
 
             addToast({
@@ -50,17 +56,14 @@ export default function ProductProvider({ children }) {
         } catch (error) {
             console.error('Error adding product to cart:', error);
         } finally {
-            new Promise((resolve) => {
-                setTimeout(() => {
-                    setCartLoading(false);
-                    resolve();
-                }, 3000);
-            });
+            setTimeout(() => {
+                setCartLoadingId(null);
+            }, 3000);
         }
     };
     const addToWishlist = async (productId) => {
         try {
-            setWishlistLoading(true);
+            setWishlistLoadingId(productId);
             await addWishlist(productId, user.id);
 
             addToast({
@@ -77,12 +80,9 @@ export default function ProductProvider({ children }) {
         } catch (error) {
             console.error('Error adding product to wishlist:', error);
         } finally {
-            new Promise((resolve) => {
-                setTimeout(() => {
-                    setWishlistLoading(false);
-                    resolve();
-                }, 3000);
-            });
+            setTimeout(() => {
+                setWishlistLoadingId(null);
+            }, 3000);
         }
     };
 
@@ -94,17 +94,35 @@ export default function ProductProvider({ children }) {
             console.error('Error fetching wishlist items:', error);
         }
     };
+    const totalCartItem = async () => {
+        try {
+            const items = await getCartItems();
+            return items?.length || 0;
+        } catch (error) {
+            console.error('Error fetching CartItems items:', error);
+        }
+    };
+    const singleProduct = async (productId) => {
+        try {
+            const productData = await getSingleProduct(productId);
+            return productData;
+        } catch (error) {
+            console.error('Error fetching single product data:', error);
+        }
+    };
 
     return (
         <ProductContext.Provider
             value={{
                 products,
                 loading,
-                cartLoading,
-                wishlistLoading,
+                cartLoadingId,
+                wishlistLoadingId,
                 addToCart,
                 addToWishlist,
                 totalWishlistItem,
+                totalCartItem,
+                singleProduct,
             }}
         >
             {children}

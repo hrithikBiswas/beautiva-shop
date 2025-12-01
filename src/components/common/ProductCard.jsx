@@ -13,11 +13,12 @@ import {
     CheckIcon,
     FillWishlistIcon,
 } from '@/components/SVG';
+import Link from 'next/link';
 
 const ProductCard = ({ product }) => {
     const [cartItems, setCartItems] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
-    const { addToCart, addToWishlist, wishlistLoading, cartLoading } =
+    const { addToCart, addToWishlist, cartLoadingId, wishlistLoadingId } =
         useProduct();
 
     const { id, name, price, image, hoverImage } = product;
@@ -37,13 +38,11 @@ const ProductCard = ({ product }) => {
         400
     );
 
-    // Fetch Cart Items
     const fetchCartItems = useCallback(async () => {
         const items = await getCartItems();
         setCartItems(items);
     }, []);
 
-    // Fetch Wishlist Items
     const fetchWishlistItems = useCallback(async () => {
         const items = await getWishlistItems();
         setWishlistItems(items);
@@ -67,24 +66,25 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="group flex flex-col items-center justify-center">
-            <div className="relative flex justify-center rounded-md overflow-hidden w-[220px] h-[293px] md:w-[280px] md:h-[370px] cursor-pointer">
-                <Image
-                    src={image}
-                    alt={String(id)}
-                    height={370}
-                    width={280}
-                    className={`${imageClasses} group-hover:scale-105 group-hover:opacity-0`}
-                />
-                <Image
-                    src={hoverImage}
-                    alt={String(id)}
-                    height={370}
-                    width={280}
-                    className={`${imageClasses} opacity-0 group-hover:opacity-100 hover:scale-105`}
-                />
+            <div className="relative rounded-md overflow-hidden w-[220px] h-[293px] md:w-[280px] md:h-[370px] cursor-pointer">
+                <Link href={`products/${id}`} className="">
+                    <Image
+                        src={image}
+                        alt={String(id)}
+                        height={370}
+                        width={280}
+                        className={`${imageClasses} group-hover:scale-105 group-hover:opacity-0`}
+                    />
+                    <Image
+                        src={hoverImage}
+                        alt={String(id)}
+                        height={370}
+                        width={280}
+                        className={`${imageClasses} opacity-0 group-hover:opacity-100 hover:scale-105`}
+                    />
+                </Link>
 
-                <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 absolute bottom-5 flex justify-center gap-3 transition-all duration-500">
-                    {/* View */}
+                <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center gap-3 transition-all duration-500">
                     <Tooltip
                         closeDelay={0}
                         content="View Product"
@@ -108,14 +108,18 @@ const ProductCard = ({ product }) => {
                     >
                         <Button
                             className={`min-w-fit h-fit p-2 rounded-full ${
-                                isAlreadyInWishlist
-                                    ? 'bg-gray-100'
+                                isAlreadyInWishlist || !!wishlistLoadingId
+                                    ? 'bg-gray-200'
                                     : 'bg-white hover:bg-gray-100'
                             } dark:bg-gray-950 dark:hover:bg-gray-800`}
-                            disabled={isAlreadyInWishlist}
+                            disabled={
+                                isAlreadyInWishlist || !!wishlistLoadingId
+                                    ? true
+                                    : false
+                            }
                             onPress={() => debouncedAddToWishlist(id)}
                         >
-                            {wishlistLoading ? (
+                            {wishlistLoadingId === id ? (
                                 <Spinner
                                     classNames={{
                                         label: 'text-foreground mt-4',
@@ -143,14 +147,18 @@ const ProductCard = ({ product }) => {
                     >
                         <Button
                             className={`min-w-fit h-fit p-2 rounded-full ${
-                                isAlreadyInCart
-                                    ? 'bg-gray-100'
+                                isAlreadyInCart || !!cartLoadingId
+                                    ? 'bg-gray-200'
                                     : 'bg-white hover:bg-gray-100'
                             } dark:bg-gray-950 dark:hover:bg-gray-800`}
-                            disabled={isAlreadyInCart}
+                            disabled={
+                                isAlreadyInCart || !!cartLoadingId
+                                    ? true
+                                    : false
+                            }
                             onPress={() => debouncedAddToCart(id)}
                         >
-                            {cartLoading ? (
+                            {cartLoadingId === id ? (
                                 <Spinner
                                     classNames={{
                                         label: 'text-foreground mt-4',
@@ -174,7 +182,12 @@ const ProductCard = ({ product }) => {
                 <h4 className="flex gap-2 justify-center text-lg md:text-xl mb-1">
                     <span>${price}</span>
                 </h4>
-                <h4 className="text-lg md:text-xl capitalize">{name}</h4>
+                <Link
+                    href={`products/${id}`}
+                    className="text-lg md:text-xl capitalize hover:underline"
+                >
+                    {name}
+                </Link>
             </div>
         </div>
     );

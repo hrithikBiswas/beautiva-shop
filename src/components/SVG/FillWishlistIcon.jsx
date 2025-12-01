@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 const FillWishlistIcon = () => {
     return (
         <svg
-            className="w-8 h-8 text-rose-500 dark:text-white"
+            className="w-8 h-8 text-rose-500"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"

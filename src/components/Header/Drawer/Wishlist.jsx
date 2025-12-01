@@ -18,8 +18,6 @@ export default function Wishlist() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const { totalWishlistItem } = useProduct();
 
-    console.log('count:', totalWishlist);
-
     useEffect(() => {
         (async () => {
             const count = await totalWishlistItem();

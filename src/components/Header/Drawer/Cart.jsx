@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Drawer,
     DrawerContent,
@@ -11,10 +11,20 @@ import {
 } from '@heroui/react';
 import Image from 'next/image';
 import { CartIcon } from '@/components/SVG';
+import useProduct from '@/hooks/useProduct';
 
 export default function Cart() {
     const [isInvisible, setIsInvisible] = useState(false);
+    const [totalcart, setTotalCart] = useState(0);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { totalCartItem } = useProduct();
+
+    useEffect(() => {
+        (async () => {
+            const count = await totalCartItem();
+            setTotalCart(count);
+        })();
+    }, [totalCartItem, totalcart]);
 
     return (
         <>
@@ -24,7 +34,7 @@ export default function Cart() {
             >
                 <Badge
                     color="danger"
-                    content={50}
+                    content={totalcart}
                     isInvisible={isInvisible}
                     shape="circle"
                     className="cursor-pointer"
