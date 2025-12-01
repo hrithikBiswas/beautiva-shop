@@ -83,7 +83,7 @@ const ProductCard = ({ product }) => {
                     className={`${imageClasses} opacity-0 group-hover:opacity-100 hover:scale-105`}
                 />
 
-                <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 flex justify-center gap-3 transition-all duration-500">
+                <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 absolute bottom-5 flex justify-center gap-3 transition-all duration-500">
                     {/* View */}
                     <Tooltip
                         closeDelay={0}
