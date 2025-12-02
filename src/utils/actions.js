@@ -103,16 +103,6 @@ export const addCartItem = async (productId, userId, qty) => {
     } catch (error) {
         console.error('Error syncing cartItem:', error);
     }
-    // try {
-    //     await prisma.cartItem.create({
-    //         data: {
-    //             productId,
-    //             userId,
-    //         },
-    //     });
-    // } catch (error) {
-    //     console.error('Error syncing cartItem:', error);
-    // }
 };
 export const addWishlist = async (productId, userId) => {
     try {
@@ -217,6 +207,9 @@ export const getWishlistProduct = async (userId) => {
             },
             include: {
                 product: true,
+            },
+            orderBy: {
+                createdAt: 'desc',
             },
         });
 

@@ -109,7 +109,7 @@ const ProductCard = ({ product }) => {
                         <Button
                             className={`min-w-fit h-fit p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800`}
                             isDisabled={
-                                isAlreadyInWishlist || !!wishlistLoadingId
+                                isAlreadyInWishlist || wishlistLoadingId === id
                                     ? true
                                     : false
                             }
@@ -144,7 +144,7 @@ const ProductCard = ({ product }) => {
                         <Button
                             className={`min-w-fit h-fit p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800`}
                             isDisabled={
-                                isAlreadyInCart || !!cartLoadingId
+                                isAlreadyInCart || cartLoadingId === id
                                     ? true
                                     : false
                             }

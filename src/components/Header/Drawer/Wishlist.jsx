@@ -128,7 +128,8 @@ export default function Wishlist() {
                                                 variant="flat"
                                                 className="min-w-fit h-fit p-2 me-2"
                                                 isDisabled={
-                                                    removeWishlistLoadingId
+                                                    removeWishlistLoadingId ===
+                                                    wishlistId
                                                         ? true
                                                         : false
                                                 }
