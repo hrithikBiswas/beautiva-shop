@@ -7,6 +7,8 @@ import {
     Button,
     useDisclosure,
     Badge,
+    Image,
+    Spinner,
 } from '@heroui/react';
 import { FillWishlistIcon, WishlistIcon } from '@/components/SVG';
 import useProduct from '@/hooks/useProduct';
@@ -14,8 +16,15 @@ import useProduct from '@/hooks/useProduct';
 export default function Wishlist() {
     const [isInvisible, setIsInvisible] = useState(false);
     const [totalWishlist, setTotalWishlist] = useState(0);
+    const [wishlistProducts, setWishlistProduct] = useState([]);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { totalWishlistItem } = useProduct();
+    const {
+        totalWishlistItem,
+        wishlistItems,
+        wishlistProduct,
+        removeWishlist,
+        removeWishlistLoadingId,
+    } = useProduct();
 
     useEffect(() => {
         (async () => {
@@ -23,6 +32,13 @@ export default function Wishlist() {
             setTotalWishlist(count);
         })();
     }, [totalWishlistItem, totalWishlist]);
+
+    useEffect(() => {
+        (async () => {
+            const data = await wishlistProduct();
+            setWishlistProduct(data);
+        })();
+    }, [wishlistProduct, removeWishlist]);
 
     return (
         <div className="hidden md:block">
@@ -68,302 +84,76 @@ export default function Wishlist() {
                                 </h2>
                             </DrawerHeader>
                             <DrawerBody className="pb-6">
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
+                                {wishlistProducts.map((wishlistProduct) => {
+                                    const { id: wishlistId, product } =
+                                        wishlistProduct;
+                                    return (
+                                        <div
+                                            key={product?.id}
+                                            className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg"
+                                        >
+                                            <div className="w-[90px] h-[90px] rounded-lg">
+                                                <Image
+                                                    className="w-[90px] h-[90px] object-cover rounded-lg"
+                                                    src={product?.image}
+                                                    alt="feature-product1"
+                                                />
+                                            </div>
+                                            <div className="flex-1 h-[-webkit-fill-available]">
+                                                <h3 className="font-semibold text-medium text-gray-700">
+                                                    {product?.name}
+                                                </h3>
+                                                <div className="text-gray-700">
+                                                    <span className="text-sm font-semibold text-gray-600">
+                                                        price:
+                                                    </span>
+                                                    <span className="text-sm">
+                                                        {' '}
+                                                        {product?.price}
+                                                    </span>
+                                                </div>
+                                                <div className="text-gray-700">
+                                                    <span className="text-sm font-semibold text-gray-600">
+                                                        In-Stock:
+                                                    </span>
+                                                    <span className="text-sm">
+                                                        {' '}
+                                                        {product?.stock}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <Button
+                                                color="danger"
+                                                radius="full"
+                                                variant="flat"
+                                                className="min-w-fit h-fit p-2 me-2"
+                                                isDisabled={
+                                                    removeWishlistLoadingId
+                                                        ? true
+                                                        : false
+                                                }
+                                                onPress={() =>
+                                                    removeWishlist(wishlistId)
+                                                }
+                                            >
+                                                {removeWishlistLoadingId ===
+                                                wishlistId ? (
+                                                    <Spinner
+                                                        classNames={{
+                                                            label: 'text-foreground mt-4',
+                                                            wrapper:
+                                                                'translate-y-0 justify-center items-center',
+                                                        }}
+                                                        variant="dots"
+                                                        color="danger"
+                                                    />
+                                                ) : (
+                                                    <FillWishlistIcon />
+                                                )}
+                                            </Button>
                                         </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg">
-                                    <div className="w-[90px] h-[90px] rounded-lg">
-                                        <img
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            src="/feature-product1.jpg"
-                                            alt="feature-product1"
-                                        />
-                                    </div>
-                                    <div className="flex-1 h-[-webkit-fill-available]">
-                                        <h3 className="font-semibold text-medium text-gray-700">
-                                            Natural coconut cleansing oil
-                                        </h3>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                price:
-                                            </span>
-                                            <span className="text-sm">
-                                                {' '}
-                                                $45
-                                            </span>
-                                        </div>
-                                        <div className="text-gray-700">
-                                            <span className="text-sm font-semibold text-gray-600">
-                                                In-Stock:
-                                            </span>
-                                            <span className="text-sm"> 5</span>
-                                        </div>
-                                    </div>
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
-                                    >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
+                                    );
+                                })}
                             </DrawerBody>
                         </>
                     )}
