@@ -8,6 +8,8 @@ import {
     getCartItems,
     getSingleProduct,
     addUpadateCartItem,
+    getWishlistProduct,
+    deleteWishlist,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -19,6 +21,8 @@ export default function ProductProvider({ children }) {
     const [loading, setLoading] = useState(false);
     const [cartLoadingId, setCartLoadingId] = useState(null);
     const [wishlistLoadingId, setWishlistLoadingId] = useState(null);
+    const [removeWishlistLoadingId, setRemoveWishlistLoadingId] =
+        useState(null);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -53,7 +57,7 @@ export default function ProductProvider({ children }) {
                 shouldShowTimeoutProgress: true,
             });
 
-            console.log('Product added to cart successfully', data);
+            console.log('Product added to cart successfully');
         } catch (error) {
             console.error('Error adding product to cart:', error);
         } finally {
@@ -62,31 +66,7 @@ export default function ProductProvider({ children }) {
             }, 3000);
         }
     };
-    // const updateToCart = async (productId, qty) => {
-    //     try {
-    //         setCartLoadingId(productId);
 
-    //         const data = await addUpadateCartItem(productId, user.id, qty);
-
-    //         addToast({
-    //             title: 'Cart item Status',
-    //             description: 'update to cart successfully.',
-    //             color: 'warning',
-    //             radius: 'sm',
-    //             hideCloseButton: true,
-    //             timeout: 3000,
-    //             shouldShowTimeoutProgress: true,
-    //         });
-
-    //         console.log('Product update to cart successfully', data);
-    //     } catch (error) {
-    //         console.error('Error adding product to cart:', error);
-    //     } finally {
-    //         setTimeout(() => {
-    //             setCartLoadingId(null);
-    //         }, 3000);
-    //     }
-    // };
     const addToWishlist = async (productId) => {
         try {
             setWishlistLoadingId(productId);
@@ -163,6 +143,37 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const wishlistItems = async () => {
+        try {
+            const wishlists = await getWishlistItems();
+            return wishlists;
+        } catch (error) {
+            console.error('Error fetching single wishlists data:', error);
+        }
+    };
+    const wishlistProduct = async () => {
+        try {
+            const product = await getWishlistProduct(user.id);
+
+            return product;
+        } catch (error) {
+            console.error('Error fetching single wishlist product:', error);
+        }
+    };
+    const removeWishlist = async (wishlistId) => {
+        try {
+            setRemoveWishlistLoadingId(wishlistId);
+            const product = await deleteWishlist(wishlistId);
+            return product;
+        } catch (error) {
+            console.error('Error deleting wishlist:', error);
+        } finally {
+            setTimeout(() => {
+                setRemoveWishlistLoadingId(null);
+            }, 3000);
+        }
+    };
+
     return (
         <ProductContext.Provider
             value={{
@@ -177,6 +188,10 @@ export default function ProductProvider({ children }) {
                 totalCartItem,
                 singleProduct,
                 isAlreadyInCart,
+                wishlistItems,
+                wishlistProduct,
+                removeWishlist,
+                removeWishlistLoadingId,
             }}
         >
             {children}

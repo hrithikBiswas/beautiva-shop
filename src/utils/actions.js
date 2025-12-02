@@ -209,6 +209,23 @@ export const getWishlistItems = async () => {
         throw error;
     }
 };
+export const getWishlistProduct = async (userId) => {
+    try {
+        const products = await prisma.wishlist.findMany({
+            where: {
+                userId: userId, // logged-in user
+            },
+            include: {
+                product: true,
+            },
+        });
+
+        return products;
+    } catch (error) {
+        console.error('Error fetching wishlist product:', error);
+        throw error;
+    }
+};
 export const getSingleProduct = async (productId) => {
     try {
         const product = await prisma.product.findUnique({
@@ -223,43 +240,19 @@ export const getSingleProduct = async (productId) => {
         throw error;
     }
 };
+export const deleteWishlist = async (wishlistId) => {
+    try {
+        const deleteData = await prisma.wishlist.delete({
+            where: {
+                id: wishlistId,
+            },
+        });
 
-// export const addUpadateCartItem = async (productId, userId, qty) => {
-//     const product = await prisma.cartItem.findFirst({
-//         where: {
-//             productId: productId,
-//         },
-//     });
+        console.log('success delete:', deleteData);
 
-//     if (product) {
-//         const totalQty = product.quantity + qty;
-//         const updateCart = await prisma.cartItem.update({
-//             where: {
-//                 userId_productId: {
-//                     userId,
-//                     productId,
-//                 },
-//             },
-//             data: {
-//                 quantity: totalQty,
-//             },
-//         });
-//         console.log(updateCart);
-
-//         return updateCart;
-//     }
-
-//     try {
-//         const addCart = await prisma.cartItem.create({
-//             data: {
-//                 quantity: qty || 1,
-//                 productId,
-//                 userId,
-//             },
-//         });
-
-//         return addCart;
-//     } catch (error) {
-//         console.error('Error syncing cartItem:', error);
-//     }
-// };
+        return deleteData;
+    } catch (error) {
+        console.error('Error deleting wishlist:', error);
+        throw error;
+    }
+};
