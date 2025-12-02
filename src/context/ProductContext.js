@@ -7,6 +7,7 @@ import {
     getWishlistItems,
     getCartItems,
     getSingleProduct,
+    addUpadateCartItem,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -37,14 +38,14 @@ export default function ProductProvider({ children }) {
         fetchProducts();
     }, []);
 
-    const addToCart = async (productId) => {
+    const addToCart = async (productId, qty) => {
         try {
             setCartLoadingId(productId);
-            await addCartItem(productId, user.id);
+            const { message } = await addCartItem(productId, user.id, qty);
 
             addToast({
                 title: 'Cart item Status',
-                description: 'Added to cart successfully.',
+                description: message,
                 color: 'success',
                 radius: 'sm',
                 hideCloseButton: true,
@@ -52,7 +53,7 @@ export default function ProductProvider({ children }) {
                 shouldShowTimeoutProgress: true,
             });
 
-            console.log('Product added to cart successfully');
+            console.log('Product added to cart successfully', data);
         } catch (error) {
             console.error('Error adding product to cart:', error);
         } finally {
@@ -61,6 +62,31 @@ export default function ProductProvider({ children }) {
             }, 3000);
         }
     };
+    // const updateToCart = async (productId, qty) => {
+    //     try {
+    //         setCartLoadingId(productId);
+
+    //         const data = await addUpadateCartItem(productId, user.id, qty);
+
+    //         addToast({
+    //             title: 'Cart item Status',
+    //             description: 'update to cart successfully.',
+    //             color: 'warning',
+    //             radius: 'sm',
+    //             hideCloseButton: true,
+    //             timeout: 3000,
+    //             shouldShowTimeoutProgress: true,
+    //         });
+
+    //         console.log('Product update to cart successfully', data);
+    //     } catch (error) {
+    //         console.error('Error adding product to cart:', error);
+    //     } finally {
+    //         setTimeout(() => {
+    //             setCartLoadingId(null);
+    //         }, 3000);
+    //     }
+    // };
     const addToWishlist = async (productId) => {
         try {
             setWishlistLoadingId(productId);
@@ -83,6 +109,19 @@ export default function ProductProvider({ children }) {
             setTimeout(() => {
                 setWishlistLoadingId(null);
             }, 3000);
+        }
+    };
+
+    const isAlreadyInCart = async (productId) => {
+        try {
+            const cartItems = await getCartItems();
+            const isExist = cartItems.find(
+                (item) => item.productId === productId
+            );
+
+            return isExist;
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
         }
     };
 
@@ -137,6 +176,7 @@ export default function ProductProvider({ children }) {
                 totalWishlistItem,
                 totalCartItem,
                 singleProduct,
+                isAlreadyInCart,
             }}
         >
             {children}

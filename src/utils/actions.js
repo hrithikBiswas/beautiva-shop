@@ -65,17 +65,54 @@ export const addCategory = async (category) => {
         console.error('Error syncing user:', error);
     }
 };
-export const addCartItem = async (productId, userId) => {
-    try {
-        await prisma.cartItem.create({
+export const addCartItem = async (productId, userId, qty) => {
+    const product = await prisma.cartItem.findFirst({
+        where: {
+            productId: productId,
+        },
+    });
+
+    if (product) {
+        const totalQty = product.quantity + qty;
+        const updateCart = await prisma.cartItem.update({
+            where: {
+                userId_productId: {
+                    userId,
+                    productId,
+                },
+            },
             data: {
+                quantity: totalQty,
+            },
+        });
+        console.log(updateCart);
+
+        return { updateCart, message: 'Cart updated successfully' };
+    }
+
+    try {
+        const addCart = await prisma.cartItem.create({
+            data: {
+                quantity: qty || 1,
                 productId,
                 userId,
             },
         });
+
+        return { addCart, message: 'Product added to cart successfully' };
     } catch (error) {
         console.error('Error syncing cartItem:', error);
     }
+    // try {
+    //     await prisma.cartItem.create({
+    //         data: {
+    //             productId,
+    //             userId,
+    //         },
+    //     });
+    // } catch (error) {
+    //     console.error('Error syncing cartItem:', error);
+    // }
 };
 export const addWishlist = async (productId, userId) => {
     try {
@@ -187,9 +224,42 @@ export const getSingleProduct = async (productId) => {
     }
 };
 
-// export const setUserCookie = async (user) => {
-//     console.log(user);
+// export const addUpadateCartItem = async (productId, userId, qty) => {
+//     const product = await prisma.cartItem.findFirst({
+//         where: {
+//             productId: productId,
+//         },
+//     });
 
-//     const cookieStore = await cookies();
-//     return cookieStore.set('user', user);
+//     if (product) {
+//         const totalQty = product.quantity + qty;
+//         const updateCart = await prisma.cartItem.update({
+//             where: {
+//                 userId_productId: {
+//                     userId,
+//                     productId,
+//                 },
+//             },
+//             data: {
+//                 quantity: totalQty,
+//             },
+//         });
+//         console.log(updateCart);
+
+//         return updateCart;
+//     }
+
+//     try {
+//         const addCart = await prisma.cartItem.create({
+//             data: {
+//                 quantity: qty || 1,
+//                 productId,
+//                 userId,
+//             },
+//         });
+
+//         return addCart;
+//     } catch (error) {
+//         console.error('Error syncing cartItem:', error);
+//     }
 // };

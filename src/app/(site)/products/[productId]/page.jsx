@@ -12,21 +12,31 @@ import {
 } from '@/components/SVG';
 
 const SingleProductPage = ({ params }) => {
-    const { productId } = use(params);
-    const {
-        addToWishlist,
-        singleProduct,
-        isAlreadyInWishlist,
-        wishlistLoadingId,
-    } = useProduct();
-
     const [product, setProduct] = useState(null);
+    const [viewProductImage, setViewProductImage] = useState(null);
     const [isExistWishList, setIsExistWishList] = useState(null);
+    const [currentCart, setCurrentCart] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
 
+    const { productId } = use(params);
+    const {
+        addToWishlist,
+        addToCart,
+        singleProduct,
+        isAlreadyInWishlist,
+        wishlistLoadingId,
+        isAlreadyInCart,
+        cartLoadingId,
+    } = useProduct();
+
     const debouncedAddToWishlist = useDebouncedCallback(
         (productId) => addToWishlist(productId),
+        400
+    );
+
+    const debouncedAddToCart = useDebouncedCallback(
+        (productId) => addToCart(productId, quantity),
         400
     );
 
@@ -35,6 +45,7 @@ const SingleProductPage = ({ params }) => {
             try {
                 const data = await singleProduct(productId);
                 setProduct(data);
+                setViewProductImage(data.image);
             } catch (error) {
                 console.error('Error fetching product:', error);
             } finally {
@@ -51,6 +62,13 @@ const SingleProductPage = ({ params }) => {
             setIsExistWishList(exist);
         })();
     }, [isAlreadyInWishlist]);
+
+    useEffect(() => {
+        (async () => {
+            const exist = await isAlreadyInCart(productId);
+            setCurrentCart(exist);
+        })();
+    }, [isAlreadyInCart]);
 
     // Loading state
     if (loading) return <p className="container py-20">Loading...</p>;
@@ -76,27 +94,43 @@ const SingleProductPage = ({ params }) => {
                     <div className="rounded-lg max-h-[400px]">
                         <img
                             className="rounded-lg max-h-[400px] w-full object-cover"
-                            src={product?.image || '/placeholder.jpg'}
+                            src={viewProductImage || product?.image}
                             alt={product?.name}
                         />
                     </div>
 
                     {/* Thumbnail images (optional) */}
                     <div className="flex gap-4">
-                        <button className="w-28 h-28 rounded-lg">
+                        <Button
+                            className={`w-28 h-28 px-0 rounded-lg cursor-pointer ${
+                                product?.image === viewProductImage &&
+                                'ring-1 ring-gray-400'
+                            }`}
+                            onPress={() => {
+                                setViewProductImage(product?.image);
+                            }}
+                        >
                             <img
                                 className="rounded-lg w-28 h-28 object-cover"
                                 src={product?.image}
                                 alt={product?.name}
                             />
-                        </button>
-                        <button className="w-28 h-28 rounded-lg">
+                        </Button>
+                        <Button
+                            className={`w-28 h-28 px-0 rounded-lg cursor-pointer ${
+                                product?.hoverImage === viewProductImage &&
+                                'ring-1 ring-gray-400'
+                            }`}
+                            onPress={() => {
+                                setViewProductImage(product?.hoverImage);
+                            }}
+                        >
                             <img
                                 className="rounded-lg w-28 h-28 object-cover"
                                 src={product?.hoverImage}
                                 alt={product?.name}
                             />
-                        </button>
+                        </Button>
                     </div>
                 </div>
 
@@ -172,45 +206,30 @@ const SingleProductPage = ({ params }) => {
                                 size="lg"
                                 color="secondary"
                                 radius="sm"
-                                className="flex-1 text-white font-semibold py-3 px-6"
+                                className="flex-1 text-lg text-white font-semibold py-3 px-6"
+                                isDisabled={!!cartLoadingId ? true : false}
+                                onPress={() => debouncedAddToCart(productId)}
                             >
-                                Add to Cart
+                                {cartLoadingId === productId ? (
+                                    <Spinner
+                                        classNames={{
+                                            label: 'text-white text-lg',
+                                            base: 'flex flex-row gap-2 items-center',
+                                            wrapper:
+                                                'translate-y-0 w-7 h-7 justify-center items-center',
+                                        }}
+                                        size="md"
+                                        variant="simple"
+                                        label="Adding to Cart"
+                                        color="danger"
+                                    />
+                                ) : (
+                                    'Add to Cart'
+                                )}
+                                {/* Add to Cart */}
                             </Button>
 
                             {/* Wishlist */}
-
-                            {/* <Button
-                                className={`min-w-fit h-fit p-2 rounded-full ${
-                                    isExistWishList || !!wishlistLoadingId
-                                        ? 'bg-gray-200'
-                                        : 'bg-white hover:bg-gray-100'
-                                } dark:bg-gray-950 dark:hover:bg-gray-800`}
-                                disabled={
-                                    isExistWishList || !!wishlistLoadingId
-                                        ? true
-                                        : false
-                                }
-                                onPress={() =>
-                                    debouncedAddToWishlist(productId)
-                                }
-                            >
-                                {wishlistLoadingId === productId ? (
-                                    <Spinner
-                                        classNames={{
-                                            label: 'text-foreground mt-4',
-                                            wrapper:
-                                                'translate-y-0 justify-center items-center',
-                                        }}
-                                        variant="dots"
-                                        color="danger"
-                                    />
-                                ) : isExistWishList ? (
-                                    <FillWishlistIcon />
-                                ) : (
-                                    <WishlistIcon />
-                                )}
-                            </Button> */}
-
                             <Button
                                 color="danger"
                                 radius="sm"
