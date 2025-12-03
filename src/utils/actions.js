@@ -151,6 +151,14 @@ export const getWishlistProduct = async (userId) => {
     });
 };
 
+export const getCartProduct = async (userId) => {
+    return await prisma.cartItem.findMany({
+        where: { userId },
+        include: { product: true },
+        orderBy: { createdAt: 'desc' },
+    });
+};
+
 export const getSingleProduct = async (productId) => {
     return await prisma.product.findUnique({ where: { id: productId } });
 };

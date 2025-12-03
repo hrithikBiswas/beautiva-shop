@@ -9,6 +9,7 @@ import {
     getSingleProduct,
     getWishlistProduct,
     deleteWishlist,
+    getCartProduct,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -156,6 +157,7 @@ export default function ProductProvider({ children }) {
                 // Product
                 singleProduct: getSingleProduct,
                 wishlistProduct: () => getWishlistProduct(user?.id),
+                cartProduct: () => getCartProduct(user?.id),
             }}
         >
             {children}
