@@ -7,13 +7,15 @@ import {
     Button,
     useDisclosure,
     Badge,
+    Divider,
 } from '@heroui/react';
-import { CartIcon, FillWishlistIcon } from '@/components/SVG';
+import { CartIcon, DeleteIcon, MinusIcon, PlusIcon } from '@/components/SVG';
 import useProduct from '@/hooks/useProduct';
+import Image from 'next/image';
 
 export default function Cart() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { totalCartItem } = useProduct();
+    const { totalCartItem, cartItems } = useProduct();
 
     return (
         <>
@@ -58,56 +60,115 @@ export default function Cart() {
                                 </h2>
                             </DrawerHeader>
                             <DrawerBody className="pb-6 space-y-4">
-                                <div className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg p-2">
-                                    {/* Image */}
-                                    <Image
-                                        src="/feature-product2.jpg"
-                                        alt="product2"
-                                        className="w-[90px] h-[90px] object-cover rounded-lg"
-                                    />
-
-                                    {/* Info */}
-                                    <div className="flex-1">
-                                        <h3 className="font-semibold text-gray-700">
-                                            body wash
-                                        </h3>
-
-                                        <p className="text-gray-700 text-sm">
-                                            <span className="font-semibold">
-                                                Price:
-                                            </span>{' '}
-                                            $45
-                                        </p>
-
-                                        <p className="text-gray-700 text-sm">
-                                            <span className="font-semibold">
-                                                Stock:
-                                            </span>{' '}
-                                            5
-                                        </p>
-                                    </div>
-
-                                    {/* Remove Button */}
-                                    <Button
-                                        color="danger"
-                                        radius="full"
-                                        variant="flat"
-                                        className="min-w-fit h-fit p-2 me-2"
+                                {cartItems.length === 0 && (
+                                    <p className="text-xl text-gray-500">
+                                        No products found in your cart!
+                                    </p>
+                                )}
+                                {cartItems.map((cartItem) => (
+                                    <div
+                                        key={cartItem.id}
+                                        className="flex gap-3 ring ring-gray-200 shadow-md rounded-lg p-2"
                                     >
-                                        <FillWishlistIcon />
-                                    </Button>
-                                </div>
+                                        {/* Image */}
+                                        <Image
+                                            src="/feature-product2.jpg"
+                                            alt="product2"
+                                            className="w-[90px] h-[90px] object-cover rounded-lg"
+                                            width={90}
+                                            height={90}
+                                        />
+
+                                        {/* Info */}
+                                        <div className="flex-1 flex flex-col gap-1 items-start">
+                                            <h3 className="font-semibold text-gray-700 capitalize leading-5">
+                                                Natural coconut cleansing oil
+                                            </h3>
+                                            <span className="text-gray-700 text-sm">
+                                                body lotion
+                                            </span>
+                                            <div className="flex items-center border border-gray-300 rounded-md">
+                                                <Button
+                                                    // onClick={decrement}
+                                                    radius="none"
+                                                    variant="light"
+                                                    className="p-2 rounded-s-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
+                                                >
+                                                    <MinusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
+                                                </Button>
+
+                                                <input
+                                                    name="qty"
+                                                    type="number"
+                                                    value="1"
+                                                    min="1"
+                                                    // max={product?.stock}
+                                                    readOnly
+                                                    className="w-10 text-center text-base border-0 outline-none focus:ring-0"
+                                                />
+                                                <Button
+                                                    // onClick={decrement}
+                                                    radius="none"
+                                                    variant="light"
+                                                    className="p-2 rounded-e-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
+                                                >
+                                                    <PlusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
+                                                </Button>
+                                            </div>
+                                        </div>
+
+                                        {/* Remove Button */}
+                                        <div className="flex flex-col justify-around">
+                                            <h2 className="text-fuchsia-900 text-2xl font-semibold">
+                                                $45
+                                            </h2>
+                                            <Button
+                                                color="danger"
+                                                radius="full"
+                                                variant="shadow"
+                                                className="min-w-fit h-fit p-2 me-1"
+                                            >
+                                                <DeleteIcon />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
                             </DrawerBody>
-                            <DrawerFooter>
+                            <DrawerFooter className="flex flex-col shadow-[0px_-7px_14px_-6px_rgba(0,_0,_0,_0.1)]">
+                                <div className="flex flex-col space-y-3 mb-4">
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-lg text-gray-500">
+                                            Subtotal
+                                        </span>
+                                        <span className="tracking-wider text-lg">
+                                            $45
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-lg text-gray-500">
+                                            Tax(7.5%)
+                                        </span>
+                                        <span className="tracking-wider text-lg">
+                                            $4
+                                        </span>
+                                    </div>
+                                    <Divider />
+                                    <div className="flex justify-between">
+                                        <span className="font-semibold text-lg text-gray-500">
+                                            Total
+                                        </span>
+                                        <span className="tracking-wider text-lg">
+                                            $456
+                                        </span>
+                                    </div>
+                                </div>
                                 <Button
-                                    color="danger"
-                                    variant="light"
+                                    className="bg-black text-xl text-white"
+                                    size="lg"
+                                    radius="full"
                                     onPress={onClose}
                                 >
-                                    Close
-                                </Button>
-                                <Button color="primary" onPress={onClose}>
-                                    Action
+                                    Checkout
                                 </Button>
                             </DrawerFooter>
                         </>

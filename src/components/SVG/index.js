@@ -18,6 +18,7 @@ import CheckIcon from './CheckIcon';
 import FillWishlistIcon from './FillWishlistIcon';
 import PlusIcon from './PlusIcon';
 import MinusIcon from './MinusIcon';
+import FillCartIcon from './FillCartIcon';
 
 export {
     BarIcon,
@@ -40,4 +41,5 @@ export {
     FillWishlistIcon,
     PlusIcon,
     MinusIcon,
+    FillCartIcon,
 };

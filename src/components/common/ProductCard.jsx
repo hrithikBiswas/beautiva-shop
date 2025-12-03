@@ -11,6 +11,7 @@ import {
     WishlistIcon,
     CheckIcon,
     FillWishlistIcon,
+    FillCartIcon,
 } from '@/components/SVG';
 
 const ProductCard = ({ product }) => {
@@ -124,7 +125,8 @@ const ProductCard = ({ product }) => {
                             {cartLoadingId === id ? (
                                 <Spinner variant="dots" color="danger" />
                             ) : isAlreadyInCart(id) ? (
-                                <CheckIcon />
+                                // <CheckIcon />
+                                <FillCartIcon />
                             ) : (
                                 <CartIcon />
                             )}
