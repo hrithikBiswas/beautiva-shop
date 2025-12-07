@@ -10,6 +10,7 @@ import {
     getWishlistProduct,
     deleteWishlist,
     getCartProduct,
+    deleteCart,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -92,9 +93,26 @@ export default function ProductProvider({ children }) {
     };
 
     // --------------------- Remove Wishlist ---------------------
+    // const removeWishlist = async (wishlistId) => {
+    //     try {
+    //         setRemoveWishlistLoadingId(wishlistId);
+
+    //         await deleteWishlist(wishlistId);
+
+    //         const updated = await getWishlistItems();
+    //         setWishlistItems(updated);
+
+    //         const updatedWishlistProducts = await getWishlistProduct(user.id);
+    //         setWishlistProducts(updatedWishlistProducts);
+    //     } catch (error) {
+    //         console.error('Error deleting cart:', error);
+    //     } finally {
+    //         setRemoveWishlistLoadingId(null);
+    //     }
+    // };
     const removeWishlist = async (wishlistId) => {
         try {
-            setRemoveWishlistLoadingId(wishlistId);
+            setWishlistLoadingId(wishlistId);
 
             await deleteWishlist(wishlistId);
 
@@ -106,23 +124,26 @@ export default function ProductProvider({ children }) {
         } catch (error) {
             console.error('Error deleting cart:', error);
         } finally {
-            setRemoveWishlistLoadingId(null);
+            setWishlistLoadingId(null);
         }
     };
 
     // --------------------- Remove Cart ---------------------
     const removeCart = async (CartId) => {
         try {
-            setRemoveWishlistLoadingId(wishlistId);
+            setCartLoadingId(CartId);
 
-            await deleteWishlist(wishlistId);
+            await deleteCart(CartId);
 
-            const updated = await getWishlistItems();
-            setWishlistItems(updated);
+            const updated = await getCartItems();
+            setCartItems(updated);
+
+            const updatedCartProducts = await getCartProduct(user.id);
+            setCartProducts(updatedCartProducts);
         } catch (error) {
-            console.error('Error deleting wishlist:', error);
+            console.error('Error deleting cart:', error);
         } finally {
-            setRemoveWishlistLoadingId(null);
+            setCartLoadingId(null);
         }
     };
 
@@ -173,6 +194,7 @@ export default function ProductProvider({ children }) {
                 cartProducts,
                 cartLoadingId,
                 addToCart,
+                removeCart,
                 totalCartItem: cartItems.length,
                 isAlreadyInCart: (id) =>
                     cartProducts.some((x) => x.productId === id),

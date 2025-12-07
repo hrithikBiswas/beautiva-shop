@@ -63,7 +63,7 @@ const ProductCard = ({ product }) => {
                 </Link>
 
                 {/* Buttons */}
-                <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center gap-3 transition-all duration-500">
+                <div className="opacity-100 md:opacity-100 md:group-hover:opacity-100 absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center gap-3 transition-all duration-500">
                     {/* View Product */}
                     <Tooltip
                         content="View Product"

@@ -8,6 +8,7 @@ import {
     useDisclosure,
     Badge,
     Divider,
+    Spinner,
 } from '@heroui/react';
 import { CartIcon, DeleteIcon, MinusIcon, PlusIcon } from '@/components/SVG';
 import useProduct from '@/hooks/useProduct';
@@ -15,7 +16,13 @@ import Image from 'next/image';
 
 export default function Cart() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { totalCartItem, cartItems, cartProducts } = useProduct();
+    const {
+        totalCartItem,
+        cartItems,
+        cartLoadingId,
+        cartProducts,
+        removeCart,
+    } = useProduct();
 
     return (
         <>
@@ -33,7 +40,7 @@ export default function Cart() {
                 </Badge>
             </Button>
             <Drawer
-                backdrop="blur"
+                backdrop="transparent"
                 isOpen={isOpen}
                 motionProps={{
                     variants: {
@@ -120,15 +127,32 @@ export default function Cart() {
                                         {/* Remove Button */}
                                         <div className="flex flex-col justify-around">
                                             <h2 className="text-fuchsia-900 text-2xl font-semibold">
-                                                {product?.price}
+                                                ${product?.price}
                                             </h2>
                                             <Button
                                                 color="danger"
                                                 radius="full"
                                                 variant="shadow"
                                                 className="min-w-fit h-fit p-2 me-1"
+                                                isDisabled={
+                                                    cartLoadingId === cartId
+                                                }
+                                                onPress={() =>
+                                                    removeCart(cartId)
+                                                }
                                             >
-                                                <DeleteIcon />
+                                                {cartLoadingId === cartId ? (
+                                                    <Spinner
+                                                        variant="dots"
+                                                        color="white"
+                                                        classNames={{
+                                                            wrapper:
+                                                                'translate-y-0 items-center',
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <DeleteIcon />
+                                                )}
                                             </Button>
                                         </div>
                                     </div>

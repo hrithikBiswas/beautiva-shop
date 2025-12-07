@@ -23,6 +23,7 @@ export default function Wishlist() {
         wishlistProduct,
         removeWishlist,
         removeWishlistLoadingId,
+        wishlistLoadingId,
     } = useProduct();
 
     const [wishlistProducts, setWishlistProducts] = useState([]);
@@ -120,18 +121,22 @@ export default function Wishlist() {
                                                 variant="flat"
                                                 className="min-w-fit h-fit p-2 me-2"
                                                 isDisabled={
-                                                    removeWishlistLoadingId ===
+                                                    wishlistLoadingId ===
                                                     wishlistId
                                                 }
                                                 onPress={() =>
                                                     removeWishlist(wishlistId)
                                                 }
                                             >
-                                                {removeWishlistLoadingId ===
+                                                {wishlistLoadingId ===
                                                 wishlistId ? (
                                                     <Spinner
                                                         variant="dots"
                                                         color="danger"
+                                                        classNames={{
+                                                            wrapper:
+                                                                'translate-y-0 items-center',
+                                                        }}
                                                     />
                                                 ) : (
                                                     <FillWishlistIcon />

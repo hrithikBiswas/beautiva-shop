@@ -86,6 +86,16 @@ export const addCartItem = async (productId, userId, qty = 1) => {
         throw error;
     }
 };
+export const deleteCart = async (cartId) => {
+    try {
+        return await prisma.cartItem.delete({
+            where: { id: cartId },
+        });
+    } catch (error) {
+        console.error('Error deleting cart:', error);
+        throw error;
+    }
+};
 
 // ------------------ WISHLIST ------------------
 export const addWishlist = async (productId, userId) => {
