@@ -22,6 +22,7 @@ export default function ProductProvider({ children }) {
 
     const [cartItems, setCartItems] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
+    const [wishlistProducts, setWishlistProducts] = useState([]);
 
     const [cartLoadingId, setCartLoadingId] = useState(null);
     const [wishlistLoadingId, setWishlistLoadingId] = useState(null);
@@ -29,37 +30,6 @@ export default function ProductProvider({ children }) {
         useState(null);
 
     const { user } = useAuth();
-
-    // --------------------- Fetch all products ---------------------
-    useEffect(() => {
-        (async () => {
-            try {
-                setLoading(true);
-                const res = await fetch('/api/products');
-                const data = await res.json();
-                setProducts(data);
-            } catch (err) {
-                console.error('Failed to load products', err);
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, []);
-
-    // --------------------- Fetch cart & wishlist ---------------------
-    useEffect(() => {
-        if (!user?.id) return;
-
-        (async () => {
-            const [cart, wishlist] = await Promise.all([
-                getCartItems(),
-                getWishlistItems(),
-            ]);
-
-            setCartItems(cart);
-            setWishlistItems(wishlist);
-        })();
-    }, [user?.id]);
 
     // --------------------- Add to Cart ---------------------
     const addToCart = async (productId, qty) => {
@@ -98,6 +68,9 @@ export default function ProductProvider({ children }) {
             const updatedWishlist = await getWishlistItems();
             setWishlistItems(updatedWishlist);
 
+            const updatedWishlistProducts = await getWishlistProduct(user.id);
+            setWishlistProducts(updatedWishlistProducts);
+
             addToast({
                 title: 'Wishlist Status',
                 description: 'Added to wishlist.',
@@ -130,6 +103,39 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    // --------------------- Fetch all products ---------------------
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                setProducts(data);
+            } catch (err) {
+                console.error('Failed to load products', err);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, []);
+
+    // --------------------- Fetch cart & wishlist, Wishlist product ---------------------
+    useEffect(() => {
+        if (!user?.id) return;
+
+        (async () => {
+            const [cart, wishlist, wishlistProduct] = await Promise.all([
+                getCartItems(),
+                getWishlistItems(),
+                getWishlistProduct(user?.id),
+            ]);
+
+            setCartItems(cart);
+            setWishlistItems(wishlist);
+            setWishlistProducts(wishlistProduct);
+        })();
+    }, [user?.id]);
+
     return (
         <ProductContext.Provider
             value={{
@@ -146,13 +152,13 @@ export default function ProductProvider({ children }) {
 
                 // Wishlist
                 wishlistItems,
+                wishlistProducts,
                 wishlistLoadingId,
                 removeWishlistLoadingId,
                 addToWishlist,
                 removeWishlist,
-                totalWishlistItem: wishlistItems.length,
                 isAlreadyInWishlist: (id) =>
-                    wishlistItems.some((x) => x.productId === id),
+                    wishlistProducts.some((x) => x.productId === id),
 
                 // Product
                 singleProduct: getSingleProduct,

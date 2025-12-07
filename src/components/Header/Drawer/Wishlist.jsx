@@ -44,7 +44,7 @@ export default function Wishlist() {
             >
                 <Badge
                     color="danger"
-                    content={totalWishlistItem}
+                    content={wishlistProducts.length}
                     shape="circle"
                     className="cursor-pointer"
                 >

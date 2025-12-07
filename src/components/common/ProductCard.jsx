@@ -27,10 +27,10 @@ const ProductCard = ({ product }) => {
     const { id, name, price, image, hoverImage } = product;
 
     // Debounced actions
-    const debouncedAddToWishlist = useDebouncedCallback(
-        () => addToWishlist(id),
-        400
-    );
+    const debouncedAddToWishlist = useDebouncedCallback(() => {
+        addToWishlist(id);
+        isAlreadyInWishlist(id);
+    }, 400);
 
     const debouncedAddToCart = useDebouncedCallback(() => addToCart(id), 400);
 
