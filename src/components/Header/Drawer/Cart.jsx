@@ -15,7 +15,7 @@ import Image from 'next/image';
 
 export default function Cart() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const { totalCartItem, cartItems } = useProduct();
+    const { totalCartItem, cartItems, cartProducts } = useProduct();
 
     return (
         <>
@@ -25,7 +25,7 @@ export default function Cart() {
             >
                 <Badge
                     color="danger"
-                    content={totalCartItem}
+                    content={cartProducts.length}
                     shape="circle"
                     className="cursor-pointer"
                 >
@@ -60,20 +60,20 @@ export default function Cart() {
                                 </h2>
                             </DrawerHeader>
                             <DrawerBody className="pb-6 space-y-4">
-                                {cartItems.length === 0 && (
+                                {cartProducts.length === 0 && (
                                     <p className="text-xl text-gray-500">
                                         No products found in your cart!
                                     </p>
                                 )}
-                                {cartItems.map((cartItem) => (
+                                {cartProducts.map(({ id: cartId, product }) => (
                                     <div
-                                        key={cartItem.id}
+                                        key={cartId}
                                         className="flex gap-3 ring ring-gray-200 shadow-md rounded-lg p-2"
                                     >
                                         {/* Image */}
                                         <Image
-                                            src="/feature-product2.jpg"
-                                            alt="product2"
+                                            src={product?.image}
+                                            alt={product?.name}
                                             className="w-[90px] h-[90px] object-cover rounded-lg"
                                             width={90}
                                             height={90}
@@ -82,10 +82,10 @@ export default function Cart() {
                                         {/* Info */}
                                         <div className="flex-1 flex flex-col gap-1 items-start">
                                             <h3 className="font-semibold text-gray-700 capitalize leading-5">
-                                                Natural coconut cleansing oil
+                                                {product?.name}
                                             </h3>
                                             <span className="text-gray-700 text-sm">
-                                                body lotion
+                                                {product?.category}
                                             </span>
                                             <div className="flex items-center border border-gray-300 rounded-md">
                                                 <Button
@@ -120,7 +120,7 @@ export default function Cart() {
                                         {/* Remove Button */}
                                         <div className="flex flex-col justify-around">
                                             <h2 className="text-fuchsia-900 text-2xl font-semibold">
-                                                $45
+                                                {product?.price}
                                             </h2>
                                             <Button
                                                 color="danger"

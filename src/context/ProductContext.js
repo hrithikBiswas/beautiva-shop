@@ -21,6 +21,7 @@ export default function ProductProvider({ children }) {
     const [loading, setLoading] = useState(false);
 
     const [cartItems, setCartItems] = useState([]);
+    const [cartProducts, setCartProducts] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [wishlistProducts, setWishlistProducts] = useState([]);
 
@@ -41,6 +42,9 @@ export default function ProductProvider({ children }) {
             // Update local state
             const updatedCart = await getCartItems();
             setCartItems(updatedCart);
+
+            const updatedCartProducts = await getCartProduct(user.id);
+            setCartProducts(updatedCartProducts);
 
             addToast({
                 title: 'Cart Status',
@@ -96,6 +100,25 @@ export default function ProductProvider({ children }) {
 
             const updated = await getWishlistItems();
             setWishlistItems(updated);
+
+            const updatedWishlistProducts = await getWishlistProduct(user.id);
+            setWishlistProducts(updatedWishlistProducts);
+        } catch (error) {
+            console.error('Error deleting cart:', error);
+        } finally {
+            setRemoveWishlistLoadingId(null);
+        }
+    };
+
+    // --------------------- Remove Cart ---------------------
+    const removeCart = async (CartId) => {
+        try {
+            setRemoveWishlistLoadingId(wishlistId);
+
+            await deleteWishlist(wishlistId);
+
+            const updated = await getWishlistItems();
+            setWishlistItems(updated);
         } catch (error) {
             console.error('Error deleting wishlist:', error);
         } finally {
@@ -124,15 +147,18 @@ export default function ProductProvider({ children }) {
         if (!user?.id) return;
 
         (async () => {
-            const [cart, wishlist, wishlistProduct] = await Promise.all([
-                getCartItems(),
-                getWishlistItems(),
-                getWishlistProduct(user?.id),
-            ]);
+            const [cart, wishlist, wishlistProduct, cartProduct] =
+                await Promise.all([
+                    getCartItems(),
+                    getWishlistItems(),
+                    getWishlistProduct(user?.id),
+                    getCartProduct(user?.id),
+                ]);
 
             setCartItems(cart);
             setWishlistItems(wishlist);
             setWishlistProducts(wishlistProduct);
+            setCartProducts(cartProduct);
         })();
     }, [user?.id]);
 
@@ -144,11 +170,12 @@ export default function ProductProvider({ children }) {
 
                 // Cart
                 cartItems,
+                cartProducts,
                 cartLoadingId,
                 addToCart,
                 totalCartItem: cartItems.length,
                 isAlreadyInCart: (id) =>
-                    cartItems.some((x) => x.productId === id),
+                    cartProducts.some((x) => x.productId === id),
 
                 // Wishlist
                 wishlistItems,
