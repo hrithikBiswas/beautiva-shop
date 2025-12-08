@@ -1,8 +1,8 @@
-import { ThemeProvider } from "next-themes";
-import AuthProvider from "@/context/AuthContext";
-import HeroProvider from "@/providers/HeroProvider";
-import "./globals.css";
-import ProductProvider from "@/context/ProductContext";
+import { ThemeProvider } from 'next-themes';
+import AuthProvider from '@/context/AuthContext';
+import HeroProvider from '@/providers/HeroProvider';
+import './globals.css';
+import ProductProvider from '@/context/ProductContext';
 
 export default function RootLayout({ children }) {
     return (

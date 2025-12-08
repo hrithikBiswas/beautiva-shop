@@ -11,6 +11,7 @@ import {
     deleteWishlist,
     getCartProduct,
     deleteCart,
+    updateProductQtyInCart,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -147,6 +148,39 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const incrementProductQtyInCart = async (cartId, currentQty) => {
+        try {
+            const newQty = currentQty + 1;
+
+            await updateProductQtyInCart(cartId, user.id, newQty);
+
+            // Refresh local state
+            const updatedCartItems = await getCartItems();
+            setCartItems(updatedCartItems);
+
+            const updatedProducts = await getCartProduct(user.id);
+            setCartProducts(updatedProducts);
+        } catch (error) {
+            console.error('Error incrementing product quantity:', error);
+        }
+    };
+    const decrementProductQtyInCart = async (cartId, currentQty) => {
+        try {
+            const newQty = currentQty - 1;
+
+            await updateProductQtyInCart(cartId, user.id, newQty);
+
+            // Refresh local state
+            const updatedCartItems = await getCartItems();
+            setCartItems(updatedCartItems);
+
+            const updatedProducts = await getCartProduct(user.id);
+            setCartProducts(updatedProducts);
+        } catch (error) {
+            console.error('Error decrementing product quantity:', error);
+        }
+    };
+
     // --------------------- Fetch all products ---------------------
     useEffect(() => {
         (async () => {
@@ -193,6 +227,8 @@ export default function ProductProvider({ children }) {
                 cartItems,
                 cartProducts,
                 cartLoadingId,
+                incrementProductQtyInCart,
+                decrementProductQtyInCart,
                 addToCart,
                 removeCart,
                 totalCartItem: cartItems.length,

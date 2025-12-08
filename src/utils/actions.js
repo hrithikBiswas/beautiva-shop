@@ -86,6 +86,23 @@ export const addCartItem = async (productId, userId, qty = 1) => {
         throw error;
     }
 };
+
+export const updateProductQtyInCart = async (cartId, userId, quantity) => {
+    try {
+        const safeQty = Math.max(1, quantity); // prevent 0 or negative
+
+        const updated = await prisma.cartItem.update({
+            where: { id: cartId, userId: userId },
+            data: { quantity: safeQty },
+        });
+
+        return updated;
+    } catch (error) {
+        console.error('Error updating cart quantity:', error);
+        return null;
+    }
+};
+
 export const deleteCart = async (cartId) => {
     try {
         return await prisma.cartItem.delete({

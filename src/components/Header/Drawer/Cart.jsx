@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Drawer,
     DrawerContent,
@@ -13,16 +15,40 @@ import {
 import { CartIcon, DeleteIcon, MinusIcon, PlusIcon } from '@/components/SVG';
 import useProduct from '@/hooks/useProduct';
 import Image from 'next/image';
+import { useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 export default function Cart() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const {
-        totalCartItem,
-        cartItems,
         cartLoadingId,
         cartProducts,
         removeCart,
+        incrementProductQtyInCart,
+        decrementProductQtyInCart,
     } = useProduct();
+
+    const debouncedIncrementProductQtyInCart = useDebouncedCallback(
+        (cartId, qty) => incrementProductQtyInCart(cartId, qty),
+        400
+    );
+    const debouncedDecrementProductQtyInCart = useDebouncedCallback(
+        (cartId, qty) => decrementProductQtyInCart(cartId, qty),
+        400
+    );
+
+    const subtotal = cartProducts.reduce((total, item) => {
+        if (!item || !item.product) return total;
+
+        const { quantity } = item;
+        const { price } = item.product;
+
+        return total + quantity * price;
+    }, 0);
+
+    const tax = Math.round(+(subtotal * 0.075));
+
+    const total = Math.round(+(subtotal + tax));
 
     return (
         <>
@@ -40,7 +66,7 @@ export default function Cart() {
                 </Badge>
             </Button>
             <Drawer
-                backdrop="transparent"
+                backdrop="blur"
                 isOpen={isOpen}
                 motionProps={{
                     variants: {
@@ -72,91 +98,105 @@ export default function Cart() {
                                         No products found in your cart!
                                     </p>
                                 )}
-                                {cartProducts.map(({ id: cartId, product }) => (
-                                    <div
-                                        key={cartId}
-                                        className="flex gap-3 ring ring-gray-200 shadow-md rounded-lg p-2"
-                                    >
-                                        {/* Image */}
-                                        <Image
-                                            src={product?.image}
-                                            alt={product?.name}
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            width={90}
-                                            height={90}
-                                        />
+                                {cartProducts.map(
+                                    ({
+                                        id: cartId,
+                                        quantity: qty,
+                                        product,
+                                    }) => (
+                                        <div
+                                            key={cartId}
+                                            className="flex gap-3 ring ring-gray-200 shadow-md rounded-lg p-2"
+                                        >
+                                            <Image
+                                                src={product?.image}
+                                                alt={product?.name}
+                                                className="w-[90px] h-[90px] object-cover rounded-lg"
+                                                width={90}
+                                                height={90}
+                                            />
 
-                                        {/* Info */}
-                                        <div className="flex-1 flex flex-col gap-1 items-start">
-                                            <h3 className="font-semibold text-gray-700 capitalize leading-5">
-                                                {product?.name}
-                                            </h3>
-                                            <span className="text-gray-700 text-sm">
-                                                {product?.category}
-                                            </span>
-                                            <div className="flex items-center border border-gray-300 rounded-md">
-                                                <Button
-                                                    // onClick={decrement}
-                                                    radius="none"
-                                                    variant="light"
-                                                    className="p-2 rounded-s-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
-                                                >
-                                                    <MinusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
-                                                </Button>
+                                            <div className="flex-1 flex flex-col gap-1 items-start">
+                                                <h3 className="font-semibold text-gray-700 capitalize leading-5">
+                                                    {product?.name}
+                                                </h3>
+                                                <span className="text-gray-700 text-sm">
+                                                    {product?.category}
+                                                </span>
+                                                <div className="flex items-center border border-gray-300 rounded-md">
+                                                    <Button
+                                                        onPress={() =>
+                                                            debouncedDecrementProductQtyInCart(
+                                                                cartId,
+                                                                qty
+                                                            )
+                                                        }
+                                                        radius="none"
+                                                        variant="light"
+                                                        className="p-2 rounded-s-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
+                                                    >
+                                                        <MinusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
+                                                    </Button>
 
-                                                <input
-                                                    name="qty"
-                                                    type="number"
-                                                    value="1"
-                                                    min="1"
-                                                    // max={product?.stock}
-                                                    readOnly
-                                                    className="w-10 text-center text-base border-0 outline-none focus:ring-0"
-                                                />
+                                                    <input
+                                                        name="qty"
+                                                        type="number"
+                                                        value={qty}
+                                                        min="1"
+                                                        // max={product?.stock}
+                                                        readOnly
+                                                        className="w-10 text-center text-base border-0 outline-none focus:ring-0"
+                                                    />
+                                                    <Button
+                                                        onPress={() =>
+                                                            debouncedIncrementProductQtyInCart(
+                                                                cartId,
+                                                                qty
+                                                            )
+                                                        }
+                                                        radius="none"
+                                                        variant="light"
+                                                        className="p-2 rounded-e-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
+                                                    >
+                                                        <PlusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-col justify-around">
+                                                <h2 className="text-fuchsia-900 text-2xl font-semibold">
+                                                    ${qty * product?.price}
+                                                </h2>
                                                 <Button
-                                                    // onClick={decrement}
-                                                    radius="none"
-                                                    variant="light"
-                                                    className="p-2 rounded-e-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
+                                                    color="danger"
+                                                    radius="full"
+                                                    variant="shadow"
+                                                    className="min-w-fit h-fit p-2 me-1"
+                                                    isDisabled={
+                                                        cartLoadingId === cartId
+                                                    }
+                                                    onPress={() =>
+                                                        removeCart(cartId)
+                                                    }
                                                 >
-                                                    <PlusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
+                                                    {cartLoadingId ===
+                                                    cartId ? (
+                                                        <Spinner
+                                                            variant="dots"
+                                                            color="white"
+                                                            classNames={{
+                                                                wrapper:
+                                                                    'translate-y-0 items-center',
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        <DeleteIcon />
+                                                    )}
                                                 </Button>
                                             </div>
                                         </div>
-
-                                        {/* Remove Button */}
-                                        <div className="flex flex-col justify-around">
-                                            <h2 className="text-fuchsia-900 text-2xl font-semibold">
-                                                ${product?.price}
-                                            </h2>
-                                            <Button
-                                                color="danger"
-                                                radius="full"
-                                                variant="shadow"
-                                                className="min-w-fit h-fit p-2 me-1"
-                                                isDisabled={
-                                                    cartLoadingId === cartId
-                                                }
-                                                onPress={() =>
-                                                    removeCart(cartId)
-                                                }
-                                            >
-                                                {cartLoadingId === cartId ? (
-                                                    <Spinner
-                                                        variant="dots"
-                                                        color="white"
-                                                        classNames={{
-                                                            wrapper:
-                                                                'translate-y-0 items-center',
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <DeleteIcon />
-                                                )}
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                )}
                             </DrawerBody>
                             <DrawerFooter className="flex flex-col shadow-[0px_-7px_14px_-6px_rgba(0,_0,_0,_0.1)]">
                                 <div className="flex flex-col space-y-3 mb-4">
@@ -165,7 +205,7 @@ export default function Cart() {
                                             Subtotal
                                         </span>
                                         <span className="tracking-wider text-lg">
-                                            $45
+                                            ${subtotal}
                                         </span>
                                     </div>
                                     <div className="flex justify-between">
@@ -173,7 +213,7 @@ export default function Cart() {
                                             Tax(7.5%)
                                         </span>
                                         <span className="tracking-wider text-lg">
-                                            $4
+                                            ${tax}
                                         </span>
                                     </div>
                                     <Divider />
@@ -182,7 +222,7 @@ export default function Cart() {
                                             Total
                                         </span>
                                         <span className="tracking-wider text-lg">
-                                            $456
+                                            ${total}
                                         </span>
                                     </div>
                                 </div>
