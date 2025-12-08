@@ -92,25 +92,6 @@ export default function ProductProvider({ children }) {
             setWishlistLoadingId(null);
         }
     };
-
-    // --------------------- Remove Wishlist ---------------------
-    // const removeWishlist = async (wishlistId) => {
-    //     try {
-    //         setRemoveWishlistLoadingId(wishlistId);
-
-    //         await deleteWishlist(wishlistId);
-
-    //         const updated = await getWishlistItems();
-    //         setWishlistItems(updated);
-
-    //         const updatedWishlistProducts = await getWishlistProduct(user.id);
-    //         setWishlistProducts(updatedWishlistProducts);
-    //     } catch (error) {
-    //         console.error('Error deleting cart:', error);
-    //     } finally {
-    //         setRemoveWishlistLoadingId(null);
-    //     }
-    // };
     const removeWishlist = async (wishlistId) => {
         try {
             setWishlistLoadingId(wishlistId);
@@ -164,11 +145,16 @@ export default function ProductProvider({ children }) {
             console.error('Error incrementing product quantity:', error);
         }
     };
+
     const decrementProductQtyInCart = async (cartId, currentQty) => {
         try {
             const newQty = currentQty - 1;
 
-            await updateProductQtyInCart(cartId, user.id, newQty);
+            if (newQty < 1) {
+                removeCart(cartId);
+            } else {
+                await updateProductQtyInCart(cartId, user.id, newQty);
+            }
 
             // Refresh local state
             const updatedCartItems = await getCartItems();

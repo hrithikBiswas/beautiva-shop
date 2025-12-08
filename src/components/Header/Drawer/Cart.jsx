@@ -30,11 +30,11 @@ export default function Cart() {
 
     const debouncedIncrementProductQtyInCart = useDebouncedCallback(
         (cartId, qty) => incrementProductQtyInCart(cartId, qty),
-        400
+        100
     );
     const debouncedDecrementProductQtyInCart = useDebouncedCallback(
         (cartId, qty) => decrementProductQtyInCart(cartId, qty),
-        400
+        100
     );
 
     const subtotal = cartProducts.reduce((total, item) => {
@@ -142,7 +142,6 @@ export default function Cart() {
                                                         name="qty"
                                                         type="number"
                                                         value={qty}
-                                                        min="1"
                                                         // max={product?.stock}
                                                         readOnly
                                                         className="w-10 text-center text-base border-0 outline-none focus:ring-0"
