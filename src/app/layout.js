@@ -6,8 +6,11 @@ import ProductProvider from '@/context/ProductContext';
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
-            <body className={`antialiased dark:bg-gray-950! dark:text-white`}>
+        <html lang="en" suppressHydrationWarning>
+            <body
+                suppressHydrationWarning
+                className={`antialiased dark:bg-gray-950! dark:text-white`}
+            >
                 <ThemeProvider
                     attribute="data-theme"
                     defaultTheme="system"

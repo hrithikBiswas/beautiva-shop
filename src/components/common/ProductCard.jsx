@@ -38,7 +38,9 @@ const ProductCard = ({ product }) => {
         'w-[220px] h-[293px] md:w-[280px] md:h-[370px] rounded-md absolute transition-all duration-700';
 
     const tooltipClasses = {
-        content: ['py-2 px-4 rounded-lg'],
+        base: 'dark:bg-black rounded-lg dark:before:bg-black',
+        arrow: 'dark:bg-black',
+        content: 'py-2 px-4 dark:bg-black rounded-lg',
     };
 
     return (

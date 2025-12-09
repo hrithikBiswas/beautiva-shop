@@ -40,7 +40,7 @@ export default function Search() {
                 }}
                 onOpenChange={onOpenChange}
             >
-                <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white">
+                <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white dark:border-l dark:border-gray-700">
                     {(onClose) => (
                         <>
                             <DrawerHeader className="flex flex-col gap-1">

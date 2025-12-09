@@ -19,6 +19,7 @@ import FillWishlistIcon from './FillWishlistIcon';
 import PlusIcon from './PlusIcon';
 import MinusIcon from './MinusIcon';
 import FillCartIcon from './FillCartIcon';
+import LeftArrowIcon from './LeftArrowIcon';
 
 export {
     BarIcon,
@@ -42,4 +43,5 @@ export {
     PlusIcon,
     MinusIcon,
     FillCartIcon,
+    LeftArrowIcon,
 };

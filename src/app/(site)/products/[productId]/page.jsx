@@ -136,14 +136,16 @@ const SingleProductPage = ({ params }) => {
 
                 {/* Right: Details Section */}
                 <div className="col-span-4 flex flex-col gap-8 px-4">
-                    <h2 className="text-3xl font-semibold capitalize">
+                    <h2 className="text-3xl text-gray-600 dark:text-gray-200 font-semibold capitalize">
                         {product?.name}
                     </h2>
 
-                    <p className="text-lg">{product?.description}</p>
+                    <p className="text-lg text-gray-500 dark:text-gray-300 text-justify">
+                        {product?.description}
+                    </p>
 
                     {/* Product Info */}
-                    <table className="max-w-[400px]">
+                    <table className="max-w-[400px] text-gray-600 dark:text-gray-200">
                         <tbody>
                             <tr>
                                 <td className="py-2 w-[150px] font-semibold text-lg tracking-wide">
@@ -176,10 +178,10 @@ const SingleProductPage = ({ params }) => {
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center space-x-4">
                             {/* Quantity Selector */}
-                            <div className="flex items-center border border-gray-300 rounded-lg">
+                            <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
                                 <button
                                     onClick={decrement}
-                                    className="p-3 rounded-s-lg hover:bg-gray-200 cursor-pointer"
+                                    className="p-3 rounded-s-lg hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
                                 >
                                     <MinusIcon className="w-6 h-6 text-gray-600 dark:text-white" />
                                 </button>
@@ -195,7 +197,7 @@ const SingleProductPage = ({ params }) => {
 
                                 <button
                                     onClick={increment}
-                                    className="p-3 rounded-e-lg hover:bg-gray-200 cursor-pointer"
+                                    className="p-3 rounded-e-lg hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
                                 >
                                     <PlusIcon className="w-6 h-6 text-gray-600 dark:text-white" />
                                 </button>
@@ -266,7 +268,7 @@ const SingleProductPage = ({ params }) => {
                         <Button
                             radius="sm"
                             size="lg"
-                            className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-3 px-6"
+                            className="w-full bg-gray-900 dark:bg-gray-50 hover:bg-black dark:hover:bg-gray-100 text-white dark:text-gray-900 font-semibold py-3 px-6"
                         >
                             Buy Now
                         </Button>

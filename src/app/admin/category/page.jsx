@@ -1,26 +1,26 @@
-"use client";
-import { useAuth } from "@/hooks";
-import { addCategory, isExistCategory } from "@/utils/actions";
-import { addToast } from "@heroui/react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+'use client';
+import { useAuth } from '@/hooks';
+import { addCategory, isExistCategory } from '@/utils/actions';
+import { addToast } from '@heroui/react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const categoryPage = () => {
     const { loading, setLoading } = useAuth();
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            slug: "",
-            description: "",
+            name: '',
+            slug: '',
+            description: '',
         },
         validationSchema: Yup.object({
             name: Yup.string()
-                .min(3, "Must be 3 characters or more")
-                .required("Category cannot be empty!"),
+                .min(3, 'Must be 3 characters or more')
+                .required('Category cannot be empty!'),
             slug: Yup.string()
-                .min(3, "Must be 3 characters or more")
-                .required("Slug cannot be empty!"),
+                .min(3, 'Must be 3 characters or more')
+                .required('Slug cannot be empty!'),
             description: Yup.string(),
         }),
         onSubmit: async (values, { resetForm }) => {
@@ -32,10 +32,10 @@ const categoryPage = () => {
                 setLoading(false);
                 resetForm();
                 return addToast({
-                    title: "Category Status",
-                    description: "Category already exists!",
-                    color: "danger",
-                    radius: "sm",
+                    title: 'Category Status',
+                    description: 'Category already exists!',
+                    color: 'danger',
+                    radius: 'sm',
                     hideCloseButton: true,
                     timeout: 3000,
                     shouldShowTimeoutProgress: true,
@@ -49,10 +49,10 @@ const categoryPage = () => {
             resetForm();
 
             return addToast({
-                title: "Category Status",
-                description: "New category added successfully!",
-                color: "success",
-                radius: "sm",
+                title: 'Category Status',
+                description: 'New category added successfully!',
+                color: 'success',
+                radius: 'sm',
                 hideCloseButton: true,
                 timeout: 3000,
                 shouldShowTimeoutProgress: true,
@@ -61,13 +61,13 @@ const categoryPage = () => {
     });
 
     return (
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-8 dark:bg-gray-950">
             <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                         Add New Category
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-gray-300">
                         Create a new product category for your store
                     </p>
                 </div>
@@ -83,12 +83,16 @@ const categoryPage = () => {
 
             <div className="grid grid-cols-1 gap-6">
                 <div className="">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <form id="categoryForm" onSubmit={formik.handleSubmit}>
+                    <div className="bg-white dark:bg-black rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <form
+                            id="categoryForm"
+                            onSubmit={formik.handleSubmit}
+                            className="text-gray-700 dark:text-gray-200"
+                        >
                             <div className="mb-6">
                                 <label
                                     htmlFor="name"
-                                    className="block text-sm font-medium text-gray-700 mb-2"
+                                    className="block text-sm font-medium mb-2"
                                 >
                                     Category Name *
                                 </label>
@@ -103,7 +107,7 @@ const categoryPage = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.name}
-                                        className="w-full pl-10 pr-4 py-3  outline-none border border-gray-300 rounded-lg  focus:border-blue-500 transition"
+                                        className="w-full pl-4 pr-4 py-3  outline-none border border-gray-300 dark:border-gray-700 rounded-lg  focus:border-blue-500 transition"
                                         placeholder="Enter category name"
                                     />
                                 </div>
@@ -120,7 +124,7 @@ const categoryPage = () => {
                             <div className="mb-6">
                                 <label
                                     htmlFor="slug"
-                                    className="block text-sm font-medium text-gray-700 mb-2"
+                                    className="block text-sm font-medium mb-2"
                                 >
                                     Slug *
                                 </label>
@@ -135,7 +139,7 @@ const categoryPage = () => {
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         value={formik.values.slug}
-                                        className="w-full pl-10 pr-4 py-3  outline-none border border-gray-300 rounded-lg  focus:border-blue-500 transition"
+                                        className="w-full pl-4 pr-4 py-3  outline-none border border-gray-300 dark:border-gray-700 rounded-lg  focus:border-blue-500 transition"
                                         placeholder="category-slug"
                                     />
                                 </div>
@@ -153,7 +157,7 @@ const categoryPage = () => {
                             <div className="mb-6">
                                 <label
                                     htmlFor="description"
-                                    className="block text-sm font-medium text-gray-700 mb-2"
+                                    className="block text-sm font-medium mb-2"
                                 >
                                     Description
                                 </label>
@@ -164,7 +168,7 @@ const categoryPage = () => {
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.description}
-                                    className="w-full px-4 py-3  outline-none border border-gray-300 rounded-lg  focus:border-blue-500 transition"
+                                    className="w-full px-4 py-3  outline-none border border-gray-300 dark:border-gray-700 rounded-lg  focus:border-blue-500 transition"
                                     placeholder="Enter category description (optional)"
                                 ></textarea>
                                 <p className="mt-1 text-sm text-gray-500">
@@ -173,10 +177,10 @@ const categoryPage = () => {
                                 </p>
                             </div>
 
-                            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                            <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                                 <button
                                     type="reset"
-                                    className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
+                                    className="px-6 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition font-medium"
                                 >
                                     Reset Form
                                 </button>
@@ -185,8 +189,8 @@ const categoryPage = () => {
                                     className="px-6 py-2.5 bg-primary-500 cursor-pointer text-white rounded-lg hover:bg-primary-600 transition font-medium flex items-center"
                                 >
                                     {loading
-                                        ? "Creating Category..."
-                                        : "Create Category"}
+                                        ? 'Creating Category...'
+                                        : 'Create Category'}
                                 </button>
                             </div>
                         </form>

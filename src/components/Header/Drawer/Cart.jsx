@@ -84,7 +84,7 @@ export default function Cart() {
                 }}
                 onOpenChange={onOpenChange}
             >
-                <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white">
+                <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white dark:border-l dark:border-gray-700">
                     {(onClose) => (
                         <>
                             <DrawerHeader className="flex justify-center flex-col gap-1">
@@ -106,7 +106,7 @@ export default function Cart() {
                                     }) => (
                                         <div
                                             key={cartId}
-                                            className="flex gap-3 ring ring-gray-200 shadow-md rounded-lg p-2"
+                                            className="flex gap-3 ring ring-gray-200 dark:ring-gray-500 shadow-md rounded-lg p-2"
                                         >
                                             <Image
                                                 src={product?.image}
@@ -117,10 +117,10 @@ export default function Cart() {
                                             />
 
                                             <div className="flex-1 flex flex-col gap-1 items-start">
-                                                <h3 className="font-semibold text-gray-700 capitalize leading-5">
+                                                <h3 className="font-semibold text-gray-700 dark:text-gray-200 capitalize leading-5">
                                                     {product?.name}
                                                 </h3>
-                                                <span className="text-gray-700 text-sm">
+                                                <span className="text-gray-700 dark:text-gray-200 text-sm">
                                                     {product?.category}
                                                 </span>
                                                 <div className="flex items-center border border-gray-300 rounded-md">
@@ -197,7 +197,7 @@ export default function Cart() {
                                     )
                                 )}
                             </DrawerBody>
-                            <DrawerFooter className="flex flex-col shadow-[0px_-7px_14px_-6px_rgba(0,_0,_0,_0.1)]">
+                            <DrawerFooter className="flex flex-col shadow-[0px_-7px_14px_-6px_rgba(0,_0,_0,_0.1)] dark:border-t dark:border-gray-700">
                                 <div className="flex flex-col space-y-3 mb-4">
                                     <div className="flex justify-between">
                                         <span className="font-semibold text-lg text-gray-500">
@@ -226,7 +226,7 @@ export default function Cart() {
                                     </div>
                                 </div>
                                 <Button
-                                    className="bg-black text-xl text-white"
+                                    className="bg-black dark:bg-white text-xl dark:text-black"
                                     size="lg"
                                     radius="full"
                                     onPress={onClose}

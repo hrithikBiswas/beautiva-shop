@@ -1,29 +1,9 @@
-import { getCategories, getProducts } from '@/utils/actions';
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
-const page = async () => {
-    const categories = await getCategories();
-    const products = await getProducts();
-
+const dashboardPage = () => {
     return (
-        <div className="flex-1 p-8">
-            <div>dashboard page</div>
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold">products</h1>
-                {products.map((product) => (
-                    <div key={product.id}>{product.name}</div>
-                ))}
-            </div>
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold">Category</h1>
-                {categories.map((category) => (
-                    <div key={category.id}>{category.name}</div>
-                ))}
-            </div>
+        <div className="flex-1 p-8 dark:bg-gray-950 dark:text-gray-100">
+            dashboard page
         </div>
     );
 };
 
-export default page;
+export default dashboardPage;

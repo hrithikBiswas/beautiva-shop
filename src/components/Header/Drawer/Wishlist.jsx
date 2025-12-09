@@ -65,7 +65,7 @@ export default function Wishlist() {
                     },
                 }}
             >
-                <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white">
+                <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white dark:border-l dark:border-gray-700">
                     {(onClose) => (
                         <>
                             <DrawerHeader className="flex justify-center flex-col gap-1">
@@ -84,7 +84,7 @@ export default function Wishlist() {
                                     ({ id: wishlistId, product }) => (
                                         <div
                                             key={wishlistId}
-                                            className="flex items-center gap-3 ring ring-gray-200 shadow-md rounded-lg p-2"
+                                            className="flex items-center gap-3 ring ring-gray-200 dark:ring-gray-500 shadow-md rounded-lg p-2"
                                         >
                                             {/* Image */}
                                             <Image
@@ -95,18 +95,18 @@ export default function Wishlist() {
 
                                             {/* Info */}
                                             <div className="flex-1">
-                                                <h3 className="font-semibold text-gray-700">
+                                                <h3 className="font-semibold text-gray-700 dark:text-gray-200">
                                                     {product?.name}
                                                 </h3>
 
-                                                <p className="text-gray-700 text-sm">
+                                                <p className="text-gray-700 dark:text-gray-200 text-sm">
                                                     <span className="font-semibold">
                                                         Price:
                                                     </span>{' '}
                                                     {product?.price}
                                                 </p>
 
-                                                <p className="text-gray-700 text-sm">
+                                                <p className="text-gray-700 dark:text-gray-200 text-sm">
                                                     <span className="font-semibold">
                                                         Stock:
                                                     </span>{' '}

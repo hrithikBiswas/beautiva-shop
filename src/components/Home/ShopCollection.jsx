@@ -1,8 +1,8 @@
-"use client";
-import React from "react";
-import CollectionProduct from "@/components/slider/CollectionProduct";
-import { Button } from "@heroui/react";
-import Link from "next/link";
+'use client';
+import React from 'react';
+import CollectionProduct from '@/components/slider/CollectionProduct';
+import { Button } from '@heroui/react';
+import Link from 'next/link';
 
 const ShopCollection = () => {
     return (
@@ -12,7 +12,7 @@ const ShopCollection = () => {
                     shop by collections
                 </h2>
                 <h1 className="text-3xl md:text-4xl font-semibold leading-9 md:leading-11">
-                    Because You Need Time for Yourself. Blend Beauty in You{" "}
+                    Because You Need Time for Yourself. Blend Beauty in You{' '}
                 </h1>
             </div>
             <div className="">
@@ -20,7 +20,7 @@ const ShopCollection = () => {
                 <div className="flex justify-center mt-8 sm:mt-14">
                     <Link
                         href="/products"
-                        className=" bg-white border-2 border-gray-200 hover:bg-black hover:text-white rounded-sm text-medium tracking-wide py-2.5 px-8 hover:!opacity-100 transition-all duration-200"
+                        className=" bg-white dark:bg-black border-2 border-gray-200 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black rounded-sm text-medium tracking-wide py-2.5 px-8 hover:!opacity-100 transition-all duration-200"
                         size="lg"
                     >
                         Shop All Products

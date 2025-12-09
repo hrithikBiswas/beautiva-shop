@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { DeleteIcon } from "@/components/SVG";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { addProduct, uploadProductImage, getCategories } from "@/utils/actions";
-import { useAuth } from "@/hooks";
-import { addToast } from "@heroui/react";
+import { useEffect, useState } from 'react';
+import { DeleteIcon } from '@/components/SVG';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { addProduct, uploadProductImage, getCategories } from '@/utils/actions';
+import { useAuth } from '@/hooks';
+import { addToast } from '@heroui/react';
 
 const AdminPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -17,22 +17,22 @@ const AdminPage = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            productName: "",
-            description: "",
-            price: "",
-            image: "",
-            hoverImage: "",
-            stock: "",
-            category: "",
+            productName: '',
+            description: '',
+            price: '',
+            image: '',
+            hoverImage: '',
+            stock: '',
+            category: '',
             featured: false,
             userId: user?.id,
         },
         validationSchema: Yup.object({
             productName: Yup.string()
-                .min(4, "Must be 4 characters or more")
-                .required("Required"),
+                .min(4, 'Must be 4 characters or more')
+                .required('Required'),
             description: Yup.string(),
-            price: Yup.number().required("Required").positive().integer(),
+            price: Yup.number().required('Required').positive().integer(),
         }),
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
@@ -52,13 +52,13 @@ const AdminPage = () => {
             setImagePreview(null);
             setHoverImagePreview(null);
 
-            console.log("Product added successfully!");
+            console.log('Product added successfully!');
 
             return addToast({
-                title: "Product Status",
-                description: "Product added successfully!",
-                color: "success",
-                radius: "sm",
+                title: 'Product Status',
+                description: 'Product added successfully!',
+                color: 'success',
+                radius: 'sm',
                 hideCloseButton: true,
                 timeout: 3000,
                 shouldShowTimeoutProgress: true,
@@ -70,14 +70,14 @@ const AdminPage = () => {
         const file = e.target.files[0];
         if (!file) return;
 
-        if (e.target.name === "image") {
-            formik.setFieldValue("image", file);
+        if (e.target.name === 'image') {
+            formik.setFieldValue('image', file);
 
             const previewImageUrl = URL.createObjectURL(file);
             setImagePreview(previewImageUrl);
         }
-        if (e.target.name === "hoverImage") {
-            formik.setFieldValue("hoverImage", file);
+        if (e.target.name === 'hoverImage') {
+            formik.setFieldValue('hoverImage', file);
 
             const previewHoverImageUrl = URL.createObjectURL(file);
             setHoverImagePreview(previewHoverImageUrl);
@@ -86,23 +86,12 @@ const AdminPage = () => {
 
     const removeImage = () => {
         setImagePreview(null);
-        formik.setFieldValue("image", "");
+        formik.setFieldValue('image', '');
     };
     const removeHoverImage = () => {
         setHoverImagePreview(null);
-        formik.setFieldValue("hoverImage", "");
+        formik.setFieldValue('hoverImage', '');
     };
-
-    // useEffect(() => {
-    //     const fetchCategories = async () => {
-    //         const res = await fetch('/api/categories');
-    //         const data = await res.json();
-
-    //         setCategories(data);
-    //     };
-
-    //     fetchCategories();
-    // }, []);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -114,29 +103,26 @@ const AdminPage = () => {
     }, []);
 
     return (
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-8 dark:bg-gray-950 mt-10 sm:mt-0">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">
                     Add New Product
                 </h2>
-                <div className="flex space-x-2">
-                    <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
-                        <i className="fas fa-arrow-left mr-2"></i>Back
-                    </button>
+                <div className="flex">
                     <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
                         <i className="fas fa-eye mr-2"></i>View Products
                     </button>
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div className="bg-white dark:bg-black rounded-xl shadow-md p-6 mb-6">
                 <form id="productForm" onSubmit={formik.handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 dark:text-gray-200">
                         <div className="space-y-6">
                             <div>
                                 <label
                                     htmlFor="productName"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    className="block text-sm font-medium mb-1"
                                 >
                                     Product Name *
                                 </label>
@@ -161,7 +147,7 @@ const AdminPage = () => {
                             <div>
                                 <label
                                     htmlFor="description"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    className="block text-sm font-medium mb-1"
                                 >
                                     Description
                                 </label>
@@ -180,7 +166,7 @@ const AdminPage = () => {
                             <div>
                                 <label
                                     htmlFor="price"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    className="block text-sm font-medium mb-1"
                                 >
                                     Price *
                                 </label>
@@ -211,7 +197,7 @@ const AdminPage = () => {
                             <div>
                                 <label
                                     htmlFor="stock"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    className="block text-sm font-medium mb-1"
                                 >
                                     Stock
                                 </label>
@@ -233,7 +219,7 @@ const AdminPage = () => {
                             <div>
                                 <label
                                     htmlFor="category"
-                                    className="block text-sm font-medium text-gray-700 mb-1"
+                                    className="block text-sm font-medium mb-1"
                                 >
                                     Category
                                 </label>
@@ -257,16 +243,16 @@ const AdminPage = () => {
                                 </select>
                             </div>
 
-                            <div className="flex gap-5">
+                            <div className="flex flex-wrap gap-5">
                                 <div>
-                                    <p className="text-sm font-medium text-gray-700 mb-2">
+                                    <p className="text-sm font-medium mb-2">
                                         Upload Image
                                     </p>
 
                                     <div className="w-full">
                                         <label
                                             htmlFor="image"
-                                            className="flex flex-col items-center justify-center w-48 h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                                            className="flex flex-col items-center justify-center w-48 h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                                         >
                                             {imagePreview ? (
                                                 <img
@@ -300,21 +286,21 @@ const AdminPage = () => {
                                                 onClick={removeImage}
                                                 className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                                             >
-                                                <DeleteIcon />{" "}
+                                                <DeleteIcon />{' '}
                                                 <span>Remove Image</span>
                                             </button>
                                         )}
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-700 mb-2">
+                                    <p className="text-sm font-medium mb-2">
                                         Upload Hover Image
                                     </p>
 
                                     <div className="w-full">
                                         <label
                                             htmlFor="hoverImage"
-                                            className="flex flex-col items-center justify-center w-48 h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 transition"
+                                            className="flex flex-col items-center justify-center w-48 h-64 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                                         >
                                             {hoverImagePreview ? (
                                                 <img
@@ -348,7 +334,7 @@ const AdminPage = () => {
                                                 onClick={removeHoverImage}
                                                 className="flex items-center justify-center gap-1.5 mt-3 w-full py-2 cursor-pointer bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                                             >
-                                                <DeleteIcon />{" "}
+                                                <DeleteIcon />{' '}
                                                 <span>Remove Image</span>
                                             </button>
                                         )}
@@ -369,7 +355,7 @@ const AdminPage = () => {
                                 />
                                 <label
                                     htmlFor="featured"
-                                    className="ml-2 text-sm font-medium text-gray-700"
+                                    className="ml-2 text-sm font-medium"
                                 >
                                     Feature this product
                                 </label>
@@ -380,7 +366,7 @@ const AdminPage = () => {
                     <div className="mt-8 pt-6 border-t border-gray-200 flex justify-end space-x-4">
                         <button
                             type="reset"
-                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                            className="px-6 py-2 border border-gray-300 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                         >
                             Reset Form
                         </button>
@@ -389,11 +375,11 @@ const AdminPage = () => {
                             disabled={loading}
                             className={`px-6 py-2 ${
                                 loading
-                                    ? "bg-blue-400"
-                                    : "bg-blue-500 hover:bg-blue-600"
+                                    ? 'bg-blue-400'
+                                    : 'bg-blue-500 hover:bg-blue-600'
                             }  text-white rounded-lg  transition flex items-center cursor-pointer`}
                         >
-                            {loading ? "Adding Product..." : "Add Product"}
+                            {loading ? 'Adding Product...' : 'Add Product'}
                         </button>
                     </div>
                 </form>

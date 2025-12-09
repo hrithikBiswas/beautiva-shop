@@ -169,7 +169,7 @@ export default function ProductProvider({ children }) {
 
     // --------------------- Fetch all products ---------------------
     useEffect(() => {
-        if (!user?.id) return;
+        if (!user) return;
 
         (async () => {
             try {
@@ -183,7 +183,7 @@ export default function ProductProvider({ children }) {
                 setLoading(false);
             }
         })();
-    }, []);
+    }, [user]);
 
     // --------------------- Fetch cart & wishlist, Wishlist product ---------------------
     useEffect(() => {
