@@ -1,41 +1,41 @@
 {
-    "name": "beautiva-shop",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "eslint"
-    },
-    "dependencies": {
-        "@heroui/react": "^2.8.4",
-        "@prisma/adapter-pg": "^7.0.1",
-        "@prisma/client": "^7.0.1",
-        "@supabase/ssr": "^0.7.0",
-        "@supabase/supabase-js": "^2.86.0",
-        "dotenv": "^17.2.3",
-        "formik": "^2.4.6",
-        "framer-motion": "^12.23.21",
-        "motion": "^12.23.22",
-        "next": "15.5.4",
-        "next-themes": "^0.4.6",
-        "pg": "^8.16.3",
-        "react": "19.1.0",
-        "react-dom": "19.1.0",
-        "swiper": "^12.0.2",
-        "use-debounce": "^10.0.6",
-        "yup": "^1.7.1"
-    },
-    "devDependencies": {
-        "@eslint/eslintrc": "^3",
-        "@tailwindcss/postcss": "^4",
-        "@types/node": "^24.10.1",
-        "@types/pg": "^8.15.6",
-        "@types/react": "19.1.15",
-        "eslint": "^9",
-        "eslint-config-next": "15.5.4",
-        "prisma": "^7.0.1",
-        "tailwindcss": "^4"
-    }
+  "name": "beautiva-shop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@heroui/react": "^2.8.4",
+    "@prisma/adapter-pg": "^7.0.1",
+    "@prisma/client": "^7.0.1",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.86.0",
+    "dotenv": "^17.2.3",
+    "formik": "^2.4.6",
+    "framer-motion": "^12.23.21",
+    "motion": "^12.23.22",
+    "next": "15.5.7",
+    "next-themes": "^0.4.6",
+    "pg": "^8.16.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "swiper": "^12.0.2",
+    "use-debounce": "^10.0.6",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.10.1",
+    "@types/pg": "^8.15.6",
+    "@types/react": "19.1.15",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.4",
+    "prisma": "^7.0.1",
+    "tailwindcss": "^4"
+  }
 }
