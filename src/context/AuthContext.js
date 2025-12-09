@@ -35,7 +35,10 @@ export default function AuthProvider({ children }) {
                 const {
                     data: { user },
                 } = await supabase.auth.getUser();
-                addUser(user ?? null);
+
+                if (user?.email) {
+                    addUser(user);
+                }
             } catch (err) {
                 console.error('Error initializing auth:', err);
             } finally {

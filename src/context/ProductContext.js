@@ -169,14 +169,16 @@ export default function ProductProvider({ children }) {
 
     // --------------------- Fetch all products ---------------------
     useEffect(() => {
+        if (!user?.id) return;
+
         (async () => {
             try {
                 setLoading(true);
                 const res = await fetch('/api/products');
-                const data = await res.json();
+                const { data } = await res.json();
                 setProducts(data);
             } catch (err) {
-                console.error('Failed to load products', err);
+                console.error('Failed to load products', { err });
             } finally {
                 setLoading(false);
             }
