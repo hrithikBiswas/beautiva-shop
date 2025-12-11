@@ -88,7 +88,7 @@ const SingleProductPage = ({ params }) => {
 
     return (
         <div className="container">
-            <div className="grid grid-cols-6 gap-20 py-24">
+            <div className="grid grid-cols-6 gap-20 py-14">
                 {/* Left: Image Section */}
                 <div className="col-span-2 flex flex-col gap-4">
                     <div className="rounded-lg max-h-[400px]">
@@ -139,10 +139,6 @@ const SingleProductPage = ({ params }) => {
                     <h2 className="text-3xl text-gray-600 dark:text-gray-200 font-semibold capitalize">
                         {product?.name}
                     </h2>
-
-                    <p className="text-lg text-gray-500 dark:text-gray-300 text-justify">
-                        {product?.description}
-                    </p>
 
                     {/* Product Info */}
                     <table className="max-w-[400px] text-gray-600 dark:text-gray-200">
@@ -274,6 +270,14 @@ const SingleProductPage = ({ params }) => {
                         </Button>
                     </div>
                 </div>
+            </div>
+            <div>
+                <h1 className="text-3xl font-semibold text-gray-900 border-b border-gray-300 dark:border-gray-700 py-3">
+                    Description
+                </h1>
+                <p className="text-lg text-gray-500 dark:text-gray-300 text-justify pt-4 pb-10">
+                    {product?.description}
+                </p>
             </div>
         </div>
     );

@@ -71,10 +71,7 @@ const categoryPage = () => {
                         Create a new product category for your store
                     </p>
                 </div>
-                <div className="flex space-x-2">
-                    <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition flex items-center">
-                        <i className="fas fa-arrow-left mr-2"></i>Back
-                    </button>
+                <div className="flex">
                     <button className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition flex items-center">
                         <i className="fas fa-list mr-2"></i>View Categories
                     </button>

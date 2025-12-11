@@ -226,7 +226,7 @@ export default function Cart() {
                                     </div>
                                 </div>
                                 <Button
-                                    className="bg-black dark:bg-white text-xl dark:text-black"
+                                    className="bg-black text-white dark:bg-white text-xl dark:text-black"
                                     size="lg"
                                     radius="full"
                                     onPress={onClose}

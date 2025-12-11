@@ -6,6 +6,7 @@ import {
     addWishlist,
     getWishlistItems,
     getCartItems,
+    getCategories,
     getSingleProduct,
     getWishlistProduct,
     deleteWishlist,
@@ -20,6 +21,7 @@ export const ProductContext = createContext(null);
 
 export default function ProductProvider({ children }) {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [cartItems, setCartItems] = useState([]);
@@ -190,15 +192,17 @@ export default function ProductProvider({ children }) {
         if (!user?.id) return;
 
         (async () => {
-            const [cart, wishlist, wishlistProduct, cartProduct] =
+            const [cart, category, wishlist, wishlistProduct, cartProduct] =
                 await Promise.all([
                     getCartItems(),
+                    getCategories(),
                     getWishlistItems(),
                     getWishlistProduct(user?.id),
                     getCartProduct(user?.id),
                 ]);
 
             setCartItems(cart);
+            setCategories(category);
             setWishlistItems(wishlist);
             setWishlistProducts(wishlistProduct);
             setCartProducts(cartProduct);
@@ -237,6 +241,9 @@ export default function ProductProvider({ children }) {
                 singleProduct: getSingleProduct,
                 wishlistProduct: () => getWishlistProduct(user?.id),
                 cartProduct: () => getCartProduct(user?.id),
+
+                //category
+                categories,
             }}
         >
             {children}

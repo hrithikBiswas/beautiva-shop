@@ -83,8 +83,8 @@ const UserDropdown = ({ user, signOut, selectedTheme, handleThemeChange }) => (
             {/* Preferences */}
             <DropdownSection aria-label="Preferences">
                 <DropdownItem key="settings">
-                    <Link className="block" href="profile">
-                        Profile
+                    <Link className="block" href="/admin">
+                        Admin Panel
                     </Link>
                 </DropdownItem>
                 <DropdownItem
