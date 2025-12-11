@@ -94,7 +94,7 @@ const ProductsPage = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 sm:gap-y-8">
                         {filteredProducts.length === 0 && (
                             <p className="text-xl text-gray-600">
-                                Not found products..
+                                Not found products.
                             </p>
                         )}
                         {filteredProducts.map((product) => (
