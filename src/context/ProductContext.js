@@ -9,10 +9,12 @@ import {
     getCategories,
     getSingleProduct,
     getWishlistProduct,
+    getPosts,
     deleteWishlist,
     getCartProduct,
     deleteCart,
     updateProductQtyInCart,
+    getPostUser,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -21,6 +23,7 @@ export const ProductContext = createContext(null);
 
 export default function ProductProvider({ children }) {
     const [products, setProducts] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -169,6 +172,16 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const getSinglePost = async (postId) => {
+        try {
+            const post = await getPostUser(postId);
+            return post;
+        } catch (error) {
+            console.error(`Error fetching post ${postId} :`, error.message);
+            throw error;
+        }
+    };
+
     // --------------------- Fetch all products ---------------------
     useEffect(() => {
         if (!user) return;
@@ -192,18 +205,26 @@ export default function ProductProvider({ children }) {
         if (!user?.id) return;
 
         (async () => {
-            const [cart, category, wishlist, wishlistProduct, cartProduct] =
-                await Promise.all([
-                    getCartItems(),
-                    getCategories(),
-                    getWishlistItems(),
-                    getWishlistProduct(user?.id),
-                    getCartProduct(user?.id),
-                ]);
+            const [
+                cart,
+                category,
+                wishlist,
+                post,
+                wishlistProduct,
+                cartProduct,
+            ] = await Promise.all([
+                getCartItems(),
+                getCategories(),
+                getWishlistItems(),
+                getPosts(),
+                getWishlistProduct(user?.id),
+                getCartProduct(user?.id),
+            ]);
 
             setCartItems(cart);
             setCategories(category);
             setWishlistItems(wishlist);
+            setPosts(post);
             setWishlistProducts(wishlistProduct);
             setCartProducts(cartProduct);
         })();
@@ -244,6 +265,10 @@ export default function ProductProvider({ children }) {
 
                 //category
                 categories,
+
+                //post
+                posts,
+                getSinglePost,
             }}
         >
             {children}

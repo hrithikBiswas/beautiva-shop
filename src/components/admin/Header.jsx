@@ -103,6 +103,22 @@ const Header = () => {
                                 </li>
                                 <li>
                                     <Link
+                                        href="/admin/post"
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
+                                        className={`flex items-center space-x-2 p-2 rounded ${
+                                            pathName === 'post'
+                                                ? 'bg-indigo-900'
+                                                : 'hover:bg-indigo-700'
+                                        } `}
+                                    >
+                                        <ProductIcon />
+                                        <span>posts</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         href="/admin/category"
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)

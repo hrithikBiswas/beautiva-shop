@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DeleteIcon } from '@/components/SVG';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -12,6 +12,8 @@ const AdminPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [hoverImagePreview, setHoverImagePreview] = useState(null);
     const [categories, setCategories] = useState([]);
+    const imageFileRef = useRef(null);
+    const hoverFileRef = useRef(null);
     const { loading, setLoading, user } = useAuth();
 
     const formik = useFormik({
@@ -46,11 +48,13 @@ const AdminPage = () => {
             };
 
             await addProduct(payload);
+
             setLoading(false);
             resetForm();
-
             setImagePreview(null);
             setHoverImagePreview(null);
+            imageFileRef.current.value = '';
+            hoverFileRef.current.value = '';
 
             console.log('Product added successfully!');
 
@@ -87,10 +91,12 @@ const AdminPage = () => {
     const removeImage = () => {
         setImagePreview(null);
         formik.setFieldValue('image', '');
+        imageFileRef.current.value = '';
     };
     const removeHoverImage = () => {
         setHoverImagePreview(null);
         formik.setFieldValue('hoverImage', '');
+        hoverFileRef.current.value = '';
     };
 
     useEffect(() => {
@@ -272,6 +278,7 @@ const AdminPage = () => {
                                             )}
 
                                             <input
+                                                ref={imageFileRef}
                                                 id="image"
                                                 name="image"
                                                 type="file"
@@ -320,6 +327,7 @@ const AdminPage = () => {
                                             )}
 
                                             <input
+                                                ref={hoverFileRef}
                                                 id="hoverImage"
                                                 name="hoverImage"
                                                 type="file"

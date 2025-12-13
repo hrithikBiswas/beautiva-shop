@@ -137,6 +137,26 @@ export const deleteWishlist = async (wishlistId) => {
     }
 };
 
+// ------------------ POST ------------------
+export const addPost = async (post) => {
+    try {
+        await prisma.post.create({
+            data: {
+                productName: post.productName,
+                title: post.title || '',
+                slug: post.slug,
+                content: post.content,
+                image: post.image,
+                published: post.published || true,
+                userId: post.userId,
+            },
+        });
+    } catch (error) {
+        console.error('Error adding post:', error);
+        throw error;
+    }
+};
+
 // ------------------ SUPABASE IMAGE UPLOAD ------------------
 export const uploadProductImage = async (file) => {
     if (!file) return null;
@@ -163,12 +183,38 @@ export const uploadProductImage = async (file) => {
     }
 };
 
+export const uploadPostImage = async (file) => {
+    if (!file) return null;
+    try {
+        const supabase = await createClient();
+
+        const ext = file.name.split('.').pop();
+        const fileName = `post-${Date.now()}.${ext}`;
+
+        const { error } = await supabase.storage
+            .from('posts')
+            .upload(fileName, file);
+
+        if (error) throw error;
+
+        const { data: urlData } = supabase.storage
+            .from('posts')
+            .getPublicUrl(fileName);
+
+        return urlData.publicUrl;
+    } catch (error) {
+        console.error('Upload error:', error);
+        return null;
+    }
+};
+
 // ------------------ FETCHERS ------------------
 export const getUsers = async () => await prisma.user.findMany();
 export const getCategories = async () => await prisma.category.findMany();
 export const getProducts = async () => await prisma.product.findMany();
 export const getCartItems = async () => await prisma.cartItem.findMany();
 export const getWishlistItems = async () => await prisma.wishlist.findMany();
+export const getPosts = async () => await prisma.post.findMany();
 
 export const getWishlistProduct = async (userId) => {
     return await prisma.wishlist.findMany({
@@ -183,6 +229,13 @@ export const getCartProduct = async (userId) => {
         where: { userId },
         include: { product: true },
         orderBy: { createdAt: 'desc' },
+    });
+};
+
+export const getPostUser = async (id) => {
+    return await prisma.post.findUnique({
+        where: { id },
+        include: { user: true },
     });
 };
 

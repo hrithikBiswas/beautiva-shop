@@ -64,3 +64,8 @@ export type CartItem = Prisma.CartItemModel
  * 
  */
 export type Wishlist = Prisma.WishlistModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel

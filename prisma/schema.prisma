@@ -18,6 +18,7 @@ model User {
   products  Product[]
   CartItems CartItem[]
   Wishlists Wishlist[]
+   posts     Post[]
 }
 
 model Product {
@@ -74,6 +75,23 @@ model Wishlist {
 
   @@unique([userId, productId]) // prevents duplicate wishlist items
 }
+
+model Post {
+  id        String   @id @default(uuid())
+  productName String
+  title     String
+  slug      String   @unique
+  content   String?
+  image     String?
+  published Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
 
 enum Role {
   USER

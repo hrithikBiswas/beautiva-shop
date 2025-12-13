@@ -41,10 +41,10 @@ const ProductsPage = () => {
         <div className="container py-14">
             <div className="flex">
                 {/* Sidebar */}
-                <aside className="fixed min-h-screen w-xs">
+                <aside className="w-xs">
                     <h2 className="text-2xl font-semibold mb-4">Price</h2>
 
-                    <div className="flex flex-col gap-2 w-full h-full max-w-md pr-6">
+                    <div className="flex flex-col gap-2 w-full pr-6">
                         <Slider
                             className="max-w-md"
                             label="Select a budget"
@@ -90,7 +90,7 @@ const ProductsPage = () => {
                 </aside>
 
                 {/* Product Grid */}
-                <main className="ml-[280px] flex-1">
+                <main className="flex-1">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 sm:gap-y-8">
                         {filteredProducts.length === 0 && (
                             <p className="text-xl text-gray-600">
