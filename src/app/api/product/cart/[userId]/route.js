@@ -5,7 +5,7 @@ export async function GET(request, { params }) {
     const { userId } = await params;
 
     try {
-        const wishlistProductData = await prisma.wishlist.findMany({
+        const cartProductData = await prisma.cartItem.findMany({
             where: { userId },
             include: { product: true },
             orderBy: { createdAt: 'desc' },
@@ -14,19 +14,16 @@ export async function GET(request, { params }) {
         return NextResponse.json({
             success: true,
             status: 200,
-            message: 'Wishlist Product loaded successfully.',
-            wishlistProductData,
+            message: 'Cart Product loaded successfully.',
+            cartProductData,
         });
     } catch (error) {
-        console.error(
-            `API /api/product/wishlist/${userId} error:`,
-            error.message
-        );
+        console.error(`API /api/product/cart/${userId} error:`, error.message);
 
         return NextResponse.json(
             {
                 success: false,
-                message: 'Failed to load Wishlist Product',
+                message: 'Failed to load Cart Product',
                 error: error?.message || 'Unknown error',
             },
             { status: 500 }

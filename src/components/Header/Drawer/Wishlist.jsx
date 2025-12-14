@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
     Drawer,
     DrawerContent,
@@ -18,23 +17,8 @@ import useProduct from '@/hooks/useProduct';
 export default function Wishlist() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const {
-        totalWishlistItem,
-        wishlistProduct,
-        removeWishlist,
-        removeWishlistLoadingId,
-        wishlistLoadingId,
-    } = useProduct();
-
-    const [wishlistProducts, setWishlistProducts] = useState([]);
-
-    // Fetch wishlist products once and after removal
-    useEffect(() => {
-        (async () => {
-            const data = await wishlistProduct();
-            setWishlistProducts(data);
-        })();
-    }, [removeWishlist]);
+    const { wishlistProducts, removeWishlist, wishlistLoadingId } =
+        useProduct();
 
     return (
         <div className="hidden md:block">

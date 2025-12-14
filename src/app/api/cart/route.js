@@ -24,3 +24,23 @@ export async function GET() {
         );
     }
 }
+
+export async function POST(req) {
+    try {
+        const { productId, userId, qty = 1 } = await req.json();
+
+        if (!productId || !userId) {
+            return NextResponse.json(
+                { message: 'productId and userId are required' },
+                { status: 400 }
+            );
+        }
+
+        if (qty <= 0) {
+            return NextResponse.json(
+                { message: 'Quantity must be greater than 0' },
+                { status: 400 }
+            );
+        }
+    } catch (error) {}
+}

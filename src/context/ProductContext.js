@@ -4,13 +4,9 @@ import { useAuth } from '@/hooks';
 import {
     addCartItem,
     addWishlist,
-    getSingleProduct,
-    getWishlistProduct,
     deleteWishlist,
-    getCartProduct,
     deleteCart,
     updateProductQtyInCart,
-    getPostUser,
 } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
@@ -22,16 +18,12 @@ export default function ProductProvider({ children }) {
     const [blogs, setBlogs] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
-
     const [cartItems, setCartItems] = useState([]);
     const [cartProducts, setCartProducts] = useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const [wishlistProducts, setWishlistProducts] = useState([]);
-
     const [cartLoadingId, setCartLoadingId] = useState(null);
     const [wishlistLoadingId, setWishlistLoadingId] = useState(null);
-    const [removeWishlistLoadingId, setRemoveWishlistLoadingId] =
-        useState(null);
 
     const { user } = useAuth();
 
@@ -46,8 +38,10 @@ export default function ProductProvider({ children }) {
             const updatedCartRes = fetch('/api/cart').then((res) => res.json());
             setCartItems(updatedCartRes.cartData);
 
-            const updatedCartProducts = await getCartProduct(user.id);
-            setCartProducts(updatedCartProducts);
+            const updatedCartProductRes = await fetch(
+                `/api/product/cart/${user.id}`
+            ).then((res) => res.json());
+            setCartProducts(updatedCartProductRes.cartProductData);
 
             addToast({
                 title: 'Cart Status',
@@ -65,6 +59,59 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const cart = async (productId, qty) => {
+        try {
+            setCartLoadingId(productId);
+
+            const res = await fetch('api/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    productId,
+                    userId: user.id,
+                    qty,
+                }),
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.message || 'Faild to add to cart.');
+            }
+
+            const { message } = await res.json();
+
+            // Parallel fetch for better performance
+            const [updatedCartRes, updatedCartProductRes] = await Promise.all([
+                fetch('/api/cart').then((res) => res.json()),
+                fetch(`/api/product/cart/${user.id}`).then((res) => res.json()),
+            ]);
+
+            setCartItems(updatedCartRes.cartData);
+            setCartProducts(updatedCartProductRes.cartProductData);
+
+            addToast({
+                title: 'Cart Status',
+                description: message,
+                color: 'success',
+                radius: 'sm',
+                timeout: 3000,
+                hideCloseButton: true,
+                shouldShowTimeoutProgress: true,
+            });
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            addToast({
+                title: 'Error',
+                description: error.message || 'Failed to add item to cart',
+                color: 'error',
+                radius: 'sm',
+                timeout: 3000,
+            });
+        } finally {
+            setCartLoadingId(null);
+        }
+    };
+
     // --------------------- Add to Wishlist ---------------------
     const addToWishlist = async (productId) => {
         try {
@@ -77,8 +124,10 @@ export default function ProductProvider({ children }) {
             );
             setWishlistItems(updatedWishlistRes.wishlistData);
 
-            const updatedWishlistProducts = await getWishlistProduct(user.id);
-            setWishlistProducts(updatedWishlistProducts);
+            const updatedWishlistProductRes = await fetch(
+                `/api/product/wishlist/${user.id}`
+            ).then((res) => res.json());
+            setWishlistProducts(updatedWishlistProductRes.wishlistProductData);
 
             addToast({
                 title: 'Wishlist Status',
@@ -106,8 +155,10 @@ export default function ProductProvider({ children }) {
             );
             setWishlistItems(updatedWishlistRes.wishlistData);
 
-            const updatedWishlistProducts = await getWishlistProduct(user.id);
-            setWishlistProducts(updatedWishlistProducts);
+            const updatedWishlistProductRes = await fetch(
+                `/api/product/wishlist/${user.id}`
+            ).then((res) => res.json());
+            setWishlistProducts(updatedWishlistProductRes.wishlistProductData);
         } catch (error) {
             console.error('Error deleting cart:', error);
         } finally {
@@ -127,8 +178,10 @@ export default function ProductProvider({ children }) {
             );
             setCartItems(updatedCartRes.cartData);
 
-            const updatedCartProducts = await getCartProduct(user.id);
-            setCartProducts(updatedCartProducts);
+            const updatedCartProductRes = await fetch(
+                `/api/product/cart/${user.id}`
+            ).then((res) => res.json());
+            setCartProducts(updatedCartProductRes.cartProductData);
         } catch (error) {
             console.error('Error deleting cart:', error);
         } finally {
@@ -148,8 +201,10 @@ export default function ProductProvider({ children }) {
             );
             setCartItems(updatedCartRes.cartData);
 
-            const updatedProducts = await getCartProduct(user.id);
-            setCartProducts(updatedProducts);
+            const updatedCartProductRes = await fetch(
+                `/api/product/cart/${user.id}`
+            ).then((res) => res.json());
+            setCartProducts(updatedCartProductRes.cartProductData);
         } catch (error) {
             console.error('Error incrementing product quantity:', error);
         }
@@ -171,8 +226,10 @@ export default function ProductProvider({ children }) {
             );
             setCartItems(updatedCartRes.cartData);
 
-            const updatedProducts = await getCartProduct(user.id);
-            setCartProducts(updatedProducts);
+            const updatedCartProductRes = await fetch(
+                `/api/product/cart/${user.id}`
+            ).then((res) => res.json());
+            setCartProducts(updatedCartProductRes.cartProductData);
         } catch (error) {
             console.error('Error decrementing product quantity:', error);
         }
@@ -180,15 +237,32 @@ export default function ProductProvider({ children }) {
 
     const getSinglePost = async (postId) => {
         try {
-            const post = await getPostUser(postId);
-            return post;
+            const postRes = await fetch(`/api/blog/${postId}`).then((res) =>
+                res.json()
+            );
+            return postRes.singlePostData;
         } catch (error) {
             console.error(`Error fetching post ${postId} :`, error.message);
             throw error;
         }
     };
 
-    // --------------------- Fetch all products ---------------------
+    const getSingleProduct = async (id) => {
+        try {
+            const productRes = await fetch(`/api/product/${id}`).then((res) =>
+                res.json()
+            );
+            return productRes.singleProductData;
+        } catch (error) {
+            console.error(
+                `Error fetching single product ${id} :`,
+                error.message
+            );
+            throw error;
+        }
+    };
+
+    // --------------------- Fetch all initail items ---------------------
     useEffect(() => {
         if (!user) return;
 
@@ -198,6 +272,7 @@ export default function ProductProvider({ children }) {
                 const [
                     productRes,
                     wishlistProductRes,
+                    cartProductRes,
                     blogsRes,
                     categoryRes,
                     cartRes,
@@ -205,6 +280,9 @@ export default function ProductProvider({ children }) {
                 ] = await Promise.all([
                     fetch('/api/product').then((res) => res.json()),
                     fetch(`/api/product/wishlist/${user.id}`).then((res) =>
+                        res.json()
+                    ),
+                    fetch(`/api/product/cart/${user.id}`).then((res) =>
                         res.json()
                     ),
                     fetch('/api/blog').then((res) => res.json()),
@@ -215,6 +293,7 @@ export default function ProductProvider({ children }) {
 
                 setProducts(productRes.productData);
                 setWishlistProducts(wishlistProductRes.wishlistProductData);
+                setCartProducts(cartProductRes.cartProductData);
                 setBlogs(blogsRes.blogData);
                 setCategories(categoryRes.categoryData);
                 setCartItems(cartRes.cartData);
@@ -227,21 +306,11 @@ export default function ProductProvider({ children }) {
         })();
     }, [user]);
 
-    // --------------------- Fetch cart & wishlist, Wishlist product ---------------------
-    useEffect(() => {
-        if (!user?.id) return;
-
-        (async () => {
-            const [cartProduct] = await Promise.all([getCartProduct(user?.id)]);
-
-            setCartProducts(cartProduct);
-        })();
-    }, [user?.id]);
-
     return (
         <ProductContext.Provider
             value={{
                 products,
+                getSingleProduct,
                 loading,
 
                 // Cart
@@ -259,16 +328,10 @@ export default function ProductProvider({ children }) {
                 wishlistItems,
                 wishlistProducts,
                 wishlistLoadingId,
-                removeWishlistLoadingId,
                 addToWishlist,
                 removeWishlist,
                 isAlreadyInWishlist: (id) =>
                     wishlistProducts.some((x) => x.productId === id),
-
-                // Product
-                singleProduct: getSingleProduct,
-                wishlistProduct: () => getWishlistProduct(user?.id),
-                cartProduct: () => getCartProduct(user?.id),
 
                 //category
                 categories,

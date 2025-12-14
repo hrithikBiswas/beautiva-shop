@@ -23,7 +23,7 @@ const SingleProductPage = ({ params }) => {
     const {
         addToWishlist,
         addToCart,
-        singleProduct,
+        getSingleProduct,
         isAlreadyInWishlist,
         wishlistLoadingId,
         isAlreadyInCart,
@@ -43,7 +43,7 @@ const SingleProductPage = ({ params }) => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const data = await singleProduct(productId);
+                const data = await getSingleProduct(productId);
                 setProduct(data);
                 setViewProductImage(data.image);
             } catch (error) {
@@ -54,7 +54,7 @@ const SingleProductPage = ({ params }) => {
         };
 
         fetchProduct();
-    }, [singleProduct, productId]);
+    }, [getSingleProduct, productId]);
 
     useEffect(() => {
         (async () => {

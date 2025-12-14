@@ -210,35 +210,3 @@ export const uploadPostImage = async (file) => {
 
 // ------------------ FETCHERS ------------------
 export const getUsers = async () => await prisma.user.findMany();
-// export const getCategories = async () => await prisma.category.findMany();
-// export const getProducts = async () => await prisma.product.findMany();
-// export const getCartItems = async () => await prisma.cartItem.findMany();
-// export const getWishlistItems = async () => await prisma.wishlist.findMany();
-// export const getPosts = async () => await prisma.post.findMany();
-
-export const getWishlistProduct = async (userId) => {
-    return await prisma.wishlist.findMany({
-        where: { userId },
-        include: { product: true },
-        orderBy: { createdAt: 'desc' },
-    });
-};
-
-export const getCartProduct = async (userId) => {
-    return await prisma.cartItem.findMany({
-        where: { userId },
-        include: { product: true },
-        orderBy: { createdAt: 'desc' },
-    });
-};
-
-export const getPostUser = async (id) => {
-    return await prisma.post.findUnique({
-        where: { id },
-        include: { user: true },
-    });
-};
-
-export const getSingleProduct = async (productId) => {
-    return await prisma.product.findUnique({ where: { id: productId } });
-};
