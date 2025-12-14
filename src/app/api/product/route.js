@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server';
-import { getProducts } from '@/utils/actions';
+import { prisma } from '@/utils/prisma';
 
 export async function GET() {
     try {
-        const products = await getProducts();
+        const productData = await prisma.product.findMany();
 
-        return NextResponse.json(
-            { success: true, data: products },
-            { status: 200 }
-        );
+        return NextResponse.json({
+            success: true,
+            status: 200,
+            message: 'Products loaded successfully.',
+            productData,
+        });
     } catch (error) {
         console.error('API /api/products error:', error);
 
@@ -16,7 +18,7 @@ export async function GET() {
         return NextResponse.json(
             {
                 success: false,
-                message: 'Failed to load products',
+                message: 'Failed to load productData',
                 error: error?.message || 'Unknown error',
             },
             { status: 500 }

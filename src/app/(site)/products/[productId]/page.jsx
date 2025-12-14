@@ -88,9 +88,8 @@ const SingleProductPage = ({ params }) => {
 
     return (
         <div className="container">
-            <div className="grid grid-cols-6 gap-20 py-14">
-                {/* Left: Image Section */}
-                <div className="col-span-2 flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-6 gap-20 py-14">
+                <div className="sm:col-span-2 flex flex-col items-center sm:items-start gap-4">
                     <div className="rounded-lg max-h-[400px]">
                         <img
                             className="rounded-lg max-h-[400px] w-full object-cover"
@@ -99,7 +98,6 @@ const SingleProductPage = ({ params }) => {
                         />
                     </div>
 
-                    {/* Thumbnail images (optional) */}
                     <div className="flex gap-4">
                         <Button
                             className={`w-28 h-28 px-0 rounded-lg cursor-pointer ${
@@ -134,13 +132,11 @@ const SingleProductPage = ({ params }) => {
                     </div>
                 </div>
 
-                {/* Right: Details Section */}
-                <div className="col-span-4 flex flex-col gap-8 px-4">
+                <div className="sm:col-span-4 flex flex-col gap-8 px-4">
                     <h2 className="text-3xl text-gray-600 dark:text-gray-200 font-semibold capitalize">
                         {product?.name}
                     </h2>
 
-                    {/* Product Info */}
                     <table className="max-w-[400px] text-gray-600 dark:text-gray-200">
                         <tbody>
                             <tr>
@@ -170,10 +166,8 @@ const SingleProductPage = ({ params }) => {
                         </tbody>
                     </table>
 
-                    {/* Add to Cart Section */}
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center space-x-4">
-                            {/* Quantity Selector */}
                             <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
                                 <button
                                     onClick={decrement}
@@ -199,7 +193,6 @@ const SingleProductPage = ({ params }) => {
                                 </button>
                             </div>
 
-                            {/* Add to Cart */}
                             <Button
                                 size="lg"
                                 color="secondary"
@@ -224,10 +217,8 @@ const SingleProductPage = ({ params }) => {
                                 ) : (
                                     'Add to Cart'
                                 )}
-                                {/* Add to Cart */}
                             </Button>
 
-                            {/* Wishlist */}
                             <Button
                                 color="danger"
                                 radius="sm"
@@ -260,7 +251,6 @@ const SingleProductPage = ({ params }) => {
                             </Button>
                         </div>
 
-                        {/* Buy Now */}
                         <Button
                             radius="sm"
                             size="lg"

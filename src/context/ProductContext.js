@@ -4,12 +4,8 @@ import { useAuth } from '@/hooks';
 import {
     addCartItem,
     addWishlist,
-    getWishlistItems,
-    getCartItems,
-    getCategories,
     getSingleProduct,
     getWishlistProduct,
-    getPosts,
     deleteWishlist,
     getCartProduct,
     deleteCart,
@@ -23,7 +19,7 @@ export const ProductContext = createContext(null);
 
 export default function ProductProvider({ children }) {
     const [products, setProducts] = useState([]);
-    const [posts, setPosts] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -47,8 +43,8 @@ export default function ProductProvider({ children }) {
             const { message } = await addCartItem(productId, user.id, qty);
 
             // Update local state
-            const updatedCart = await getCartItems();
-            setCartItems(updatedCart);
+            const updatedCartRes = fetch('/api/cart').then((res) => res.json());
+            setCartItems(updatedCartRes.cartData);
 
             const updatedCartProducts = await getCartProduct(user.id);
             setCartProducts(updatedCartProducts);
@@ -76,8 +72,10 @@ export default function ProductProvider({ children }) {
 
             await addWishlist(productId, user.id);
 
-            const updatedWishlist = await getWishlistItems();
-            setWishlistItems(updatedWishlist);
+            const updatedWishlistRes = await fetch('/api/wishlist').then(
+                (res) => res.json()
+            );
+            setWishlistItems(updatedWishlistRes.wishlistData);
 
             const updatedWishlistProducts = await getWishlistProduct(user.id);
             setWishlistProducts(updatedWishlistProducts);
@@ -103,8 +101,10 @@ export default function ProductProvider({ children }) {
 
             await deleteWishlist(wishlistId);
 
-            const updated = await getWishlistItems();
-            setWishlistItems(updated);
+            const updatedWishlistRes = await fetch('/api/wishlist').then(
+                (res) => res.json()
+            );
+            setWishlistItems(updatedWishlistRes.wishlistData);
 
             const updatedWishlistProducts = await getWishlistProduct(user.id);
             setWishlistProducts(updatedWishlistProducts);
@@ -122,8 +122,10 @@ export default function ProductProvider({ children }) {
 
             await deleteCart(CartId);
 
-            const updated = await getCartItems();
-            setCartItems(updated);
+            const updatedCartRes = await fetch('/api/cart').then((res) =>
+                res.json()
+            );
+            setCartItems(updatedCartRes.cartData);
 
             const updatedCartProducts = await getCartProduct(user.id);
             setCartProducts(updatedCartProducts);
@@ -141,8 +143,10 @@ export default function ProductProvider({ children }) {
             await updateProductQtyInCart(cartId, user.id, newQty);
 
             // Refresh local state
-            const updatedCartItems = await getCartItems();
-            setCartItems(updatedCartItems);
+            const updatedCartRes = await fetch('/api/cart').then((res) =>
+                res.json()
+            );
+            setCartItems(updatedCartRes.cartData);
 
             const updatedProducts = await getCartProduct(user.id);
             setCartProducts(updatedProducts);
@@ -162,8 +166,10 @@ export default function ProductProvider({ children }) {
             }
 
             // Refresh local state
-            const updatedCartItems = await getCartItems();
-            setCartItems(updatedCartItems);
+            const updatedCartRes = await fetch('/api/cart').then((res) =>
+                res.json()
+            );
+            setCartItems(updatedCartRes.cartData);
 
             const updatedProducts = await getCartProduct(user.id);
             setCartProducts(updatedProducts);
@@ -189,11 +195,32 @@ export default function ProductProvider({ children }) {
         (async () => {
             try {
                 setLoading(true);
-                const res = await fetch('/api/products');
-                const { data } = await res.json();
-                setProducts(data);
+                const [
+                    productRes,
+                    wishlistProductRes,
+                    blogsRes,
+                    categoryRes,
+                    cartRes,
+                    wishlistRes,
+                ] = await Promise.all([
+                    fetch('/api/product').then((res) => res.json()),
+                    fetch(`/api/product/wishlist/${user.id}`).then((res) =>
+                        res.json()
+                    ),
+                    fetch('/api/blog').then((res) => res.json()),
+                    fetch('/api/category').then((res) => res.json()),
+                    fetch('/api/cart').then((res) => res.json()),
+                    fetch('/api/wishlist').then((res) => res.json()),
+                ]);
+
+                setProducts(productRes.productData);
+                setWishlistProducts(wishlistProductRes.wishlistProductData);
+                setBlogs(blogsRes.blogData);
+                setCategories(categoryRes.categoryData);
+                setCartItems(cartRes.cartData);
+                setWishlistItems(wishlistRes.wishlistData);
             } catch (err) {
-                console.error('Failed to load products', { err });
+                console.error('Failed to load initial data:', { err });
             } finally {
                 setLoading(false);
             }
@@ -205,27 +232,8 @@ export default function ProductProvider({ children }) {
         if (!user?.id) return;
 
         (async () => {
-            const [
-                cart,
-                category,
-                wishlist,
-                post,
-                wishlistProduct,
-                cartProduct,
-            ] = await Promise.all([
-                getCartItems(),
-                getCategories(),
-                getWishlistItems(),
-                getPosts(),
-                getWishlistProduct(user?.id),
-                getCartProduct(user?.id),
-            ]);
+            const [cartProduct] = await Promise.all([getCartProduct(user?.id)]);
 
-            setCartItems(cart);
-            setCategories(category);
-            setWishlistItems(wishlist);
-            setPosts(post);
-            setWishlistProducts(wishlistProduct);
             setCartProducts(cartProduct);
         })();
     }, [user?.id]);
@@ -244,7 +252,6 @@ export default function ProductProvider({ children }) {
                 decrementProductQtyInCart,
                 addToCart,
                 removeCart,
-                totalCartItem: cartItems.length,
                 isAlreadyInCart: (id) =>
                     cartProducts.some((x) => x.productId === id),
 
@@ -267,7 +274,7 @@ export default function ProductProvider({ children }) {
                 categories,
 
                 //post
-                posts,
+                blogs,
                 getSinglePost,
             }}
         >

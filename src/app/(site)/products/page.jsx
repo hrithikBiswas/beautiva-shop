@@ -35,8 +35,6 @@ const ProductsPage = () => {
         return countMap;
     }, [products]);
 
-    console.log(categoryCount);
-
     return (
         <div className="container py-14">
             <div className="flex">

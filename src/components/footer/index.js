@@ -3,7 +3,7 @@ import TopFooter from './TopFooter';
 
 const Footer = () => {
     return (
-        <div className="max-w-7xl mx-auto ">
+        <div className="max-w-7xl mx-auto px-6">
             <TopFooter />
             <BottomFooter />
         </div>

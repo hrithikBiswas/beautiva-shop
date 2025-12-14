@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
         <html lang="en" suppressHydrationWarning>
             <body
                 suppressHydrationWarning
-                className={`antialiased dark:bg-gray-950! dark:text-white`}
+                className={`antialiased min-h-screen dark:bg-gray-950! dark:text-white`}
             >
                 <ThemeProvider
                     attribute="data-theme"

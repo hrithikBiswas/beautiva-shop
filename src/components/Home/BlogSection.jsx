@@ -7,7 +7,7 @@ import useProduct from '@/hooks/useProduct';
 import BlogCard from '@/components/common/BlogCard';
 
 const BlogSection = () => {
-    const { posts } = useProduct();
+    const { blogs } = useProduct();
     return (
         <div className="mt-14 sm:mt-24">
             <Title
@@ -15,8 +15,8 @@ const BlogSection = () => {
                 subtitle="Our bundles were designed to conveniently package your tanning essentials while saving you money."
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-                {posts.slice(0, 3).map((post) => (
-                    <BlogCard blog={post} key={post.id} />
+                {blogs.slice(0, 3).map((blog) => (
+                    <BlogCard blog={blog} key={blog.id} />
                 ))}
             </div>
             <div className="flex justify-center mt-8 sm:mt-14">

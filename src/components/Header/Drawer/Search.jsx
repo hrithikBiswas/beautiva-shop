@@ -12,6 +12,7 @@ import SearchBar from './SearchBar';
 import { useSearchParams } from 'next/navigation';
 import useProduct from '@/hooks/useProduct';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Search() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -27,8 +28,6 @@ export default function Search() {
             product.description.toLowerCase().includes(query.toLowerCase())
         );
     });
-
-    console.log(filteredProduct);
 
     return (
         <>
@@ -64,7 +63,7 @@ export default function Search() {
                             <DrawerHeader className="flex flex-col gap-1 border-b border-gray-300 py-4">
                                 <SearchBar />
                             </DrawerHeader>
-                            <DrawerBody>
+                            <DrawerBody className="py-5">
                                 {filteredProduct.length === 0 && (
                                     <p className="text-xl text-gray-500">
                                         No products found!
@@ -75,92 +74,39 @@ export default function Search() {
                                         key={product?.id}
                                         className="flex gap-3 ring ring-gray-200 dark:ring-gray-500 shadow-md rounded-lg p-2"
                                     >
-                                        <Image
-                                            src={product?.image}
-                                            alt={product?.name}
-                                            className="w-[90px] h-[90px] object-cover rounded-lg"
-                                            width={90}
-                                            height={90}
-                                        />
+                                        <Link
+                                            href={`/products/${product?.id}`}
+                                            onClick={onClose}
+                                        >
+                                            <Image
+                                                src={product?.image}
+                                                alt={product?.name}
+                                                className="w-[90px] h-[90px] object-cover rounded-lg"
+                                                width={90}
+                                                height={90}
+                                            />
+                                        </Link>
 
                                         <div className="flex-1 flex flex-col gap-1 items-start">
-                                            <h3 className="font-semibold text-gray-700 dark:text-gray-200 capitalize leading-5">
+                                            <Link
+                                                href={`/products/${product?.id}`}
+                                                className="font-semibold text-gray-700 hover:text-gray-900 dark:text-gray-200 capitalize leading-5 transition-all duration-200"
+                                                onClick={onClose}
+                                            >
                                                 {product?.name}
-                                            </h3>
+                                            </Link>
                                             <span className="text-gray-700 dark:text-gray-200 text-sm">
                                                 {product?.category}
                                             </span>
-                                            <div className="flex items-center border border-gray-300 rounded-md">
-                                                <Button
-                                                    // onPress={() =>
-                                                    //     debouncedDecrementProductQtyInCart(
-                                                    //         cartId,
-                                                    //         qty
-                                                    //     )
-                                                    // }
-                                                    radius="none"
-                                                    variant="light"
-                                                    className="p-2 rounded-s-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
-                                                >
-                                                    <MinusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
-                                                </Button>
-
-                                                <input
-                                                    name="qty"
-                                                    type="number"
-                                                    // value={qty}
-                                                    value={1}
-                                                    // max={product?.stock}
-                                                    readOnly
-                                                    className="w-10 text-center text-base border-0 outline-none focus:ring-0"
-                                                />
-                                                <Button
-                                                    // onPress={() =>
-                                                    //     debouncedIncrementProductQtyInCart(
-                                                    //         cartId,
-                                                    //         qty
-                                                    //     )
-                                                    // }
-                                                    radius="none"
-                                                    variant="light"
-                                                    className="p-2 rounded-e-md hover:bg-gray-200 cursor-pointer min-w-0 h-fit"
-                                                >
-                                                    <PlusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
-                                                </Button>
-                                            </div>
+                                            <span className="text-gray-700 dark:text-gray-200 text-sm">
+                                                Stock: {product?.stock}
+                                            </span>
                                         </div>
 
                                         <div className="flex flex-col justify-around">
                                             <h2 className="text-fuchsia-900 text-2xl font-semibold">
-                                                {/* ${qty * product?.price} */}
-                                                10
+                                                ${product?.price}
                                             </h2>
-                                            <Button
-                                                color="danger"
-                                                radius="full"
-                                                variant="shadow"
-                                                className="min-w-fit h-fit p-2 me-1"
-                                                // isDisabled={
-                                                //     cartLoadingId === cartId
-                                                // }
-                                                // onPress={() =>
-                                                //     removeCart(cartId)
-                                                // }
-                                            >
-                                                {/* {cartLoadingId ===
-                                                    cartId ? (
-                                                        <Spinner
-                                                            variant="dots"
-                                                            color="white"
-                                                            classNames={{
-                                                                wrapper:
-                                                                    'translate-y-0 items-center',
-                                                            }}
-                                                        />
-                                                    ) : ( */}
-                                                <DeleteIcon />
-                                                {/* )} */}
-                                            </Button>
                                         </div>
                                     </div>
                                 ))}

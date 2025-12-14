@@ -4,7 +4,7 @@ import useProduct from '@/hooks/useProduct';
 import { Breadcrumbs, BreadcrumbItem } from '@heroui/react';
 
 const BlogPage = () => {
-    const { posts } = useProduct();
+    const { blogs } = useProduct();
 
     return (
         <div className="container pt-10">
@@ -15,8 +15,8 @@ const BlogPage = () => {
                 </Breadcrumbs>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-                {posts.map((post) => (
-                    <BlogCard blog={post} key={post.id} />
+                {blogs.map((blog) => (
+                    <BlogCard blog={blog} key={blog.id} />
                 ))}
             </div>
         </div>
