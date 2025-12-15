@@ -131,15 +131,59 @@ export default function ProductProvider({ children }) {
     };
 
     // --------------------- Remove Cart ---------------------
-    const removeCart = async (CartId) => {
-        try {
-            setCartLoadingId(CartId);
+    // const removeCart = async (CartId) => {
+    //     try {
+    //         setCartLoadingId(CartId);
 
-            await deleteCart(CartId);
+    //         await deleteCart(CartId);
+
+    //         await refreshCart();
+    //     } catch (error) {
+    //         console.error('Error deleting cart:', error);
+    //     } finally {
+    //         setCartLoadingId(null);
+    //     }
+    // };
+
+    const removeFromCart = async (cartId) => {
+        if (!user?.id) return;
+
+        try {
+            setCartLoadingId(cartId);
+
+            const res = await fetch('/api/cart', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/jon' },
+                body: JSON.stringify({
+                    userId: user.id,
+                    cartId,
+                }),
+            });
+
+            const { message } = await res.json();
+
+            if (!res.ok) {
+                throw new Error(message || 'Failed to remove item');
+            }
 
             await refreshCart();
+
+            addToast({
+                title: 'Success',
+                description: message,
+                color: 'success',
+                radius: 'sm',
+                timeout: 2000,
+            });
         } catch (error) {
-            console.error('Error deleting cart:', error);
+            console.error('Error removing from cart:', error);
+            addToast({
+                title: 'Error',
+                description: error.message,
+                color: 'error',
+                radius: 'sm',
+                timeout: 3000,
+            });
         } finally {
             setCartLoadingId(null);
         }
@@ -312,7 +356,7 @@ export default function ProductProvider({ children }) {
                 incrementProductQtyInCart,
                 decrementProductQtyInCart,
                 addToCart,
-                removeCart,
+                removeFromCart,
                 isAlreadyInCart: (id) =>
                     cartProducts.some((x) => x.productId === id),
 

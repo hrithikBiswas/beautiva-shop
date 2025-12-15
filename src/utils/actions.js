@@ -61,47 +61,47 @@ export const isExistCategory = async (categoryName) => {
     return prisma.category.findFirst({ where: { name: trimmedName } });
 };
 
-// ------------------ CART ------------------
-export const addCartItem = async (productId, userId, qty = 1) => {
-    try {
-        const existing = await prisma.cartItem.findUnique({
-            where: { userId_productId: { userId, productId } },
-        });
+// // ------------------ CART ------------------
+// export const addCartItem = async (productId, userId, qty = 1) => {
+//     try {
+//         const existing = await prisma.cartItem.findUnique({
+//             where: { userId_productId: { userId, productId } },
+//         });
 
-        if (existing) {
-            const updated = await prisma.cartItem.update({
-                where: { userId_productId: { userId, productId } },
-                data: { quantity: existing.quantity + qty },
-            });
-            return { message: 'Cart updated successfully', updated };
-        }
+//         if (existing) {
+//             const updated = await prisma.cartItem.update({
+//                 where: { userId_productId: { userId, productId } },
+//                 data: { quantity: existing.quantity + qty },
+//             });
+//             return { message: 'Cart updated successfully', updated };
+//         }
 
-        const created = await prisma.cartItem.create({
-            data: { quantity: qty, productId, userId },
-        });
+//         const created = await prisma.cartItem.create({
+//             data: { quantity: qty, productId, userId },
+//         });
 
-        return { message: 'Product added to cart successfully', created };
-    } catch (error) {
-        console.error('Error updating cartItem:', error);
-        throw error;
-    }
-};
+//         return { message: 'Product added to cart successfully', created };
+//     } catch (error) {
+//         console.error('Error updating cartItem:', error);
+//         throw error;
+//     }
+// };
 
-export const updateProductQtyInCart = async (cartId, userId, quantity) => {
-    try {
-        const safeQty = Math.max(1, quantity); // prevent 0 or negative
+// export const updateProductQtyInCart = async (cartId, userId, quantity) => {
+//     try {
+//         const safeQty = Math.max(1, quantity); // prevent 0 or negative
 
-        const updated = await prisma.cartItem.update({
-            where: { id: cartId, userId: userId },
-            data: { quantity: safeQty },
-        });
+//         const updated = await prisma.cartItem.update({
+//             where: { id: cartId, userId: userId },
+//             data: { quantity: safeQty },
+//         });
 
-        return updated;
-    } catch (error) {
-        console.error('Error updating cart quantity:', error);
-        return null;
-    }
-};
+//         return updated;
+//     } catch (error) {
+//         console.error('Error updating cart quantity:', error);
+//         return null;
+//     }
+// };
 
 export const deleteCart = async (cartId) => {
     try {

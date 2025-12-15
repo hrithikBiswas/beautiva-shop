@@ -23,7 +23,7 @@ export default function Cart() {
     const {
         cartLoadingId,
         cartProducts,
-        removeCart,
+        removeFromCart,
         incrementProductQtyInCart,
         decrementProductQtyInCart,
     } = useProduct();
@@ -174,7 +174,7 @@ export default function Cart() {
                                                         cartLoadingId === cartId
                                                     }
                                                     onPress={() =>
-                                                        removeCart(cartId)
+                                                        removeFromCart(cartId)
                                                     }
                                                 >
                                                     {cartLoadingId ===

@@ -145,3 +145,44 @@ export async function PATCH(req) {
         );
     }
 }
+
+export async function DELETE(req) {
+    try {
+        const { userId, cartId } = await req.json();
+
+        await prisma.cartItem.delete({
+            where: {
+                id: cartId,
+                userId: userId,
+            },
+        });
+
+        return NextResponse.json({
+            success: true,
+            status: 200,
+            message: 'Item removed from cart',
+        });
+    } catch (error) {
+        console.error('Error removing from cart:', error);
+
+        if (error.code === 'P2025') {
+            return NextResponse.json({
+                success: false,
+                status: 404,
+                message: 'Cart item not found',
+            });
+        }
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: 'Failed to remove item',
+                error:
+                    process.env.NODE_ENV === 'development'
+                        ? error.message
+                        : 'Internal server error',
+            },
+            { status: 500 }
+        );
+    }
+}
