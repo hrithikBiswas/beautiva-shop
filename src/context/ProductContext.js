@@ -130,21 +130,6 @@ export default function ProductProvider({ children }) {
         }
     };
 
-    // --------------------- Remove Cart ---------------------
-    // const removeCart = async (CartId) => {
-    //     try {
-    //         setCartLoadingId(CartId);
-
-    //         await deleteCart(CartId);
-
-    //         await refreshCart();
-    //     } catch (error) {
-    //         console.error('Error deleting cart:', error);
-    //     } finally {
-    //         setCartLoadingId(null);
-    //     }
-    // };
-
     const removeFromCart = async (cartId) => {
         if (!user?.id) return;
 
