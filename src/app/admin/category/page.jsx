@@ -42,15 +42,23 @@ const categoryPage = () => {
                 });
             }
 
-            await addCategory(values);
-            console.log(values);
+            // await addCategory(values);
+            const res = await fetch('/api/category', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    values,
+                }),
+            });
+
+            const { message } = await res.json();
 
             setLoading(false);
             resetForm();
 
             return addToast({
                 title: 'Category Status',
-                description: 'New category added successfully!',
+                description: message,
                 color: 'success',
                 radius: 'sm',
                 hideCloseButton: true,
