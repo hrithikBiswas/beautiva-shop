@@ -36,7 +36,7 @@ const SingleProductPage = ({ params }) => {
     );
 
     const debouncedAddToCart = useDebouncedCallback(
-        (productId) => addToCart(productId, quantity),
+        () => addToCart(productId, quantity),
         400
     );
 

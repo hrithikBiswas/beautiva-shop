@@ -28,42 +28,13 @@ export default function ProductProvider({ children }) {
     const { user } = useAuth();
 
     // --------------------- Add to Cart ---------------------
+
     const addToCart = async (productId, qty) => {
         try {
             setCartLoadingId(productId);
+            console.log('working');
 
-            const { message } = await addCartItem(productId, user.id, qty);
-
-            // Update local state
-            const updatedCartRes = fetch('/api/cart').then((res) => res.json());
-            setCartItems(updatedCartRes.cartData);
-
-            const updatedCartProductRes = await fetch(
-                `/api/product/cart/${user.id}`
-            ).then((res) => res.json());
-            setCartProducts(updatedCartProductRes.cartProductData);
-
-            addToast({
-                title: 'Cart Status',
-                description: message,
-                color: 'success',
-                radius: 'sm',
-                timeout: 3000,
-                hideCloseButton: true,
-                shouldShowTimeoutProgress: true,
-            });
-        } catch (error) {
-            console.error('Error adding to cart:', error);
-        } finally {
-            setCartLoadingId(null);
-        }
-    };
-
-    const cart = async (productId, qty) => {
-        try {
-            setCartLoadingId(productId);
-
-            const res = await fetch('api/cart', {
+            const res = await fetch('/api/cart', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -80,14 +51,7 @@ export default function ProductProvider({ children }) {
 
             const { message } = await res.json();
 
-            // Parallel fetch for better performance
-            const [updatedCartRes, updatedCartProductRes] = await Promise.all([
-                fetch('/api/cart').then((res) => res.json()),
-                fetch(`/api/product/cart/${user.id}`).then((res) => res.json()),
-            ]);
-
-            setCartItems(updatedCartRes.cartData);
-            setCartProducts(updatedCartProductRes.cartProductData);
+            await refreshCart();
 
             addToast({
                 title: 'Cart Status',
@@ -173,15 +137,7 @@ export default function ProductProvider({ children }) {
 
             await deleteCart(CartId);
 
-            const updatedCartRes = await fetch('/api/cart').then((res) =>
-                res.json()
-            );
-            setCartItems(updatedCartRes.cartData);
-
-            const updatedCartProductRes = await fetch(
-                `/api/product/cart/${user.id}`
-            ).then((res) => res.json());
-            setCartProducts(updatedCartProductRes.cartProductData);
+            await refreshCart();
         } catch (error) {
             console.error('Error deleting cart:', error);
         } finally {
@@ -193,18 +149,29 @@ export default function ProductProvider({ children }) {
         try {
             const newQty = currentQty + 1;
 
-            await updateProductQtyInCart(cartId, user.id, newQty);
+            const cartUpdateRes = await fetch('/api/cart', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cartId,
+                    userId: user.id,
+                    quantity: newQty,
+                }),
+            });
 
-            // Refresh local state
-            const updatedCartRes = await fetch('/api/cart').then((res) =>
-                res.json()
-            );
-            setCartItems(updatedCartRes.cartData);
+            const { message } = await cartUpdateRes.json();
 
-            const updatedCartProductRes = await fetch(
-                `/api/product/cart/${user.id}`
-            ).then((res) => res.json());
-            setCartProducts(updatedCartProductRes.cartProductData);
+            await refreshCart();
+
+            addToast({
+                title: 'Cart Status',
+                description: message,
+                color: 'success',
+                radius: 'sm',
+                timeout: 1500,
+                hideCloseButton: true,
+                shouldShowTimeoutProgress: true,
+            });
         } catch (error) {
             console.error('Error incrementing product quantity:', error);
         }
@@ -214,22 +181,37 @@ export default function ProductProvider({ children }) {
         try {
             const newQty = currentQty - 1;
 
-            if (newQty < 1) {
-                removeCart(cartId);
-            } else {
-                await updateProductQtyInCart(cartId, user.id, newQty);
-            }
+            console.log(newQty);
 
-            // Refresh local state
-            const updatedCartRes = await fetch('/api/cart').then((res) =>
-                res.json()
-            );
-            setCartItems(updatedCartRes.cartData);
+            // if (newQty < 1) {
+            //     removeCart(cartId);
+            // } else {
+            //     await updateProductQtyInCart(cartId, user.id, newQty);
+            // }
 
-            const updatedCartProductRes = await fetch(
-                `/api/product/cart/${user.id}`
-            ).then((res) => res.json());
-            setCartProducts(updatedCartProductRes.cartProductData);
+            const cartUpdateRes = await fetch('/api/cart', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cartId,
+                    userId: user.id,
+                    quantity: newQty,
+                }),
+            });
+
+            const { message } = await cartUpdateRes.json();
+
+            await refreshCart();
+
+            addToast({
+                title: 'Cart Status',
+                description: message,
+                color: 'success',
+                radius: 'sm',
+                timeout: 1500,
+                hideCloseButton: true,
+                shouldShowTimeoutProgress: true,
+            });
         } catch (error) {
             console.error('Error decrementing product quantity:', error);
         }
@@ -260,6 +242,16 @@ export default function ProductProvider({ children }) {
             );
             throw error;
         }
+    };
+
+    const refreshCart = async () => {
+        const [cartRes, productsRes] = await Promise.all([
+            fetch('/api/cart').then((res) => res.json()),
+            fetch(`/api/product/cart/${user.id}`).then((res) => res.json()),
+        ]);
+
+        setCartItems(cartRes.cartData || []);
+        setCartProducts(productsRes.cartProductData || []);
     };
 
     // --------------------- Fetch all initail items ---------------------

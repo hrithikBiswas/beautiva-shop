@@ -137,7 +137,6 @@ export default function Cart() {
                                                     >
                                                         <MinusIcon className="w-4 h-4 text-gray-600 dark:text-white" />
                                                     </Button>
-
                                                     <input
                                                         name="qty"
                                                         type="number"
