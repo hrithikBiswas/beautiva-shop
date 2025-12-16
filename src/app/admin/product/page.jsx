@@ -1,20 +1,21 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { DeleteIcon } from '@/components/SVG';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { addProduct, uploadProductImage, getCategories } from '@/utils/actions';
+import { uploadProductImage } from '@/utils/actions';
 import { useAuth } from '@/hooks';
 import { addToast } from '@heroui/react';
+import useProduct from '@/hooks/useProduct';
 
 const AdminPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [hoverImagePreview, setHoverImagePreview] = useState(null);
-    const [categories, setCategories] = useState([]);
     const imageFileRef = useRef(null);
     const hoverFileRef = useRef(null);
     const { loading, setLoading, user } = useAuth();
+    const { categories } = useProduct();
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -47,7 +48,13 @@ const AdminPage = () => {
                 hoverImage: hoverImageUrl,
             };
 
-            await addProduct(payload);
+            const res = await fetch('/api/product', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ payload }),
+            });
+
+            const { message, success } = await res.json();
 
             setLoading(false);
             resetForm();
@@ -56,12 +63,10 @@ const AdminPage = () => {
             imageFileRef.current.value = '';
             hoverFileRef.current.value = '';
 
-            console.log('Product added successfully!');
-
             return addToast({
                 title: 'Product Status',
-                description: 'Product added successfully!',
-                color: 'success',
+                description: message,
+                color: success ? 'success' : 'danger',
                 radius: 'sm',
                 hideCloseButton: true,
                 timeout: 3000,
@@ -98,15 +103,6 @@ const AdminPage = () => {
         formik.setFieldValue('hoverImage', '');
         hoverFileRef.current.value = '';
     };
-
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const categories = await getCategories();
-            setCategories(categories);
-        };
-
-        fetchCategories();
-    }, []);
 
     return (
         <div className="flex-1 p-8 dark:bg-gray-950 mt-10 sm:mt-0">

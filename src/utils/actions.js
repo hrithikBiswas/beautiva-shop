@@ -22,28 +22,6 @@ export const addUser = async (user) => {
     }
 };
 
-// ------------------ PRODUCT ------------------
-export const addProduct = async (product) => {
-    try {
-        await prisma.product.create({
-            data: {
-                name: product.productName,
-                description: product.description || '',
-                price: product.price,
-                image: product.image,
-                hoverImage: product.hoverImage,
-                stock: product.stock || 0,
-                category: product.category || '',
-                featured: product.featured || false,
-                userId: product.userId,
-            },
-        });
-    } catch (error) {
-        console.error('Error adding product:', error);
-        throw error;
-    }
-};
-
 // ------------------ CATEGORY ------------------
 
 export const isExistCategory = async (categoryName) => {

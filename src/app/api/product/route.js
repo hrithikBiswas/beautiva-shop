@@ -25,3 +25,39 @@ export async function GET() {
         );
     }
 }
+
+export async function POST(req) {
+    try {
+        const { payload } = await req.json();
+
+        const product = await prisma.product.create({
+            data: {
+                name: payload.productName,
+                description: payload.description || '',
+                price: payload.price,
+                image: payload.image,
+                hoverImage: payload.hoverImage,
+                stock: payload.stock || 0,
+                category: payload.category || '',
+                featured: payload.featured || false,
+                userId: payload.userId,
+            },
+        });
+
+        return NextResponse.json({
+            success: true,
+            status: 201,
+            message: 'Product added successfully',
+            product,
+        });
+    } catch (error) {
+        console.error('Error creating product:', error.message);
+
+        return NextResponse.json({
+            successe: false,
+            status: 500,
+            message: 'Internal server error',
+            error: error.message,
+        });
+    }
+}
