@@ -45,43 +45,10 @@ export const addProduct = async (product) => {
 };
 
 // ------------------ CATEGORY ------------------
-export const addCategory = async ({ name, slug, description }) => {
-    try {
-        await prisma.category.create({
-            data: { name, slug, description },
-        });
-    } catch (error) {
-        console.error('Error adding category:', error);
-        throw error;
-    }
-};
 
 export const isExistCategory = async (categoryName) => {
     const trimmedName = categoryName.trim();
     return prisma.category.findFirst({ where: { name: trimmedName } });
-};
-
-// ------------------ WISHLIST ------------------
-export const addWishlist = async (productId, userId) => {
-    try {
-        return await prisma.wishlist.create({
-            data: { productId, userId },
-        });
-    } catch (error) {
-        console.error('Error adding wishlist:', error);
-        throw error;
-    }
-};
-
-export const deleteWishlist = async (wishlistId) => {
-    try {
-        return await prisma.wishlist.delete({
-            where: { id: wishlistId },
-        });
-    } catch (error) {
-        console.error('Error deleting wishlist:', error);
-        throw error;
-    }
 };
 
 // ------------------ POST ------------------

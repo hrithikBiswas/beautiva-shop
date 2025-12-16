@@ -1,6 +1,6 @@
 'use client';
 import { useAuth } from '@/hooks';
-import { addCategory, isExistCategory } from '@/utils/actions';
+import { isExistCategory } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -42,7 +42,6 @@ const categoryPage = () => {
                 });
             }
 
-            // await addCategory(values);
             const res = await fetch('/api/category', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

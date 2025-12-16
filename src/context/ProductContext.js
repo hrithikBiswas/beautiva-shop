@@ -1,13 +1,6 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import {
-    addCartItem,
-    addWishlist,
-    deleteWishlist,
-    deleteCart,
-    updateProductQtyInCart,
-} from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { createContext, useEffect, useState } from 'react';
 
@@ -81,22 +74,23 @@ export default function ProductProvider({ children }) {
         try {
             setWishlistLoadingId(productId);
 
-            await addWishlist(productId, user.id);
+            const res = await fetch('/api/wishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    productId,
+                    userId: user.id,
+                }),
+            });
 
-            const updatedWishlistRes = await fetch('/api/wishlist').then(
-                (res) => res.json()
-            );
-            setWishlistItems(updatedWishlistRes.wishlistData);
+            const { message, success } = await res.json();
 
-            const updatedWishlistProductRes = await fetch(
-                `/api/product/wishlist/${user.id}`
-            ).then((res) => res.json());
-            setWishlistProducts(updatedWishlistProductRes.wishlistProductData);
+            await refreshWishlist();
 
             addToast({
                 title: 'Wishlist Status',
-                description: 'Added to wishlist.',
-                color: 'success',
+                description: message,
+                color: success ? 'success' : 'danger',
                 radius: 'sm',
                 timeout: 3000,
                 hideCloseButton: true,
@@ -112,17 +106,28 @@ export default function ProductProvider({ children }) {
         try {
             setWishlistLoadingId(wishlistId);
 
-            await deleteWishlist(wishlistId);
+            const res = await fetch('/api/wishlist', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    wishlistId,
+                    userId: user.id,
+                }),
+            });
 
-            const updatedWishlistRes = await fetch('/api/wishlist').then(
-                (res) => res.json()
-            );
-            setWishlistItems(updatedWishlistRes.wishlistData);
+            const { message, success } = await res.json();
 
-            const updatedWishlistProductRes = await fetch(
-                `/api/product/wishlist/${user.id}`
-            ).then((res) => res.json());
-            setWishlistProducts(updatedWishlistProductRes.wishlistProductData);
+            await refreshWishlist();
+
+            addToast({
+                title: 'Wishlist Status',
+                description: message,
+                color: success ? 'success' : 'danger',
+                radius: 'sm',
+                timeout: 1000,
+                hideCloseButton: true,
+                shouldShowTimeoutProgress: true,
+            });
         } catch (error) {
             console.error('Error deleting cart:', error);
         } finally {
@@ -281,6 +286,16 @@ export default function ProductProvider({ children }) {
 
         setCartItems(cartRes.cartData || []);
         setCartProducts(productsRes.cartProductData || []);
+    };
+
+    const refreshWishlist = async () => {
+        const [wishlistRes, productsRes] = await Promise.all([
+            fetch('/api/wishlist').then((res) => res.json()),
+            fetch(`/api/product/wishlist/${user.id}`).then((res) => res.json()),
+        ]);
+
+        setWishlistItems(wishlistRes.wishlistData || []);
+        setWishlistProducts(productsRes.wishlistProductData || []);
     };
 
     // --------------------- Fetch all initail items ---------------------
