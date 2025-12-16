@@ -52,24 +52,6 @@ export const isExistCategory = async (categoryName) => {
 };
 
 // ------------------ POST ------------------
-export const addPost = async (post) => {
-    try {
-        await prisma.post.create({
-            data: {
-                productName: post.productName,
-                title: post.title || '',
-                slug: post.slug,
-                content: post.content,
-                image: post.image,
-                published: post.published || true,
-                userId: post.userId,
-            },
-        });
-    } catch (error) {
-        console.error('Error adding post:', error);
-        throw error;
-    }
-};
 
 // ------------------ SUPABASE IMAGE UPLOAD ------------------
 export const uploadProductImage = async (file) => {

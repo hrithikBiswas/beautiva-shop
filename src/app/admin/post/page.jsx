@@ -42,14 +42,20 @@ const BlogPage = () => {
                     image: imageUrl,
                 };
 
-                await addPost(payload);
+                const res = await fetch('/api/blog', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ payload }),
+                });
+
+                const { message, success } = await res.json();
 
                 resetPostForm();
 
                 return addToast({
                     title: 'Post Status',
-                    description: 'Post added successfully!',
-                    color: 'success',
+                    description: message,
+                    color: success ? 'success' : 'danger',
                     radius: 'sm',
                     hideCloseButton: true,
                     timeout: 3000,
