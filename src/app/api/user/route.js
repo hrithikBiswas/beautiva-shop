@@ -1,50 +1,115 @@
-// import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { prisma } from '@/utils/prisma';
 
-// export async function POST(request) {
-// const res = await request.json();
-// return Response.json({ res });
-// const { supabaseId, email, name, image } = req.body;
-// console.log(request);
-// console.log(res);
+export async function GET() {
+    try {
+        const users = await prisma.user.findMany();
 
-//   if (req.method !== 'POST') {
-//     return res.status(405).json({ message: 'Method not allowed' })
-//   }
+        return NextResponse.json({
+            success: true,
+            status: 200,
+            message: 'UserData loaded successfully.',
+            users,
+        });
+    } catch (error) {
+        console.error('API /api/user error:', error.message);
 
-//   try {
-//     const { supabaseId, email, name, image } = req.body
+        return NextResponse.json({
+            success: false,
+            status: 500,
+            message: 'Failed to load user',
+            error: error?.message || 'Unknown error',
+        });
+    }
+}
 
-//     // Check if user already exists
-//     let user = await prisma.user.findUnique({
-//       where: { supabaseId },
-//     })
+export async function POST(req) {
+    try {
+        const body = await req.json();
+        const { user } = body;
 
-//     if (!user) {
-//       // Create new user
-//       user = await prisma.user.create({
-//         data: {
-//           supabaseId,
-//           email,
-//           name,
-//           image,
-//           emailVerified: new Date(),
-//         },
-//       })
-//     } else {
-//       // Update existing user
-//       user = await prisma.user.update({
-//         where: { supabaseId },
-//         data: {
-//           name,
-//           image,
-//           emailVerified: new Date(),
-//         },
-//       })
-//     }
+        if (!user || !user.email || !user.id) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: 'Invalid user data: email and id are required',
+                },
+                { status: 400 }
+            );
+        }
 
-//     res.status(200).json({ user })
-//   } catch (error) {
-//     console.error('Error syncing user:', error)
-//     res.status(500).json({ message: 'Internal server error' })
-//   }
-// }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(user.email)) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: 'Invalid email format',
+                },
+                { status: 400 }
+            );
+        }
+
+        const upsertedUser = await prisma.user.upsert({
+            where: {
+                email: user.email,
+            },
+            update: {
+                name: user.user_metadata?.full_name || user.name || '',
+                image: user.user_metadata?.avatar_url || user.image || '',
+            },
+            create: {
+                id: user.id,
+                email: user.email,
+                name: user.user_metadata?.full_name || user.name || '',
+                image: user.user_metadata?.avatar_url || user.image || '',
+            },
+        });
+
+        return NextResponse.json(
+            {
+                success: true,
+                message: 'User synchronized successfully',
+                user: {
+                    id: upsertedUser.id,
+                    email: upsertedUser.email,
+                    name: upsertedUser.name,
+                },
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error('Error syncing user:', error);
+
+        if (error.code === 'P2002') {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: 'User with this email already exists',
+                },
+                { status: 409 }
+            );
+        }
+
+        if (error.code === 'P2003') {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: 'Foreign key constraint failed',
+                },
+                { status: 400 }
+            );
+        }
+
+        return NextResponse.json(
+            {
+                success: false,
+                message: 'Failed to sync user',
+                error:
+                    process.env.NODE_ENV === 'development'
+                        ? error.message
+                        : 'Internal server error',
+            },
+            { status: 500 }
+        );
+    }
+}

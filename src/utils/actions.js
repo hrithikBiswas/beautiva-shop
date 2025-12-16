@@ -3,25 +3,6 @@
 import { prisma } from './prisma';
 import { createClient } from './supabase/server';
 
-// ------------------ USER ------------------
-export const addUser = async (user) => {
-    try {
-        await prisma.user.upsert({
-            where: { email: user.email },
-            update: {},
-            create: {
-                id: user.id,
-                email: user.email,
-                name: user.user_metadata?.full_name || '',
-                image: user.user_metadata?.avatar_url || '',
-            },
-        });
-    } catch (error) {
-        console.error('Error syncing user:', error);
-        throw error;
-    }
-};
-
 // ------------------ CATEGORY ------------------
 
 export const isExistCategory = async (categoryName) => {
