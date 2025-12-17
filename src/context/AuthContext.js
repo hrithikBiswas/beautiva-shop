@@ -39,7 +39,7 @@ export default function AuthProvider({ children }) {
                 if (user?.email) {
                     // addUser(user);
 
-                    await fetch('api/user', {
+                    await fetch('/api/user', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ user }),
@@ -112,6 +112,7 @@ export default function AuthProvider({ children }) {
         setLoading(true);
 
         const users = await getUsers();
+
         const isEmailExist = users.some((user) => user.email === email);
 
         if (isEmailExist) {

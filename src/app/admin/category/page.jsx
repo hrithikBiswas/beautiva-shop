@@ -1,5 +1,6 @@
 'use client';
 import { useAuth } from '@/hooks';
+import useProduct from '@/hooks/useProduct';
 import { isExistCategory } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { useFormik } from 'formik';
@@ -7,6 +8,7 @@ import * as Yup from 'yup';
 
 const categoryPage = () => {
     const { loading, setLoading } = useAuth();
+    const { categories } = useProduct();
 
     const formik = useFormik({
         initialValues: {
@@ -26,7 +28,10 @@ const categoryPage = () => {
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
 
-            const categoryExists = await isExistCategory(values.name);
+            // const categoryExists = await isExistCategory(values.name);
+            const categoryExists = categories.some(
+                (item) => item.name === values.name
+            );
 
             if (categoryExists) {
                 setLoading(false);

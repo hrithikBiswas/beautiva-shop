@@ -3,15 +3,6 @@
 import { prisma } from './prisma';
 import { createClient } from './supabase/server';
 
-// ------------------ CATEGORY ------------------
-
-export const isExistCategory = async (categoryName) => {
-    const trimmedName = categoryName.trim();
-    return prisma.category.findFirst({ where: { name: trimmedName } });
-};
-
-// ------------------ POST ------------------
-
 // ------------------ SUPABASE IMAGE UPLOAD ------------------
 export const uploadProductImage = async (file) => {
     if (!file) return null;

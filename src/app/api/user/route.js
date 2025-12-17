@@ -5,6 +5,8 @@ export async function GET() {
     try {
         const users = await prisma.user.findMany();
 
+        console.log('debugging:', users);
+
         return NextResponse.json({
             success: true,
             status: 200,
