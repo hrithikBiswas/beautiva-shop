@@ -11,10 +11,10 @@ import {
     Badge,
     Divider,
     Spinner,
+    Image,
 } from '@heroui/react';
 import { CartIcon, DeleteIcon, MinusIcon, PlusIcon } from '@/components/SVG';
 import useProduct from '@/hooks/useProduct';
-import Image from 'next/image';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -112,8 +112,6 @@ export default function Cart() {
                                                 src={product?.image}
                                                 alt={product?.name}
                                                 className="w-[90px] h-[90px] object-cover rounded-lg"
-                                                width={90}
-                                                height={90}
                                             />
 
                                             <div className="flex-1 flex flex-col gap-1 items-start">

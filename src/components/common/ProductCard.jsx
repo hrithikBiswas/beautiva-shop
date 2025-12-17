@@ -1,8 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { Button, Spinner, Tooltip } from '@heroui/react';
+import { Button, Spinner, Tooltip, Image } from '@heroui/react';
 import { useDebouncedCallback } from 'use-debounce';
 import useProduct from '@/hooks/useProduct';
 import {
@@ -52,7 +51,7 @@ const ProductCard = ({ product }) => {
                         alt={name}
                         height={370}
                         width={280}
-                        className={`${imageClasses} group-hover:scale-105 group-hover:opacity-0`}
+                        className={`${imageClasses} z-10 group-hover:scale-105 group-hover:opacity-0`}
                     />
 
                     <Image
@@ -60,12 +59,12 @@ const ProductCard = ({ product }) => {
                         alt={name}
                         height={370}
                         width={280}
-                        className={`${imageClasses} opacity-0 group-hover:opacity-100 hover:scale-105`}
+                        className={`${imageClasses} z-10 opacity-0 group-hover:opacity-100 hover:scale-105`}
                     />
                 </Link>
 
                 {/* Buttons */}
-                <div className="opacity-100 md:opacity-100 md:group-hover:opacity-100 absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center gap-3 transition-all duration-500">
+                <div className="opacity-100 z-30 md:opacity-100 md:group-hover:opacity-100 absolute bottom-5 left-1/2 -translate-x-1/2 flex justify-center gap-3 transition-all duration-500">
                     {/* View Product */}
                     <Tooltip
                         content="View Product"

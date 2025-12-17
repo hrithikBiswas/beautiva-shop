@@ -1,6 +1,7 @@
 'use client';
 
 import ProductCard from '@/components/common/ProductCard';
+import ProductSkeleton from '@/context/skeleton/ProductSkeleton';
 import useProduct from '@/hooks/useProduct';
 import { Slider, CheckboxGroup, Checkbox } from '@heroui/react';
 import { useState, useMemo } from 'react';
@@ -90,6 +91,11 @@ const ProductsPage = () => {
                 {/* Product Grid */}
                 <main className="flex-1">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 sm:gap-y-8">
+                        {loading &&
+                            Array.from({ length: 6 }).map((_, index) => (
+                                <ProductSkeleton key={index} />
+                            ))}
+
                         {filteredProducts.length === 0 && (
                             <p className="text-xl text-gray-600">
                                 Not found products.

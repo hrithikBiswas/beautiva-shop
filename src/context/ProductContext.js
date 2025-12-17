@@ -217,12 +217,6 @@ export default function ProductProvider({ children }) {
 
             console.log(newQty);
 
-            // if (newQty < 1) {
-            //     removeCart(cartId);
-            // } else {
-            //     await updateProductQtyInCart(cartId, user.id, newQty);
-            // }
-
             const cartUpdateRes = await fetch('/api/cart', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },

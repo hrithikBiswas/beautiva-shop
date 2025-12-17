@@ -5,16 +5,14 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import useProduct from '@/hooks/useProduct';
 import ProductCard from '@/components/common/ProductCard';
+import { Suspense } from 'react';
+import ProductSkeleton from '@/context/skeleton/ProductSkeleton';
 
 export default function FeatureProductSlider() {
     const { products, loading } = useProduct();
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
     return (
-        <>
+        <Suspense fallback={<p>Fuck you...</p>}>
             <Swiper
                 slidesPerView={1}
                 spaceBetween={10}
@@ -35,6 +33,12 @@ export default function FeatureProductSlider() {
                 modules={[]}
                 className="mySwiper"
             >
+                {loading &&
+                    Array.from({ length: 4 }).map((_, index) => (
+                        <SwiperSlide key={index}>
+                            <ProductSkeleton />
+                        </SwiperSlide>
+                    ))}
                 {products
                     .filter((product) => product.featured)
                     .map((product) => {
@@ -48,6 +52,6 @@ export default function FeatureProductSlider() {
                         );
                     })}
             </Swiper>
-        </>
+        </Suspense>
     );
 }
