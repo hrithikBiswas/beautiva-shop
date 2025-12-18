@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="group flex flex-col items-center justify-center">
-            <div className="relative rounded-md overflow-hidden w-[255px] h-[350px] md:w-[220px] md:h-[300px] lg:w-[220px] lg:h-[300px] xl:w-[280px] xl:h-[370px] cursor-pointer">
+            <div className="relative rounded-md overflow-hidden w-[280px] h-[380px] md:w-[220px] md:h-[300px] lg:w-[220px] lg:h-[300px] xl:w-[280px] xl:h-[370px] cursor-pointer">
                 <Link href={`products/${id}`}>
                     <Image
                         src={image}
