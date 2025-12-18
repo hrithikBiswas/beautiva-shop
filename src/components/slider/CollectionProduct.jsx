@@ -2,7 +2,7 @@
 
 import useProduct from '@/hooks/useProduct';
 import ProductCard from '@/components/common/ProductCard';
-import ProductSkeleton from '@/context/skeleton/ProductSkeleton';
+import ProductSkeleton from '@/components/skeleton/ProductSkeleton';
 
 export default function CollectionProduct() {
     const { products, loading } = useProduct();

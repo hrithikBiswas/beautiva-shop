@@ -1,7 +1,8 @@
 'use client';
 
 import ProductCard from '@/components/common/ProductCard';
-import ProductSkeleton from '@/context/skeleton/ProductSkeleton';
+import CategorySkeleton from '@/components/skeleton/CategorySkeleton';
+import ProductSkeleton from '@/components/skeleton/ProductSkeleton';
 import useProduct from '@/hooks/useProduct';
 import { Slider, CheckboxGroup, Checkbox } from '@heroui/react';
 import { useState, useMemo } from 'react';
@@ -67,6 +68,7 @@ const ProductsPage = () => {
                         label="Select categories"
                         onChange={setSelectedCategories}
                     >
+                        {loading && <CategorySkeleton />}
                         {categories.map((category) => (
                             <Checkbox
                                 key={category.id}

@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import useProduct from '@/hooks/useProduct';
 import ProductCard from '@/components/common/ProductCard';
 import { Suspense } from 'react';
-import ProductSkeleton from '@/context/skeleton/ProductSkeleton';
+import ProductSkeleton from '@/components/skeleton/ProductSkeleton';
 
 export default function FeatureProductSlider() {
     const { products, loading } = useProduct();

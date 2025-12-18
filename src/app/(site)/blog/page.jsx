@@ -1,10 +1,11 @@
 'use client';
 import BlogCard from '@/components/common/BlogCard';
+import BlogSkeleton from '@/components/skeleton/BlogSkeleton';
 import useProduct from '@/hooks/useProduct';
 import { Breadcrumbs, BreadcrumbItem } from '@heroui/react';
 
 const BlogPage = () => {
-    const { blogs } = useProduct();
+    const { blogs, loading } = useProduct();
 
     return (
         <div className="container pt-10">
@@ -15,6 +16,10 @@ const BlogPage = () => {
                 </Breadcrumbs>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+                {loading &&
+                    Array.from({ length: 6 }).map((_, i) => (
+                        <BlogSkeleton key={i} />
+                    ))}
                 {blogs.map((blog) => (
                     <BlogCard blog={blog} key={blog.id} />
                 ))}
