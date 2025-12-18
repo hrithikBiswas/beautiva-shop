@@ -8,7 +8,7 @@ const BlogPage = () => {
     const { blogs, loading } = useProduct();
 
     return (
-        <div className="container pt-10">
+        <div className="container pt-14">
             <div className="mb-10">
                 <Breadcrumbs size="lg">
                     <BreadcrumbItem href="/">Home</BreadcrumbItem>

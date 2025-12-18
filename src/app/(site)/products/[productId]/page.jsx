@@ -71,8 +71,8 @@ const SingleProductPage = ({ params }) => {
 
             {product && (
                 <>
-                    <div className="grid grid-cols-1 sm:grid-cols-6 gap-20 py-14">
-                        <div className="sm:col-span-2 flex flex-col items-center sm:items-start gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-6 gap-x-20 gap-y-8 mt-14 mb-6 md:mb-8">
+                        <div className="md:col-span-2 flex flex-col items-center md:items-start gap-4">
                             <div className="rounded-lg max-h-[400px]">
                                 <img
                                     className="rounded-lg max-h-[400px] w-full object-cover"
@@ -118,7 +118,7 @@ const SingleProductPage = ({ params }) => {
                             </div>
                         </div>
 
-                        <div className="sm:col-span-4 flex flex-col gap-8 px-4">
+                        <div className="md:col-span-4 flex flex-col gap-3 md:gap-8">
                             <h2 className="text-3xl text-gray-600 dark:text-gray-200 font-semibold capitalize">
                                 {product?.name}
                             </h2>
@@ -126,26 +126,26 @@ const SingleProductPage = ({ params }) => {
                             <table className="max-w-[400px] text-gray-600 dark:text-gray-200">
                                 <tbody>
                                     <tr>
-                                        <td className="py-2 w-[150px] font-semibold text-lg tracking-wide">
+                                        <td className="py-1 md:py-2 w-[150px] font-semibold text-lg tracking-wide">
                                             Price:
                                         </td>
-                                        <td className="py-2 text-lg">
+                                        <td className="py-1 md:py-2 text-lg">
                                             ${product?.price || 0}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="py-2 font-semibold text-lg tracking-wide">
+                                        <td className="py-1 md:py-2 font-semibold text-lg tracking-wide">
                                             Stock:
                                         </td>
-                                        <td className="py-2 text-lg">
+                                        <td className="py-1 md:py-2 text-lg">
                                             {product?.stock || 0}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td className="py-2 font-semibold text-lg tracking-wide">
+                                        <td className="py-1 md:py-2 font-semibold text-lg tracking-wide">
                                             Category:
                                         </td>
-                                        <td className="py-2 text-lg">
+                                        <td className="py-1 md:py-2 text-lg">
                                             {product?.category || '-'}
                                         </td>
                                     </tr>
@@ -157,7 +157,7 @@ const SingleProductPage = ({ params }) => {
                                     <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
                                         <button
                                             onClick={decrement}
-                                            className="p-3 rounded-s-lg hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
+                                            className="py-3 px-2 rounded-s-lg hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
                                         >
                                             <MinusIcon className="w-6 h-6 text-gray-600 dark:text-white" />
                                         </button>
@@ -168,12 +168,12 @@ const SingleProductPage = ({ params }) => {
                                             min="1"
                                             max={product?.stock}
                                             readOnly
-                                            className="w-14 text-center text-lg border-0 outline-none focus:ring-0"
+                                            className="w-6 sm:w-14 text-center text-lg border-0 outline-none focus:ring-0"
                                         />
 
                                         <button
                                             onClick={increment}
-                                            className="p-3 rounded-e-lg hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
+                                            className="py-3 px-2 rounded-e-lg hover:bg-gray-200 dark:hover:bg-gray-800 cursor-pointer"
                                         >
                                             <PlusIcon className="w-6 h-6 text-gray-600 dark:text-white" />
                                         </button>
@@ -183,7 +183,7 @@ const SingleProductPage = ({ params }) => {
                                         size="lg"
                                         color="secondary"
                                         radius="sm"
-                                        className="flex-1 text-lg text-white font-semibold py-3 px-6"
+                                        className="flex-1 text-base sm:text-lg text-white font-semibold py-3 px-6"
                                         isDisabled={
                                             !!cartLoadingId ? true : false
                                         }
@@ -256,7 +256,7 @@ const SingleProductPage = ({ params }) => {
                         <h1 className="text-3xl font-semibold text-gray-900 border-b border-gray-300 dark:border-gray-700 py-3">
                             Description
                         </h1>
-                        <p className="text-lg text-gray-500 dark:text-gray-300 text-justify pt-4 pb-10">
+                        <p className="text-lg text-gray-500 dark:text-gray-300 text-justify pt-4">
                             {product?.description}
                         </p>
                     </div>

@@ -14,7 +14,7 @@ import Image from 'next/image';
 
 const Hero = () => {
     return (
-        <div className="mt-4 sm:mt-14 md:mt-24">
+        <div className="mt-4 sm:mt-14">
             <Swiper
                 spaceBetween={30}
                 effect={'fade'}
