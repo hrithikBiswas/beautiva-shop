@@ -7,7 +7,7 @@ import Title from '@/components/common/Title';
 
 const ShopCollection = () => {
     return (
-        <div className="mt-14 sm:mt-14 md:mt-24">
+        <div className="mt-14 sm:mt-14 lg:mt-24">
             <Title
                 title="shop by collections"
                 subtitle="Because You Need Time for Yourself. Blend Beauty in You"

@@ -5,7 +5,7 @@ import { Button, Image } from '@heroui/react';
 
 const ShopByCategory = () => {
     return (
-        <div className="mt-10 sm:mt-14 md:mt-24">
+        <div className="mt-10 sm:mt-14 lg:mt-24">
             <Title
                 title="Shop by Categories"
                 subtitle="Our products are designed for everyone."

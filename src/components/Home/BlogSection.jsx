@@ -9,7 +9,7 @@ import BlogCard from '@/components/common/BlogCard';
 const BlogSection = () => {
     const { blogs } = useProduct();
     return (
-        <div className="mt-10 sm:mt-14 md:mt-24">
+        <div className="mt-10 sm:mt-14 lg:mt-24">
             <Title
                 title="From Our Blog"
                 subtitle="Our bundles were designed to conveniently package your tanning essentials while saving you money."
