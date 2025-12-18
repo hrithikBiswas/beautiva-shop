@@ -2,7 +2,7 @@ const ProductSkeleton = () => {
     return (
         <div className="animate-pulse rounded-sm flex flex-col items-center justify-center overflow-hidden shadow-none dark:bg-black">
             <div className="rounded-sm">
-                <div className="w-[220px] h-[293px] md:w-[280px] md:h-[370px] rounded-sm bg-zinc-200 dark:bg-zinc-700" />
+                <div className="w-[280px] h-[380px] md:w-[220px] md:h-[300px] lg:w-[220px] lg:h-[300px] xl:w-[280px] xl:h-[370px] rounded-sm bg-zinc-200 dark:bg-zinc-700" />
             </div>
 
             <div className="mt-5 rounded-sm">

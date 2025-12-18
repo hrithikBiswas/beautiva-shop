@@ -39,9 +39,8 @@ const ProductsPage = () => {
 
     return (
         <div className="container py-14">
-            <div className="flex">
-                {/* Sidebar */}
-                <aside className="w-xs">
+            <div className="flex flex-col md:flex-row">
+                <aside className="w-full md:w-xs mb-6 md:mb-0">
                     <h2 className="text-2xl font-semibold mb-4">Price</h2>
 
                     <div className="flex flex-col gap-2 w-full pr-6">
@@ -67,8 +66,11 @@ const ProductsPage = () => {
                     <CheckboxGroup
                         label="Select categories"
                         onChange={setSelectedCategories}
+                        classNames={{
+                            wrapper: 'flex flex-row md:flex-col',
+                        }}
                     >
-                        {loading && <CategorySkeleton />}
+                        {categories.length === 0 && <CategorySkeleton />}
                         {categories.map((category) => (
                             <Checkbox
                                 key={category.id}
@@ -82,7 +84,7 @@ const ProductsPage = () => {
                                     {category.name}
                                 </span>
 
-                                <span className="dark:text-white">
+                                <span className="hidden md:inline dark:text-white">
                                     {categoryCount[category.name] || 0}
                                 </span>
                             </Checkbox>
