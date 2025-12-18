@@ -4,7 +4,7 @@ import React from 'react';
 
 const NewCollection = () => {
     return (
-        <div className="mt-14 sm:mt-24">
+        <div className="mt-10 sm:mt-14 md:mt-24">
             <div className="relative w-full">
                 <Image
                     src="/bg-other-01.jpg"

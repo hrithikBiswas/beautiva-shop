@@ -8,7 +8,7 @@ import { Navigation } from 'swiper/modules';
 
 const Testimonial = () => {
     return (
-        <div className="mt-14 sm:mt-24">
+        <div className="mt-10 sm:mt-14 md:mt-24">
             <Swiper
                 navigation={true}
                 modules={[Navigation]}

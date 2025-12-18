@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
     const debouncedAddToCart = useDebouncedCallback(() => addToCart(id), 400);
 
     const imageClasses =
-        'w-[220px] h-[293px] md:w-[280px] md:h-[370px] rounded-md absolute transition-all duration-700';
+        'w-full h-full rounded-md absolute transition-all duration-700';
 
     const tooltipClasses = {
         base: 'dark:bg-black rounded-lg dark:before:bg-black',
@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <div className="group flex flex-col items-center justify-center">
-            <div className="relative rounded-md overflow-hidden w-[220px] h-[293px] md:w-[280px] md:h-[370px] cursor-pointer">
+            <div className="relative rounded-md overflow-hidden w-[255px] h-[350px] md:w-[220px] md:h-[300px] lg:w-[220px] lg:h-[300px] xl:w-[280px] xl:h-[370px] cursor-pointer">
                 <Link href={`products/${id}`}>
                     <Image
                         src={image}
@@ -137,11 +137,11 @@ const ProductCard = ({ product }) => {
             </div>
 
             {/* Product Info */}
-            <div className="text-center mt-5">
-                <h4 className="text-lg md:text-xl mb-1">${price}</h4>
+            <div className="text-center text-gray-800 dark:text-gray-100 mt-4">
+                <h4 className="text-lg md:text-xl">${price}</h4>
                 <Link
                     href={`products/${id}`}
-                    className="text-lg md:text-xl capitalize hover:underline"
+                    className="text-lg  md:text-xl capitalize hover:underline"
                 >
                     {name}
                 </Link>

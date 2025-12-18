@@ -6,29 +6,29 @@ import { Image } from '@heroui/react';
 
 const BottomFooter = () => {
     return (
-        <div className="mt-4 sm:mt-8 md:mt-18 py-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-5 md:gap-0">
+        <div className="mt-4 sm:mt-8 md:mt-18 py-4 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-0">
                 <div className="flex items-center">
-                    <h5 className="text-gray-500 text-lg">© Glowing 2025 | </h5>
-                    <ul className="flex gap-3 md:gap-5">
+                    <h5 className="text-gray-500 text-sm">© Glowing 2025 | </h5>
+                    <ul className="flex gap-2 md:gap-5">
                         <li>
                             <Link href="#">
-                                <FacebookIcon className="w-8 h-8 text-gray-800 dark:text-white" />
+                                <FacebookIcon className="w-6 h-6 text-gray-800 dark:text-white" />
                             </Link>
                         </li>
                         <li>
                             <Link href="#">
-                                <InstagramIcon className="w-8 h-8 text-gray-800 dark:text-white" />
+                                <InstagramIcon className="w-6 h-6 text-gray-800 dark:text-white" />
                             </Link>
                         </li>
                         <li>
                             <Link href="#">
-                                <FacebookIcon className="w-8 h-8 text-gray-800 dark:text-white" />
+                                <FacebookIcon className="w-6 h-6 text-gray-800 dark:text-white" />
                             </Link>
                         </li>
                         <li>
                             <Link href="#">
-                                <InstagramIcon className="w-8 h-8 text-gray-800 dark:text-white" />
+                                <InstagramIcon className="w-6 h-6 text-gray-800 dark:text-white" />
                             </Link>
                         </li>
                     </ul>
@@ -37,7 +37,7 @@ const BottomFooter = () => {
                     <Image
                         src="/logo.png"
                         alt="logo"
-                        className="max-w-[180px]"
+                        className="max-w-[150px]"
                     />
                 </div>
                 <ul className="flex gap-4">

@@ -17,11 +17,11 @@ export default function FeatureProductSlider() {
                 slidesPerView={1}
                 spaceBetween={10}
                 breakpoints={{
-                    426: {
+                    600: {
                         slidesPerView: 2,
                         spaceBetween: 20,
                     },
-                    641: {
+                    769: {
                         slidesPerView: 3,
                         spaceBetween: 30,
                     },

@@ -36,7 +36,7 @@ const BlogCard = ({ blog }) => {
             </div>
             <Link
                 href={`/blog/${id}`}
-                className="text-lg sm:text-xl font-semibold leading-6 md:leading-7 lg:leading-8"
+                className="text-lg text-gray-800 dark:text-gray-100 sm:text-xl font-semibold leading-6 md:leading-7 lg:leading-8"
             >
                 {title}
             </Link>

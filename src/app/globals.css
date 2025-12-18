@@ -68,7 +68,7 @@
 } */
 
 .container {
-    @apply max-w-7xl mx-auto px-6 bg-white text-black dark:bg-gray-950 dark:text-white;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 bg-white text-black dark:bg-gray-950 dark:text-white;
 }
 
 .mySwiper .swiper-pagination-bullet {

@@ -7,7 +7,7 @@ import { FacebookIcon, InstagramIcon } from '../SVG';
 
 const NewsLetter = () => {
     return (
-        <div className="mt-14 sm:mt-24">
+        <div className="mt-10 sm:mt-14 md:mt-24">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10">
                 <div className="flex flex-col items-start sm:items-center gap-3 sm:gap-5 md:border-r md:border-r-gray-300">
                     <h1 className="text-2xl sm:text-3xl font-semibold">
