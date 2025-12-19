@@ -167,7 +167,8 @@ export default function AuthProvider({ children }) {
         }
         setUser(null);
         sessionStorage.removeItem('currentUser');
-        redirect('/login');
+        // redirect('/login');
+        return (window.location.href = '/login');
     };
 
     const signInWithGoogle = async () => {
