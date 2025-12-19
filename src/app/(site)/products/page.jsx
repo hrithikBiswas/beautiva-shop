@@ -38,7 +38,7 @@ const ProductsPage = () => {
     }, [products]);
 
     return (
-        <div className="container py-14">
+        <div className="container mt-14">
             <div className="flex flex-col md:flex-row">
                 <aside className="w-full md:w-xs mb-6 md:mb-0">
                     <h2 className="text-2xl font-semibold mb-4">Price</h2>

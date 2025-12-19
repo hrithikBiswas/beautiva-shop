@@ -6,7 +6,6 @@ import { use, useEffect, useState } from 'react';
 const SingleBlog = ({ params }) => {
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const { blogId } = use(params);
 
     const { getSinglePost } = useProduct();
@@ -24,12 +23,10 @@ const SingleBlog = ({ params }) => {
         const fetchBlog = async () => {
             try {
                 setLoading(true);
-                setError(null);
                 const data = await getSinglePost(blogId);
                 setBlog(data);
             } catch (error) {
                 console.error('Error fetching blog:', error);
-                setError(error.message);
             } finally {
                 setLoading(false);
             }
@@ -38,18 +35,18 @@ const SingleBlog = ({ params }) => {
         if (blogId) {
             fetchBlog();
         }
-    }, [blogId]); // Only depend on blogId
+    }, [blogId]);
 
     return (
-        <div className="container py-14">
+        <div className="container mt-14">
             {loading && <SIngleBlogSkeleton />}
             {blog && (
                 <article className="">
-                    <div className="mb-8">
-                        <p className="text-sm font-medium text-gray-600 uppercase tracking-wider mb-2">
+                    <div className="mb-4 md:mb-8">
+                        <p className="text-sm font-medium text-gray-600 uppercase tracking-wider mb-1 md:mb-2 ">
                             Product Name: {blog?.productName}
                         </p>
-                        <h1 className="max-w-6xl text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+                        <h1 className="max-w-6xl text-2xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-7 sm:leading-8 lg:leading-tight mb-2 md:mb-4">
                             {blog?.title}
                         </h1>
                         <div className="flex items-center text-sm text-gray-500 space-x-4">
@@ -61,15 +58,15 @@ const SingleBlog = ({ params }) => {
                         </div>
                     </div>
 
-                    <div className="mb-10 overflow-hidden">
+                    <div className="mb-4 sm:mb-6 md:mb-10 overflow-hidden rounded-lg">
                         <img
                             src={blog?.image}
                             alt={blog?.name}
-                            className="max-w-[900px] h-auto rounded-lg object-cover transform"
+                            className="w-full lg:max-w-[900px] h-auto rounded-lg object-cover transform"
                         />
                     </div>
 
-                    <div className="article-content text-lg">
+                    <div className="article-content text-lg text-justify">
                         {blog?.content}
                     </div>
                 </article>

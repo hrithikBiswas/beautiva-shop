@@ -253,7 +253,7 @@ const SingleProductPage = ({ params }) => {
                         </div>
                     </div>
                     <div>
-                        <h1 className="text-3xl font-semibold text-gray-900 border-b border-gray-300 dark:border-gray-700 py-3">
+                        <h1 className="text-3xl font-semibold text-gray-900 dark:text-gray-100 border-b border-gray-300 dark:border-gray-700 py-3">
                             Description
                         </h1>
                         <p className="text-lg text-gray-500 dark:text-gray-300 text-justify pt-4">
