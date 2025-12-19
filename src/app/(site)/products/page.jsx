@@ -50,7 +50,9 @@ const ProductsPage = () => {
             <Breadcrumb currentPage="Products" />
             <div className="flex flex-col md:flex-row">
                 <aside className="w-full md:w-xs mb-6 md:mb-0">
-                    <h2 className="text-2xl font-semibold mb-4">Price</h2>
+                    <h2 className="text-2xl font-semibold mb-1 sm:mb-2 md:mb-4">
+                        Price
+                    </h2>
 
                     <div className="flex flex-col gap-2 w-full pr-6">
                         <Slider
@@ -68,7 +70,7 @@ const ProductsPage = () => {
                         />
                     </div>
 
-                    <h2 className="text-2xl font-semibold mb-4 mt-10">
+                    <h2 className="text-2xl font-semibold mb-1 sm:mb-2 md:mb-4 mt-4 md:mt-10">
                         Category
                     </h2>
 
