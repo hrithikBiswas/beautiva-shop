@@ -2,7 +2,7 @@
 
 import { createContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { getUsers } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 
@@ -14,7 +14,6 @@ export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
     useEffect(() => {
         const initAuth = async () => {
@@ -104,8 +103,7 @@ export default function AuthProvider({ children }) {
 
         setLoading(false);
 
-        // redirect('/');
-        router.push('/');
+        redirect('/');
 
         return { data, error };
     };

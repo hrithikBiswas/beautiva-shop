@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { redirect, usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import EyeIcon from '@/components/SVG/EyeIcon';
 import EyeSlashIcon from '@/components/SVG/EyeSlashIcon';
 
@@ -14,14 +14,9 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { signInWithGoogle, signIn, user, loading } = useAuth();
     const pathname = usePathname();
-    const router = useRouter();
 
-    // if (user && pathname.startsWith('/login')) {
-    //     return (window.location.href = '/');
-    // }
-
-    if (user && pathname.includes('/login')) {
-        return redirect('/');
+    if (user && pathname.startsWith('/login')) {
+        return (window.location.href = '/');
     }
 
     const formik = useFormik({
