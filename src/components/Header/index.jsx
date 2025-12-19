@@ -48,7 +48,7 @@ export default function Header() {
             {/* Mobile Logo */}
             <NavbarContent className="md:hidden" justify="start">
                 <NavbarBrand className="cursor-pointer">
-                    <Logo className="sm:w-[140px]" />
+                    <Logo className="w-[120px] h-auto sm:w-[140px]" />
                 </NavbarBrand>
             </NavbarContent>
 

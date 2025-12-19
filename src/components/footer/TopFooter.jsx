@@ -8,7 +8,7 @@ const TopFooter = () => {
                     <h1 className="text-3xl sm:text-4xl font-semibold leading-8 sm:leading-10 max-w-[350px] sm:max-w-[450px] md:max-w-[350px]">
                         Care for Your Skin, Care for Your Beauty
                     </h1>
-                    <p className="text-gray-500 tracking-wide max-w-[380px] sm:max-w-[480px] md:max-w-[380px]">
+                    <p className="text-gray-500 dark:text-gray-300 tracking-wide max-w-[380px] sm:max-w-[480px] md:max-w-[380px]">
                         Smile with the reflection of the glow. Let your Skin
                         define your age and not the years
                     </p>
@@ -17,7 +17,7 @@ const TopFooter = () => {
                     <h2 className="text-2xl font-semibold mb-3 sm:mb-5 tracking-wide">
                         Company
                     </h2>
-                    <ul className="flex flex-col gap-2 md:gap-5 text-gray-500">
+                    <ul className="flex flex-col gap-2 md:gap-5 text-gray-500 dark:text-gray-300">
                         <li className="hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
                             <Link href="#">About Us</Link>
                         </li>
@@ -39,7 +39,7 @@ const TopFooter = () => {
                     <h2 className="text-2xl font-semibold mb-3 sm:mb-5 tracking-wide">
                         Usefull Links
                     </h2>
-                    <ul className="flex flex-col gap-2 md:gap-5 text-gray-500">
+                    <ul className="flex flex-col gap-2 md:gap-5 text-gray-500 dark:text-gray-300">
                         <li className="hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
                             <Link href="#">New Products</Link>
                         </li>
@@ -61,7 +61,7 @@ const TopFooter = () => {
                     <h2 className="text-2xl font-semibold mb-3 sm:mb-5 tracking-wide">
                         Information
                     </h2>
-                    <ul className="flex flex-col gap-2 md:gap-5 text-gray-500">
+                    <ul className="flex flex-col gap-2 md:gap-5 text-gray-500 dark:text-gray-300">
                         <li className="hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
                             <Link href="#">Start A Return</Link>
                         </li>

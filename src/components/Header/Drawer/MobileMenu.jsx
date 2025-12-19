@@ -6,20 +6,22 @@ import {
     DrawerFooter,
     Button,
     useDisclosure,
+    NavbarItem,
 } from '@heroui/react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BarIcon } from '@/components/SVG';
+import { navMenu } from '@/constant/navData';
 
 export default function MobileMenu() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const pathname = usePathname().split('/')[1];
 
     return (
-        <div className="md:hidden">
-            <Button
-                className="p-0 min-w-[36px] rounded-md bg-gray-200"
-                onPress={onOpen}
-            >
+        <div className="flex md:hidden">
+            <button className="" onClick={onOpen}>
                 <BarIcon />
-            </Button>
+            </button>
             <Drawer
                 size="xs"
                 backdrop="blur"
@@ -43,33 +45,26 @@ export default function MobileMenu() {
                 <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white">
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="flex flex-col gap-1">
-                                Custom Motion Drawer
-                            </DrawerHeader>
-                            <DrawerBody>
-                                <p>
-                                    This drawer has custom enter/exit
-                                    animations.
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Nullam pulvinar risus non
-                                    risus hendrerit venenatis. Pellentesque sit
-                                    amet hendrerit risus, sed porttitor quam.
-                                </p>
+                            <DrawerBody className="mt-14">
+                                {navMenu.map(({ name, path }, index) => (
+                                    <NavbarItem
+                                        key={index}
+                                        onClick={onClose}
+                                        className="py-1"
+                                    >
+                                        <Link
+                                            href={path}
+                                            className={`${
+                                                path.split('/')[1] === pathname
+                                                    ? 'after:w-full'
+                                                    : 'after:w-0'
+                                            }  relative text-xl text-foreground dark:text-background after:absolute after:bottom-0 after:left-0 after:h-[1px] after:bg-foreground dark:after:bg-gray-100 after:transition-all after:duration-200 hover:after:w-full`}
+                                        >
+                                            {name}
+                                        </Link>
+                                    </NavbarItem>
+                                ))}
                             </DrawerBody>
-                            <DrawerFooter>
-                                <Button
-                                    color="danger"
-                                    variant="light"
-                                    onPress={onClose}
-                                >
-                                    Close
-                                </Button>
-                                <Button color="primary" onPress={onClose}>
-                                    Action
-                                </Button>
-                            </DrawerFooter>
                         </>
                     )}
                 </DrawerContent>

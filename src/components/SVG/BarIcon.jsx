@@ -1,28 +1,3 @@
-// import React from 'react';
-
-// const BarIcon = () => {
-//     return (
-//         <svg
-//             className="w-8 h-8 text-gray-600 dark:text-white"
-//             aria-hidden="true"
-//             xmlns="http://www.w3.org/2000/svg"
-//             width="28"
-//             height="28"
-//             fill="none"
-//             viewBox="0 0 24 24"
-//         >
-//             <path
-//                 stroke="currentColor"
-//                 strokeLinecap="round"
-//                 strokeWidth="2"
-//                 d="M5 7h14M5 12h14M5 17h10"
-//             />
-//         </svg>
-//     );
-// };
-
-// export default BarIcon;
-
 import { motion, useAnimation } from 'motion/react';
 
 const lineVariants = {
@@ -46,7 +21,7 @@ const BarIcon = ({
     width = 24,
     height = 24,
     strokeWidth = 2,
-    stroke = '#6a7282',
+    stroke = '#99a1af',
     ...props
 }) => {
     const controls = useAnimation();
@@ -56,7 +31,7 @@ const BarIcon = ({
             style={{
                 cursor: 'pointer',
                 userSelect: 'none',
-                padding: '8px',
+                padding: '0px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -65,7 +40,7 @@ const BarIcon = ({
             onMouseLeave={() => controls.start('normal')}
         >
             <svg
-                className="w-8 h-8 text-gray-500 dark:text-white"
+                className="w-8 h-8 text-gray-200 dark:text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 width={width}
                 height={height}

@@ -9,7 +9,9 @@ const BottomFooter = () => {
         <div className="mt-4 sm:mt-8 md:mt-18 py-4 border-t border-gray-200">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-0">
                 <div className="flex items-center">
-                    <h5 className="text-gray-500 text-sm">© Glowing 2025 | </h5>
+                    <h5 className="text-gray-500 dark:text-gray-300 text-sm">
+                        © Glowing 2025 |{' '}
+                    </h5>
                     <ul className="flex gap-2 md:gap-5">
                         <li>
                             <Link href="#">

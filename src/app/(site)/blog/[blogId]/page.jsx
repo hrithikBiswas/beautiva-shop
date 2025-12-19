@@ -43,13 +43,13 @@ const SingleBlog = ({ params }) => {
             {blog && (
                 <article className="">
                     <div className="mb-4 md:mb-8">
-                        <p className="text-sm font-medium text-gray-600 uppercase tracking-wider mb-1 md:mb-2 ">
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider mb-1 md:mb-2 ">
                             Product Name: {blog?.productName}
                         </p>
-                        <h1 className="max-w-6xl text-2xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-7 sm:leading-8 lg:leading-tight mb-2 md:mb-4">
+                        <h1 className="max-w-6xl text-2xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-gray-100 leading-7 sm:leading-8 lg:leading-tight mb-2 md:mb-4">
                             {blog?.title}
                         </h1>
-                        <div className="flex items-center text-sm text-gray-500 space-x-4">
+                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-200 space-x-4">
                             <span>By {blog?.user.name}</span>
                             <span className="text-gray-300">•</span>
                             <span>{formattedDate}</span>
