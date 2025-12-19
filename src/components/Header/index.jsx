@@ -45,14 +45,12 @@ export default function Header() {
             maxWidth="xl"
             height="80px"
         >
-            {/* Mobile Logo */}
             <NavbarContent className="md:hidden" justify="start">
                 <NavbarBrand className="cursor-pointer">
                     <Logo className="w-[120px] h-auto sm:w-[140px]" />
                 </NavbarBrand>
             </NavbarContent>
 
-            {/* Desktop Logo + NavLinks */}
             <NavbarContent className="hidden md:flex gap-4" justify="center">
                 <NavbarBrand className="mr-4 cursor-pointer">
                     <Logo />
@@ -60,7 +58,6 @@ export default function Header() {
                 {user && <NavLinks links={navMenu} />}
             </NavbarContent>
 
-            {/* Right side - Auth / User */}
             <NavbarContent
                 as="div"
                 className="items-center gap-0.5 sm:gap-6"

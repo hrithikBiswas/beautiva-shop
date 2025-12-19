@@ -3,7 +3,7 @@
 import React, { use, useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import useProduct from '@/hooks/useProduct';
-import { Button, Spinner } from '@heroui/react';
+import { BreadcrumbItem, Breadcrumbs, Button, Spinner } from '@heroui/react';
 import {
     FillWishlistIcon,
     MinusIcon,
@@ -11,6 +11,8 @@ import {
     WishlistIcon,
 } from '@/components/SVG';
 import SingleProductSkeleton from '@/components/skeleton/SingleProductSkeleton';
+import Link from 'next/link';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const SingleProductPage = ({ params }) => {
     const [product, setProduct] = useState(null);
@@ -66,12 +68,13 @@ const SingleProductPage = ({ params }) => {
     const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
     return (
-        <div className="container">
+        <div className="container mt-6 sm:mt-8 md:mt-14">
+            <Breadcrumb currentPage="Product" />
             {loading && <SingleProductSkeleton />}
 
             {product && (
                 <>
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-x-20 gap-y-8 mt-14 mb-6 md:mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-6 gap-x-20 gap-y-8 mb-6 md:mb-8">
                         <div className="md:col-span-2 flex flex-col items-center md:items-start gap-4">
                             <div className="rounded-lg max-h-[400px]">
                                 <img

@@ -1,6 +1,9 @@
 'use client';
+import Breadcrumb from '@/components/common/Breadcrumb';
 import SIngleBlogSkeleton from '@/components/skeleton/SIngleBlogSkeleton';
 import useProduct from '@/hooks/useProduct';
+import { BreadcrumbItem, Breadcrumbs } from '@heroui/react';
+import Link from 'next/link';
 import { use, useEffect, useState } from 'react';
 
 const SingleBlog = ({ params }) => {
@@ -38,7 +41,8 @@ const SingleBlog = ({ params }) => {
     }, [blogId]);
 
     return (
-        <div className="container mt-14">
+        <div className="container mt-6 sm:mt-8 md:mt-14">
+            <Breadcrumb currentPage="Blog" />
             {loading && <SIngleBlogSkeleton />}
             {blog && (
                 <article className="">

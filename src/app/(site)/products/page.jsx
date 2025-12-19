@@ -1,10 +1,18 @@
 'use client';
 
+import Breadcrumb from '@/components/common/Breadcrumb';
 import ProductCard from '@/components/common/ProductCard';
 import CategorySkeleton from '@/components/skeleton/CategorySkeleton';
 import ProductSkeleton from '@/components/skeleton/ProductSkeleton';
 import useProduct from '@/hooks/useProduct';
-import { Slider, CheckboxGroup, Checkbox } from '@heroui/react';
+import {
+    Slider,
+    CheckboxGroup,
+    Checkbox,
+    Breadcrumbs,
+    BreadcrumbItem,
+} from '@heroui/react';
+import Link from 'next/link';
 import { useState, useMemo } from 'react';
 
 const ProductsPage = () => {
@@ -38,7 +46,8 @@ const ProductsPage = () => {
     }, [products]);
 
     return (
-        <div className="container mt-14">
+        <div className="container mt-6 sm:mt-8 md:mt-14">
+            <Breadcrumb currentPage="Products" />
             <div className="flex flex-col md:flex-row">
                 <aside className="w-full md:w-xs mb-6 md:mb-0">
                     <h2 className="text-2xl font-semibold mb-4">Price</h2>
