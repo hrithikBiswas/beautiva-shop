@@ -3,7 +3,7 @@ import React from 'react';
 const SingleProductSkeleton = () => {
     return (
         <>
-            <div className="animate-pulse grid grid-cols-1 md:grid-cols-6 gap-x-20 gap-y-8 py-14">
+            <div className="animate-pulse grid grid-cols-1 md:grid-cols-6 gap-x-20 gap-y-8 mt-6 sm:mt-8 md:mt-14 mb-6 md:mb-10">
                 <div className="md:col-span-2 flex flex-col items-center md:items-start gap-4">
                     <div className="rounded-lg max-w-[300px] min-h-[400px] w-full bg-zinc-200 dark:bg-zinc-700"></div>
 
