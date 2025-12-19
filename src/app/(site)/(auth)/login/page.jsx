@@ -16,10 +16,6 @@ const LoginPage = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    // if (user && pathname.includes('/login')) {
-    //     return redirect('/');
-    // }
-
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -46,11 +42,7 @@ const LoginPage = () => {
         }),
         onSubmit: async (values) => {
             const { email, password } = values;
-            const { data, error } = await signIn(email, password);
-
-            if (data) {
-                return router.push('/');
-            }
+            await signIn(email, password);
         },
     });
 

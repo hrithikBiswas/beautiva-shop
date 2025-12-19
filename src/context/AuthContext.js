@@ -105,7 +105,7 @@ export default function AuthProvider({ children }) {
         setLoading(false);
 
         // redirect('/');
-        // router.push('/');
+        router.push('/');
 
         return { data, error };
     };
