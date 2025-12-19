@@ -9,7 +9,7 @@ const BlogPage = () => {
 
     return (
         <div className="container pt-14">
-            <div className="mb-10">
+            <div className="mb-4 sm:mb-6 md:mb-8 lg:mb-10">
                 <Breadcrumbs size="lg">
                     <BreadcrumbItem href="/">Home</BreadcrumbItem>
                     <BreadcrumbItem href="/blog">Blogs</BreadcrumbItem>
