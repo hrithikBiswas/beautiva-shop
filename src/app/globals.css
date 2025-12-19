@@ -83,3 +83,38 @@
 .swiper-button-next {
     @apply !w-4;
 }
+
+/* Loader */
+.loader {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    font-size: 40px;
+    line-height: 1.5;
+    font-family: system-ui, sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgba(0, 184, 147, 0);
+    -webkit-text-stroke: 1px rgb(0, 184, 148);
+    background:
+        radial-gradient(1.13em at 50% 1.6em, rgb(0, 184, 148) 99%, rgba(0, 184, 147, 0) 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+        radial-gradient(1.13em at 50% -0.8em, rgba(0, 184, 147, 0) 99%, rgb(0, 184, 148) 101%) 50% .8em/3.2em 100% repeat-x text;
+    -webkit-animation: l9 2s linear infinite;
+    animation: l9 2s linear infinite;
+}
+
+.loader:before {
+    content: "Loading";
+}
+
+@-webkit-keyframes l9 {
+    to {
+        background-position: calc(50% + 1.6em) 0, calc(50% + 3.2em) .8em
+    }
+}
+
+@keyframes l9 {
+    to {
+        background-position: calc(50% + 1.6em) 0, calc(50% + 3.2em) .8em
+    }
+}

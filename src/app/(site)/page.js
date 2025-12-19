@@ -16,9 +16,7 @@ export default async function Home() {
             <NewCollection />
             <ShopCollection />
             <BlogSection />
-            {/* slider */}
             <Testimonial />
-            {/* Stay Up to Date with All News and Exclusive Offers */}
             <NewsLetter />
         </div>
     );

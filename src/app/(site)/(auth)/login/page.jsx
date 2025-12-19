@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks';
 import Link from 'next/link';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 import EyeIcon from '@/components/SVG/EyeIcon';
 import EyeSlashIcon from '@/components/SVG/EyeSlashIcon';
 
@@ -14,10 +14,11 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { signInWithGoogle, signIn, user, loading } = useAuth();
     const pathname = usePathname();
+    const router = useRouter();
 
-    if (user && pathname.startsWith('/login')) {
-        return (window.location.href = '/');
-    }
+    // if (user && pathname.includes('/login')) {
+    //     return redirect('/');
+    // }
 
     const formik = useFormik({
         initialValues: {
@@ -43,16 +44,19 @@ const LoginPage = () => {
                     'Must contain at least one special character'
                 ),
         }),
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const { email, password } = values;
-            signIn(email, password);
+            const { data, error } = await signIn(email, password);
+
+            if (data) {
+                return router.push('/');
+            }
         },
     });
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-8">
             <div className="bg-white dark:bg-gray-950 rounded-xl shadow-2xl w-full max-w-md p-8 border border-gray-200 dark:border-gray-700">
-                {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
                         Welcome Back
@@ -62,7 +66,6 @@ const LoginPage = () => {
                     </p>
                 </div>
 
-                {/* Login Form */}
                 <form onSubmit={formik.handleSubmit} className="space-y-6">
                     <div>
                         <label

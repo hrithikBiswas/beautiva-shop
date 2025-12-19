@@ -2,10 +2,9 @@
 
 import { createContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { redirect } from 'next/navigation';
-import { addUser, getUsers, setUserCookie } from '@/utils/actions';
+import { redirect, useRouter } from 'next/navigation';
+import { getUsers } from '@/utils/actions';
 import { addToast } from '@heroui/react';
-// import {prisma} from '@/utils/prisma';
 
 export const AuthContext = createContext(null);
 
@@ -15,6 +14,7 @@ export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         const initAuth = async () => {
@@ -49,6 +49,7 @@ export default function AuthProvider({ children }) {
                 console.error('Error initializing auth:', err);
             } finally {
                 setLoading(false);
+                // setTimeout(() => setLoading(false), 5000);
             }
         };
 
@@ -103,7 +104,8 @@ export default function AuthProvider({ children }) {
 
         setLoading(false);
 
-        redirect('/');
+        // redirect('/');
+        // router.push('/');
 
         return { data, error };
     };
@@ -140,20 +142,22 @@ export default function AuthProvider({ children }) {
             },
         });
 
-        if (error) {
-            setLoading(false);
-            return console.error('Sign-up error:', error);
-        }
         addToast({
-            title: 'Confirm Mail',
-            description: 'Check your mail to confirm email.',
-            color: 'success',
+            title: error ? 'Error' : 'Confirm Mail',
+            description: error
+                ? error.message
+                : 'Check your mail to confirm email.',
+            color: error ? 'danger' : 'success',
             radius: 'sm',
             hideCloseButton: true,
         });
+
+        if (error) {
+            setLoading(false);
+            return console.log('Sign-up error:', { error });
+        }
         setLoading(false);
-        redirect(`${window.location.origin}/login`);
-        // redirect('/');
+        redirect('/login');
         return { data, error };
     };
 
@@ -163,6 +167,7 @@ export default function AuthProvider({ children }) {
             console.error('Sign-out error:', error);
             return { error };
         }
+        setUser(null);
         sessionStorage.removeItem('currentUser');
         redirect('/login');
     };
