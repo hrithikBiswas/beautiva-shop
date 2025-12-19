@@ -16,6 +16,14 @@ const LoginPage = () => {
     const pathname = usePathname();
     const router = useRouter();
 
+    // if (user && pathname.startsWith('/login')) {
+    //     return (window.location.href = '/');
+    // }
+
+    if (user && pathname.includes('/login')) {
+        return redirect('/');
+    }
+
     const formik = useFormik({
         initialValues: {
             email: '',
