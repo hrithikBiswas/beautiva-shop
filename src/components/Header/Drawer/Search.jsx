@@ -40,7 +40,7 @@ export default function Search() {
             <Drawer
                 backdrop="blur"
                 isOpen={isOpen}
-                hideCloseButton={true}
+                // hideCloseButton={true}
                 motionProps={{
                     variants: {
                         enter: {
@@ -60,7 +60,7 @@ export default function Search() {
                 <DrawerContent className="bg-white text-black dark:bg-gray-950 dark:text-white dark:border-l dark:border-gray-700">
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="flex flex-col gap-1 border-b border-gray-300 py-4">
+                            <DrawerHeader className="flex flex-col gap-1 border-b border-gray-300 py-4 mr-4">
                                 <SearchBar />
                             </DrawerHeader>
                             <DrawerBody className="py-5">

@@ -21,7 +21,7 @@ export default function Wishlist() {
         useProduct();
 
     return (
-        <div className="hidden md:block">
+        <div className="">
             {/* Wishlist Icon */}
             <Button
                 onPress={onOpen}

@@ -14,7 +14,7 @@ const UserDropdown = ({ user, signOut, selectedTheme, handleThemeChange }) => (
         placement="bottom-end"
         className="border-gray-200 dark:text-white dark:bg-black"
     >
-        <DropdownTrigger className="cursor-pointer">
+        <DropdownTrigger className="cursor-pointer !mx-2">
             <Avatar
                 isBordered
                 as="button"

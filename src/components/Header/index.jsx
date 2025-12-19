@@ -63,7 +63,7 @@ export default function Header() {
             {/* Right side - Auth / User */}
             <NavbarContent
                 as="div"
-                className="items-center gap-3 sm:gap-6"
+                className="items-center gap-0.5 sm:gap-6"
                 justify="end"
             >
                 {!user ? (

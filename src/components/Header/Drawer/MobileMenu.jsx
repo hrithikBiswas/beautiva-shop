@@ -12,8 +12,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { BarIcon } from '@/components/SVG';
 import { navMenu } from '@/constant/navData';
+import Search from './Search';
+import Wishlist from './Wishlist';
+import Cart from './Cart';
+import UserDropdown from '../UserDropdown';
 
-export default function MobileMenu() {
+export default function MobileMenu({
+    user,
+    signOut,
+    selectedTheme,
+    handleThemeChange,
+}) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const pathname = usePathname().split('/')[1];
 
@@ -65,6 +74,7 @@ export default function MobileMenu() {
                                     </NavbarItem>
                                 ))}
                             </DrawerBody>
+                            
                         </>
                     )}
                 </DrawerContent>
