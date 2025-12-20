@@ -5,17 +5,12 @@ import ProductCard from '@/components/common/ProductCard';
 import CategorySkeleton from '@/components/skeleton/CategorySkeleton';
 import ProductSkeleton from '@/components/skeleton/ProductSkeleton';
 import useProduct from '@/hooks/useProduct';
-import {
-    Slider,
-    CheckboxGroup,
-    Checkbox,
-    Breadcrumbs,
-    BreadcrumbItem,
-} from '@heroui/react';
+import { Slider, CheckboxGroup, Checkbox, Pagination } from '@heroui/react';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 
 const ProductsPage = () => {
+    const [page, setPage] = useState(1);
     const [priceRange, setPriceRange] = useState([0, 150]);
     const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -36,6 +31,16 @@ const ProductsPage = () => {
             return inPriceRange && inSelectedCategory;
         });
     }, [products, minPrice, maxPrice, selectedCategories, hasCategoryFilter]);
+
+    const productsPerPage = 6;
+    const pages = Math.ceil(filteredProducts.length / productsPerPage);
+
+    const paginateProducts = useMemo(() => {
+        const start = (page - 1) * productsPerPage;
+        const end = start + productsPerPage;
+
+        return filteredProducts.slice(start, end);
+    }, [page, filteredProducts]);
 
     const categoryCount = useMemo(() => {
         const countMap = {};
@@ -111,14 +116,34 @@ const ProductsPage = () => {
                                 <ProductSkeleton key={index} />
                             ))}
 
-                        {filteredProducts.length === 0 && (
+                        {paginateProducts.length === 0 && (
                             <p className="text-xl text-gray-600">
                                 Not found products.
                             </p>
                         )}
-                        {filteredProducts.map((product) => (
+                        {paginateProducts.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
+                    </div>
+                    <div className="flex w-full justify-center mt-10">
+                        <Pagination
+                            isCompact
+                            showControls
+                            showShadow
+                            radius="sm"
+                            size="lg"
+                            color="secondary"
+                            page={page}
+                            total={pages}
+                            onChange={(page) => setPage(page)}
+                            classNames={{
+                                base: '',
+                                wrapper: 'text-4xl cursor-pointer',
+                                item: 'text-xl dark:bg-zinc-800 dark:text-white data-hover:!rounded-md dark:data-hover:!bg-zinc-700 ',
+                                next: 'text-xl dark:bg-zinc-800 dark:text-white dark:data-hover:!bg-zinc-700',
+                                prev: 'text-xl dark:bg-zinc-800 dark:text-white dark:data-hover:!bg-zinc-700',
+                            }}
+                        />
                     </div>
                 </main>
             </div>
