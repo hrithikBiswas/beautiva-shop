@@ -272,6 +272,64 @@ export default function ProductProvider({ children }) {
         }
     };
 
+    const addCategory = async (values, resetForm) => {
+        try {
+            const categoryExists = categories.some(
+                (item) => item.name === values.name
+            );
+
+            if (categoryExists) {
+                setLoading(false);
+                resetForm();
+                return addToast({
+                    title: 'Category Status',
+                    description: 'Category already exists!',
+                    color: 'danger',
+                    radius: 'sm',
+                    hideCloseButton: true,
+                    timeout: 3000,
+                    shouldShowTimeoutProgress: true,
+                });
+            }
+
+            const res = await fetch('/api/category', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    values,
+                }),
+            });
+
+            const { message } = await res.json();
+
+            resetForm();
+
+            await refreshcategory();
+
+            return addToast({
+                title: 'Category Status',
+                description: message,
+                color: 'success',
+                radius: 'sm',
+                hideCloseButton: true,
+                timeout: 3000,
+                shouldShowTimeoutProgress: true,
+            });
+        } catch (error) {
+            console.error('category adding error:', error.message);
+
+            return addToast({
+                title: 'Category Status',
+                description: error.message,
+                color: 'danger',
+                radius: 'sm',
+                hideCloseButton: true,
+                timeout: 3000,
+                shouldShowTimeoutProgress: true,
+            });
+        }
+    };
+
     const refreshCart = async () => {
         const [cartRes, productsRes] = await Promise.all([
             fetch('/api/cart').then((res) => res.json()),
@@ -373,6 +431,7 @@ export default function ProductProvider({ children }) {
 
                 //category
                 categories,
+                addCategory,
                 refreshcategory,
 
                 //post

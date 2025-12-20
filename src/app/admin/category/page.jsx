@@ -1,14 +1,13 @@
 'use client';
 import { useAuth } from '@/hooks';
 import useProduct from '@/hooks/useProduct';
-import { isExistCategory } from '@/utils/actions';
 import { addToast } from '@heroui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const categoryPage = () => {
     const { loading, setLoading } = useAuth();
-    const { categories, refreshcategory } = useProduct();
+    const { categories, refreshcategory, addCategory } = useProduct();
 
     const formik = useFormik({
         initialValues: {
@@ -27,49 +26,8 @@ const categoryPage = () => {
         }),
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
-
-            const categoryExists = categories.some(
-                (item) => item.name === values.name
-            );
-
-            if (categoryExists) {
-                setLoading(false);
-                resetForm();
-                return addToast({
-                    title: 'Category Status',
-                    description: 'Category already exists!',
-                    color: 'danger',
-                    radius: 'sm',
-                    hideCloseButton: true,
-                    timeout: 3000,
-                    shouldShowTimeoutProgress: true,
-                });
-            }
-
-            const res = await fetch('/api/category', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    values,
-                }),
-            });
-
-            const { message } = await res.json();
-
+            await addCategory(values, resetForm);
             setLoading(false);
-            resetForm();
-
-            await refreshcategory();
-
-            return addToast({
-                title: 'Category Status',
-                description: message,
-                color: 'success',
-                radius: 'sm',
-                hideCloseButton: true,
-                timeout: 3000,
-                shouldShowTimeoutProgress: true,
-            });
         },
     });
 
