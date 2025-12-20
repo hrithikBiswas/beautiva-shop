@@ -104,7 +104,7 @@ export default function Search() {
                                         </div>
 
                                         <div className="flex flex-col justify-around">
-                                            <h2 className="text-fuchsia-900 text-2xl font-semibold">
+                                            <h2 className="text-gray-800 dark:text-gray-100 text-2xl font-semibold">
                                                 ${product?.price}
                                             </h2>
                                         </div>

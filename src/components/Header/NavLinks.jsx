@@ -15,7 +15,7 @@ const NavLinks = ({ links }) => {
                             path.split('/')[1] === pathname
                                 ? 'after:w-full'
                                 : 'after:w-0'
-                        }  relative text-xl text-foreground dark:text-background after:absolute after:bottom-0 after:left-0 after:h-[1px] after:bg-foreground after:transition-all after:duration-200 hover:after:w-full`}
+                        }  relative text-xl text-foreground dark:text-background after:absolute after:bottom-0 after:left-0 after:h-[1px] after:bg-gray-700 after:transition-all after:duration-200 hover:after:w-full`}
                     >
                         {name}
                     </Link>

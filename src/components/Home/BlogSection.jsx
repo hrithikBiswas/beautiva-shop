@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import Title from '@/components/common/Title';
-import { Image } from '@heroui/react';
 import Link from 'next/link';
 import useProduct from '@/hooks/useProduct';
 import BlogCard from '@/components/common/BlogCard';

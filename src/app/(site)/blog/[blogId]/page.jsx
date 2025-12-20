@@ -2,8 +2,6 @@
 import Breadcrumb from '@/components/common/Breadcrumb';
 import SIngleBlogSkeleton from '@/components/skeleton/SIngleBlogSkeleton';
 import useProduct from '@/hooks/useProduct';
-import { BreadcrumbItem, Breadcrumbs } from '@heroui/react';
-import Link from 'next/link';
 import { use, useEffect, useState } from 'react';
 
 const SingleBlog = ({ params }) => {

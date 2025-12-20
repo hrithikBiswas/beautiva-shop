@@ -11,10 +11,6 @@ export const metadata = {
 
 export default function SiteLayout({ children }) {
     return (
-        // <html lang="en">
-        //     <body className={`antialiased dark:bg-gray-950! dark:text-white`}>
-        //         <AuthProvider>
-        //         <HeroProvider>
         <>
             <Header />
             <main className="bg-white text-black dark:bg-gray-950 dark:text-white">
@@ -22,9 +18,5 @@ export default function SiteLayout({ children }) {
             </main>
             <Footer />
         </>
-        //         </HeroProvider>
-        //         </AuthProvider>
-        //     </body>
-        // </html>
     );
 }

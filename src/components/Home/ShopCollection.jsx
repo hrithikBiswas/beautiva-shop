@@ -1,5 +1,5 @@
 import React from 'react';
-import CollectionProduct from '@/components/slider/CollectionProduct';
+import CollectionProduct from '@/components/Home/CollectionProduct';
 import Link from 'next/link';
 import Title from '@/components/common/Title';
 

@@ -3,7 +3,7 @@
 import React, { use, useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import useProduct from '@/hooks/useProduct';
-import { BreadcrumbItem, Breadcrumbs, Button, Spinner } from '@heroui/react';
+import { Button, Spinner } from '@heroui/react';
 import {
     FillWishlistIcon,
     MinusIcon,
@@ -11,7 +11,6 @@ import {
     WishlistIcon,
 } from '@/components/SVG';
 import SingleProductSkeleton from '@/components/skeleton/SingleProductSkeleton';
-import Link from 'next/link';
 import Breadcrumb from '@/components/common/Breadcrumb';
 
 const SingleProductPage = ({ params }) => {
