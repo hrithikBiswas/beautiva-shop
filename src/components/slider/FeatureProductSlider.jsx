@@ -33,7 +33,7 @@ export default function FeatureProductSlider() {
                 modules={[]}
                 className="mySwiper"
             >
-                {loading &&
+                {products.length === 0 &&
                     Array.from({ length: 4 }).map((_, index) => (
                         <SwiperSlide key={index}>
                             <ProductSkeleton />

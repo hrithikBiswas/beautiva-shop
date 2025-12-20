@@ -6,7 +6,6 @@ import CategorySkeleton from '@/components/skeleton/CategorySkeleton';
 import ProductSkeleton from '@/components/skeleton/ProductSkeleton';
 import useProduct from '@/hooks/useProduct';
 import { Slider, CheckboxGroup, Checkbox, Pagination } from '@heroui/react';
-import Link from 'next/link';
 import { useState, useMemo } from 'react';
 
 const ProductsPage = () => {
@@ -14,7 +13,7 @@ const ProductsPage = () => {
     const [priceRange, setPriceRange] = useState([0, 150]);
     const [selectedCategories, setSelectedCategories] = useState([]);
 
-    const { products, loading, categories } = useProduct();
+    const { products, categories } = useProduct();
 
     const [minPrice, maxPrice] = priceRange;
     const hasCategoryFilter = selectedCategories.length > 0;
@@ -111,7 +110,7 @@ const ProductsPage = () => {
                 {/* Product Grid */}
                 <main className="flex-1">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-6 sm:gap-y-8">
-                        {loading &&
+                        {products.length === 0 &&
                             Array.from({ length: 6 }).map((_, index) => (
                                 <ProductSkeleton key={index} />
                             ))}
