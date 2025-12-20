@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 const categoryPage = () => {
     const { loading, setLoading } = useAuth();
-    const { categories } = useProduct();
+    const { categories, refreshcategory } = useProduct();
 
     const formik = useFormik({
         initialValues: {
@@ -28,7 +28,6 @@ const categoryPage = () => {
         onSubmit: async (values, { resetForm }) => {
             setLoading(true);
 
-            // const categoryExists = await isExistCategory(values.name);
             const categoryExists = categories.some(
                 (item) => item.name === values.name
             );
@@ -59,6 +58,8 @@ const categoryPage = () => {
 
             setLoading(false);
             resetForm();
+
+            await refreshcategory();
 
             return addToast({
                 title: 'Category Status',

@@ -292,6 +292,14 @@ export default function ProductProvider({ children }) {
         setWishlistProducts(productsRes.wishlistProductData || []);
     };
 
+    const refreshcategory = async () => {
+        const categoryRes = await fetch('/api/category').then((res) =>
+            res.json()
+        );
+
+        setCategories(categoryRes.categoryData || []);
+    };
+
     // --------------------- Fetch all initail items ---------------------
     useEffect(() => {
         if (!user) return;
@@ -365,6 +373,7 @@ export default function ProductProvider({ children }) {
 
                 //category
                 categories,
+                refreshcategory,
 
                 //post
                 blogs,
