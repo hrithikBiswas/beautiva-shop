@@ -120,8 +120,12 @@ const ProductsPage = () => {
                                 Not found products.
                             </p>
                         )}
-                        {paginateProducts.map((product) => (
-                            <ProductCard key={product.id} product={product} />
+                        {paginateProducts.map((product, index) => (
+                            <ProductCard
+                                key={product.id}
+                                product={product}
+                                index={index}
+                            />
                         ))}
                     </div>
                     <div className="flex w-full justify-center mt-10">

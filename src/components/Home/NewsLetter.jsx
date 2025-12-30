@@ -4,12 +4,19 @@ import { Button } from '@heroui/react';
 import Link from 'next/link';
 import React from 'react';
 import { FacebookIcon, InstagramIcon } from '../SVG';
+import { motion } from 'motion/react';
 
 const NewsLetter = () => {
     return (
         <div className="mt-10 sm:mt-14 lg:mt-24">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10">
-                <div className="flex flex-col items-start sm:items-center gap-3 sm:gap-5 md:border-r md:border-r-gray-300">
+                <motion.div
+                    className="flex flex-col items-start sm:items-center gap-3 sm:gap-5 md:border-r md:border-r-gray-300"
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
                     <h1 className="text-2xl sm:text-3xl font-semibold">
                         Follow Us on
                     </h1>
@@ -39,8 +46,14 @@ const NewsLetter = () => {
                             </Link>
                         </li>
                     </ul>
-                </div>
-                <div className="flex flex-col items-start sm:items-center gap-3 sm:gap-5">
+                </motion.div>
+                <motion.div
+                    className="flex flex-col items-start sm:items-center gap-3 sm:gap-5"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                >
                     <h1 className="text-2xl sm:text-3xl font-semibold">
                         Lets Stay in Thouch
                     </h1>
@@ -62,7 +75,7 @@ const NewsLetter = () => {
                             Subscribe
                         </Button>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
     );

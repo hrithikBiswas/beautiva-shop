@@ -1,8 +1,9 @@
 'use client';
 import { Image } from '@heroui/react';
 import Link from 'next/link';
+import { motion } from 'motion/react';
 
-const BlogCard = ({ blog }) => {
+const BlogCard = ({ blog, index }) => {
     const { id, productName, title, image, createdAt } = blog;
 
     const date = new Date(createdAt);
@@ -14,8 +15,16 @@ const BlogCard = ({ blog }) => {
     };
     const formattedDate = date.toLocaleDateString(undefined, options);
 
+    const animationDelay = Number.parseFloat(index * 0.2).toFixed(1);
+
     return (
-        <div className="flex flex-col gap-2 sm:gap-3">
+        <motion.div
+            className="flex flex-col gap-2 sm:gap-3"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: animationDelay }}
+        >
             <Link href={`/blog/${id}`}>
                 <Image
                     src={image}
@@ -40,7 +49,7 @@ const BlogCard = ({ blog }) => {
             >
                 {title}
             </Link>
-        </div>
+        </motion.div>
     );
 };
 

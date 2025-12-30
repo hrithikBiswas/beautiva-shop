@@ -15,8 +15,8 @@ const BlogPage = () => {
                     Array.from({ length: 6 }).map((_, i) => (
                         <BlogSkeleton key={i} />
                     ))}
-                {blogs.map((blog) => (
-                    <BlogCard blog={blog} key={blog.id} />
+                {blogs.map((blog, index) => (
+                    <BlogCard blog={blog} key={blog.id} index={index} />
                 ))}
             </div>
         </div>

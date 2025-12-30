@@ -12,8 +12,9 @@ import {
     FillWishlistIcon,
     FillCartIcon,
 } from '@/components/SVG';
+import { motion } from 'motion/react';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, index }) => {
     const {
         addToCart,
         addToWishlist,
@@ -42,8 +43,16 @@ const ProductCard = ({ product }) => {
         content: 'py-2 px-4 dark:bg-black rounded-lg',
     };
 
+    const animationDelay = Number.parseFloat(index * 0.2).toFixed(1);
+
     return (
-        <div className="group flex flex-col items-center justify-center">
+        <motion.div
+            className="group flex flex-col items-center justify-center"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: animationDelay }}
+        >
             <div className="relative rounded-md overflow-hidden w-[280px] h-[380px] md:w-[220px] md:h-[300px] lg:w-[220px] lg:h-[300px] xl:w-[280px] xl:h-[370px] cursor-pointer">
                 <Link href={`products/${id}`}>
                     <Image
@@ -146,7 +155,7 @@ const ProductCard = ({ product }) => {
                     {name}
                 </Link>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

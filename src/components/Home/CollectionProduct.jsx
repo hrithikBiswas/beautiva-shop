@@ -13,8 +13,8 @@ export default function CollectionProduct() {
                 Array.from({ length: 8 }).map((_, index) => (
                     <ProductSkeleton key={index} />
                 ))}
-            {products.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
+            {products.slice(0, 8).map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
             ))}
         </div>
     );

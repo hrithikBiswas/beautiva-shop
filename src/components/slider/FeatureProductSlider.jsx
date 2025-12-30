@@ -39,10 +39,14 @@ export default function FeatureProductSlider() {
                 ))}
             {products
                 .filter((product) => product.featured)
-                .map((product) => {
+                .map((product, index) => {
                     return (
                         <SwiperSlide key={product.id}>
-                            <ProductCard product={product} loading={loading} />
+                            <ProductCard
+                                product={product}
+                                index={index}
+                                loading={loading}
+                            />
                         </SwiperSlide>
                     );
                 })}

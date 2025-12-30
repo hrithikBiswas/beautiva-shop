@@ -4,6 +4,7 @@ import Title from '@/components/common/Title';
 import Link from 'next/link';
 import useProduct from '@/hooks/useProduct';
 import BlogCard from '@/components/common/BlogCard';
+import { motion } from 'motion/react';
 
 const BlogSection = () => {
     const { blogs } = useProduct();
@@ -14,8 +15,8 @@ const BlogSection = () => {
                 subtitle="Our bundles were designed to conveniently package your tanning essentials while saving you money."
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-                {blogs.slice(0, 3).map((blog) => (
-                    <BlogCard blog={blog} key={blog.id} />
+                {blogs.slice(0, 3).map((blog, index) => (
+                    <BlogCard blog={blog} key={blog.id} index={index} />
                 ))}
             </div>
             <div className="flex justify-center mt-8 sm:mt-14">
