@@ -41,7 +41,6 @@ const Hero = () => {
                                 fill
                                 className="object-cover object-left"
                             />
-
                             <div className="relative z-10 text-black h-full flex flex-col justify-center items-start gap-4 sm:gap-5 max-w-96 md:max-w-xl px-6 md:px-8 lg:px-16 w-fit">
                                 <motion.h1
                                     className="text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight"

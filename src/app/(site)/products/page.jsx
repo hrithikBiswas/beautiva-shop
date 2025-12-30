@@ -83,6 +83,7 @@ const ProductsPage = () => {
                         onChange={setSelectedCategories}
                         classNames={{
                             wrapper: 'flex flex-row md:flex-col',
+                            label: 'dark:text-gray-200',
                         }}
                     >
                         {categories.length === 0 && <CategorySkeleton />}

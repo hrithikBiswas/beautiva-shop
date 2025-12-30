@@ -18,7 +18,7 @@ const Testimonial = () => {
                 <SwiperSlide>
                     <div className="flex flex-col gap-5 sm:gap-8 items-center px-6 max-w-[300px] sm:max-w-2xl md:max-w-3xl mx-auto">
                         <Image src="/testimonials-1.jpg" radius="full" />
-                        <h1 className="text-3xl sm:text-4xl text-[#4E7661] leading-10 md:leading-15 text-center tracking-wide">
+                        <h1 className="text-2xl sm:text-4xl text-[#4E7661] leading-7 sm:leading-10 md:leading-15 text-center tracking-wide">
                             “Amazing product. The results are so transformative
                             in texture and my face feels plump and healthy.“
                         </h1>
@@ -30,7 +30,7 @@ const Testimonial = () => {
                 <SwiperSlide>
                     <div className="flex flex-col gap-5 sm:gap-8 items-center px-6 max-w-[300px] sm:max-w-2xl md:max-w-3xl mx-auto">
                         <Image src="/testimonials-2.jpg" radius="full" />
-                        <h1 className="text-3xl sm:text-4xl text-[#4E7661] leading-10 md:leading-15 text-center tracking-wide">
+                        <h1 className="text-2xl sm:text-4xl text-[#4E7661] leading-7 sm:leading-10 md:leading-15 text-center tracking-wide">
                             “Amazing product. The results are so transformative
                             in texture and my face feels plump and healthy.“
                         </h1>
