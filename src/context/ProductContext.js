@@ -104,7 +104,7 @@ export default function ProductProvider({ children }) {
     };
     const removeWishlist = async (wishlistId) => {
         try {
-            setWishlistLoadingId(wishlistId);
+            setWishlistLoadingId(null);
 
             const res = await fetch('/api/wishlist', {
                 method: 'DELETE',
@@ -117,7 +117,9 @@ export default function ProductProvider({ children }) {
 
             const { message, success } = await res.json();
 
-            await refreshWishlist();
+            setWishlistProducts(
+                wishlistProducts.filter((item) => item.id !== wishlistId),
+            );
 
             addToast({
                 title: 'Wishlist Status',
@@ -248,7 +250,7 @@ export default function ProductProvider({ children }) {
     const getSinglePost = async (postId) => {
         try {
             const postRes = await fetch(`/api/blog/${postId}`).then((res) =>
-                res.json()
+                res.json(),
             );
             return postRes.singlePostData;
         } catch (error) {
@@ -260,13 +262,13 @@ export default function ProductProvider({ children }) {
     const getSingleProduct = async (id) => {
         try {
             const productRes = await fetch(`/api/product/${id}`).then((res) =>
-                res.json()
+                res.json(),
             );
             return productRes.singleProductData;
         } catch (error) {
             console.error(
                 `Error fetching single product ${id} :`,
-                error.message
+                error.message,
             );
             throw error;
         }
@@ -275,7 +277,7 @@ export default function ProductProvider({ children }) {
     const addCategory = async (values, resetForm) => {
         try {
             const categoryExists = categories.some(
-                (item) => item.name === values.name
+                (item) => item.name === values.name,
             );
 
             if (categoryExists) {
@@ -352,7 +354,7 @@ export default function ProductProvider({ children }) {
 
     const refreshcategory = async () => {
         const categoryRes = await fetch('/api/category').then((res) =>
-            res.json()
+            res.json(),
         );
 
         setCategories(categoryRes.categoryData || []);
@@ -376,10 +378,10 @@ export default function ProductProvider({ children }) {
                 ] = await Promise.all([
                     fetch('/api/product').then((res) => res.json()),
                     fetch(`/api/product/wishlist/${user.id}`).then((res) =>
-                        res.json()
+                        res.json(),
                     ),
                     fetch(`/api/product/cart/${user.id}`).then((res) =>
-                        res.json()
+                        res.json(),
                     ),
                     fetch('/api/blog').then((res) => res.json()),
                     fetch('/api/category').then((res) => res.json()),

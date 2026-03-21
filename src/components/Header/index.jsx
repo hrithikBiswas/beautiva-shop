@@ -20,6 +20,7 @@ import LoadingAnimation from '../Loader/LoadingAnimation';
 
 export default function Header() {
     const { theme, setTheme } = useTheme();
+
     const [mounted, setMounted] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
