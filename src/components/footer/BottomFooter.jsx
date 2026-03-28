@@ -10,7 +10,7 @@ const BottomFooter = () => {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-3 md:gap-0">
                 <div className="flex items-center">
                     <h5 className="text-gray-500 dark:text-gray-300 text-sm">
-                        © Glowing 2025 |{' '}
+                        © Glowing {new Date().getFullYear()} |{' '}
                     </h5>
                     <ul className="flex gap-2 md:gap-5">
                         <li>
