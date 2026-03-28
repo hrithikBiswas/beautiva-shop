@@ -25,7 +25,6 @@ export default function ProductProvider({ children }) {
     const addToCart = async (productId, qty) => {
         try {
             setCartLoadingId(productId);
-            console.log('working');
 
             const res = await fetch('/api/cart', {
                 method: 'POST',
@@ -104,8 +103,6 @@ export default function ProductProvider({ children }) {
     };
     const removeWishlist = async (wishlistId) => {
         try {
-            setWishlistLoadingId(null);
-
             const res = await fetch('/api/wishlist', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
@@ -132,8 +129,6 @@ export default function ProductProvider({ children }) {
             });
         } catch (error) {
             console.error('Error deleting cart:', error);
-        } finally {
-            setWishlistLoadingId(null);
         }
     };
 
@@ -141,7 +136,9 @@ export default function ProductProvider({ children }) {
         if (!user?.id) return;
 
         try {
-            setCartLoadingId(cartId);
+            // setCartLoadingId(cartId);
+
+            setCartProducts(cartProducts.filter((item) => item.id !== cartId));
 
             const res = await fetch('/api/cart', {
                 method: 'DELETE',
@@ -158,7 +155,7 @@ export default function ProductProvider({ children }) {
                 throw new Error(message || 'Failed to remove item');
             }
 
-            await refreshCart();
+            // await refreshCart();
 
             addToast({
                 title: 'Success',
@@ -177,13 +174,19 @@ export default function ProductProvider({ children }) {
                 timeout: 3000,
             });
         } finally {
-            setCartLoadingId(null);
+            // setCartLoadingId(null);
         }
     };
 
     const incrementProductQtyInCart = async (cartId, currentQty) => {
         try {
             const newQty = currentQty + 1;
+
+            setCartProducts(
+                cartProducts.map((item) =>
+                    item.id === cartId ? { ...item, quantity: newQty } : item,
+                ),
+            );
 
             const cartUpdateRes = await fetch('/api/cart', {
                 method: 'PATCH',
@@ -196,8 +199,6 @@ export default function ProductProvider({ children }) {
             });
 
             const { message } = await cartUpdateRes.json();
-
-            await refreshCart();
 
             addToast({
                 title: 'Cart Status',
@@ -217,7 +218,11 @@ export default function ProductProvider({ children }) {
         try {
             const newQty = currentQty - 1;
 
-            console.log(newQty);
+            setCartProducts(
+                cartProducts.map((item) =>
+                    item.id === cartId ? { ...item, quantity: newQty } : item,
+                ),
+            );
 
             const cartUpdateRes = await fetch('/api/cart', {
                 method: 'PATCH',
@@ -230,8 +235,6 @@ export default function ProductProvider({ children }) {
             });
 
             const { message } = await cartUpdateRes.json();
-
-            await refreshCart();
 
             addToast({
                 title: 'Cart Status',

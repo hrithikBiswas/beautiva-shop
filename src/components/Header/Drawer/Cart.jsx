@@ -30,11 +30,11 @@ export default function Cart() {
 
     const debouncedIncrementProductQtyInCart = useDebouncedCallback(
         (cartId, qty) => incrementProductQtyInCart(cartId, qty),
-        100
+        100,
     );
     const debouncedDecrementProductQtyInCart = useDebouncedCallback(
         (cartId, qty) => decrementProductQtyInCart(cartId, qty),
-        100
+        100,
     );
 
     const subtotal = cartProducts.reduce((total, item) => {
@@ -126,7 +126,7 @@ export default function Cart() {
                                                         onPress={() =>
                                                             debouncedDecrementProductQtyInCart(
                                                                 cartId,
-                                                                qty
+                                                                qty,
                                                             )
                                                         }
                                                         radius="none"
@@ -147,7 +147,7 @@ export default function Cart() {
                                                         onPress={() =>
                                                             debouncedIncrementProductQtyInCart(
                                                                 cartId,
-                                                                qty
+                                                                qty,
                                                             )
                                                         }
                                                         radius="none"
@@ -175,23 +175,11 @@ export default function Cart() {
                                                         removeFromCart(cartId)
                                                     }
                                                 >
-                                                    {cartLoadingId ===
-                                                    cartId ? (
-                                                        <Spinner
-                                                            variant="dots"
-                                                            color="white"
-                                                            classNames={{
-                                                                wrapper:
-                                                                    'translate-y-0 items-center',
-                                                            }}
-                                                        />
-                                                    ) : (
-                                                        <DeleteIcon />
-                                                    )}
+                                                    <DeleteIcon />
                                                 </Button>
                                             </div>
                                         </div>
-                                    )
+                                    ),
                                 )}
                             </DrawerBody>
                             <DrawerFooter className="flex flex-col shadow-[0px_-7px_14px_-6px_rgba(0,_0,_0,_0.1)] dark:border-t dark:border-gray-700">

@@ -28,7 +28,7 @@ export default function AuthProvider({ children }) {
                 setUser(sessionData?.session?.user ?? null);
                 sessionStorage.setItem(
                     'currentUser',
-                    JSON.stringify(sessionData?.session?.user ?? null)
+                    JSON.stringify(sessionData?.session?.user ?? null),
                 );
 
                 const {
@@ -61,7 +61,7 @@ export default function AuthProvider({ children }) {
                 setUser(session?.user ?? null);
 
                 setLoading(false);
-            }
+            },
         );
 
         return () => {

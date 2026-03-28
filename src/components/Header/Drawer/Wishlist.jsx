@@ -112,22 +112,10 @@ export default function Wishlist() {
                                                     removeWishlist(wishlistId)
                                                 }
                                             >
-                                                {wishlistLoadingId ===
-                                                wishlistId ? (
-                                                    <Spinner
-                                                        variant="dots"
-                                                        color="danger"
-                                                        classNames={{
-                                                            wrapper:
-                                                                'translate-y-0 items-center',
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <FillWishlistIcon />
-                                                )}
+                                                <FillWishlistIcon />
                                             </Button>
                                         </div>
-                                    )
+                                    ),
                                 )}
                             </DrawerBody>
                         </>
