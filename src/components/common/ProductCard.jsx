@@ -8,7 +8,6 @@ import {
     WatchIcon,
     CartIcon,
     WishlistIcon,
-    CheckIcon,
     FillWishlistIcon,
     FillCartIcon,
 } from '@/components/SVG';
@@ -29,7 +28,7 @@ const ProductCard = ({ product, index }) => {
     // Debounced actions
     const debouncedAddToWishlist = useDebouncedCallback(
         () => addToWishlist(id),
-        400
+        400,
     );
 
     const debouncedAddToCart = useDebouncedCallback(() => addToCart(id), 400);
@@ -80,11 +79,11 @@ const ProductCard = ({ product, index }) => {
                         showArrow
                         classNames={tooltipClasses}
                     >
-                        <Link href={`products/${id}`}>
-                            <Button className="min-w-fit h-fit p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800">
+                        <Button className="min-w-fit p-0 h-fit rounded-full bg-white hover:bg-gray-100 dark:bg-gray-950 dark:hover:bg-gray-800">
+                            <Link href={`products/${id}`} className="p-2">
                                 <WatchIcon />
-                            </Button>
-                        </Link>
+                            </Link>
+                        </Button>
                     </Tooltip>
 
                     {/* Wishlist */}
